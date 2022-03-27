@@ -2,7 +2,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+const home = require("./routes/home");
+const page = require("./routes/page");
+
+//views
 app.set("veiw engine", "ejs");
+app.set("views", "./views");
 
 //method-override
 const methodOverride = require("method-override");
@@ -33,29 +38,17 @@ MongoClient.connect(
     if (err) return console.log(err);
 
     db = client.db("Hotels");
-
-    // db.collection("post").insertOne(
-    //   { name: "caremen", _id: 1 },
-    //   function (err, result) {
-    //     console.log("저장 완료!");
-    //   }
-    // );
-    // app.listen(3000, function () {
-    //   console.log("localhost:3000 작동 중");
-    // });
   }
 );
 
-//메인
-app.get("/", function (req, res) {
-  //res.sendFile(__dirname + "/index.html");
-  res.render("index.ejs");
-});
+//router로 받아온 경로
+app.use("/", home);
+app.use("/login", home);
 
 //글 쓰기 작성 화면
 app.get("/write", function (req, res) {
   //res.sendFile(__dirname + "/write.html");
-  res.render("write.ejs");
+  res.render("page/write.ejs");
 });
 
 //글쓰기 완료
@@ -95,14 +88,7 @@ app.post("/write_process", function (req, res) {
 });
 
 //글 리스트
-app.get("/list", function (req, res) {
-  db.collection("post")
-    .find()
-    .toArray(function (err, result) {
-      console.log(result);
-      res.render("list.ejs", { posts: result });
-    });
-});
+app.use("/list", page);
 
 //글 삭제하기
 app.delete("/delete", function (req, res) {
@@ -114,7 +100,7 @@ app.delete("/delete", function (req, res) {
 });
 
 //상세페이지
-app.get("/detail/:id", function (req, res) {
+app.get("detail/:id", function (req, res) {
   db.collection("post").findOne(
     { _id: parseInt(req.params.id) },
     function (err, result) {
@@ -122,7 +108,7 @@ app.get("/detail/:id", function (req, res) {
         return res.status(200).send({ message: "성공입니다." });
       }
       //console.log(result);
-      res.render("detail.ejs", { posts: result });
+      res.render("page/detail.ejs", { posts: result });
     }
   );
 });
@@ -133,7 +119,7 @@ app.get("/edit/:id", function (req, res) {
     { _id: parseInt(req.params.id) },
     function (err, result) {
       console.log(result);
-      res.render("edit.ejs", { post: result });
+      res.render("page/edit.ejs", { post: result });
     }
   );
 });
@@ -157,7 +143,7 @@ app.put("/edit", function (req, res) {
 
 //로그인
 app.get("/login", function (req, res) {
-  res.render("login.ejs");
+  res.render("home/login.ejs");
 });
 
 //passport: 로그인 기능 쉽게 구현 도와줌
@@ -175,7 +161,7 @@ app.post(
 //로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
 app.get("/mypage", DidLogin, function (req, res) {
   console.log(req.user);
-  res.render("mypage.ejs", { 사용자: req.user });
+  res.render("home/mypage.ejs", { 사용자: req.user });
 });
 
 function DidLogin(req, res, next) {
@@ -231,7 +217,7 @@ passport.deserializeUser(function (아이디, done) {
 });
 
 app.get("/registForm", function (req, res) {
-  res.render("registForm.ejs");
+  res.render("page/registForm.ejs");
 });
 
 //회원가입하기
@@ -257,7 +243,7 @@ function DidLogin(req, res, next) {
 //mypage : 로그인 시 mypage 나옴
 app.get("/mypage", DidLogin, function (req, res) {
   console.log(req.user);
-  res.render("mypage.ejs", { 사용자: req.user });
+  res.render("home/mypage.ejs", { 사용자: req.user });
 });
 
 //회원가입
@@ -288,7 +274,7 @@ app.get("/search", (req, res) => {
     .aggregate(searchReq)
     .toArray((err, result) => {
       console.log(result);
-      res.render("search.ejs", { posts: result });
+      res.render("page/search.ejs", { posts: result });
     });
 });
 
