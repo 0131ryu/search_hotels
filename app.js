@@ -2,8 +2,10 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+const db = require("./config/db");
+
+//라우팅
 const home = require("./routes/home");
-const page = require("./routes/page");
 
 //views
 app.set("veiw engine", "ejs");
@@ -12,6 +14,7 @@ app.set("views", "./views");
 //method-override
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
+
 //static - css 적용
 const path = require("path");
 app.use("static", express.static(path.join(__dirname, "static")));
@@ -28,118 +31,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//mongoDB
-var db;
-
-const MongoClient = require("mongodb").MongoClient;
-MongoClient.connect(
-  "mongodb+srv://admin:abc1234@cluster0.ezoih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-  function (err, client) {
-    if (err) return console.log(err);
-
-    db = client.db("Hotels");
-  }
-);
-
 //router로 받아온 경로
 app.use("/", home);
 app.use("/login", home);
 
-//글 쓰기 작성 화면
-app.get("/write", function (req, res) {
-  //res.sendFile(__dirname + "/write.html");
-  res.render("page/write.ejs");
-});
-
-//글쓰기 완료
-//글쓰기 완료 시 mongoDB의 Hotels - number로 데이터 넣기
-app.post("/write_process", function (req, res) {
-  db.collection("number").findOne(
-    { name: "게시물번호" },
-    function (err, result) {
-      var allPostNum = result.postNum;
-      //console.log(allPostNum);
-      //글 작성 후 mongoDB 내 Hotels의 posts로 보낼 것
-      db.collection("post").insertOne(
-        {
-          _id: allPostNum + 1,
-          title: req.body.title,
-          date: req.body.date,
-          detail: req.body.detail,
-        },
-        function (err, result) {
-          //Hotels의 post로 게시물 추가 시 number에도 숫자 변해야 함
-          db.collection("number").updateOne(
-            { name: "게시물번호" },
-            { $inc: { postNum: 1 } },
-            function (err, result) {
-              if (err) {
-                return console.log(err);
-              }
-            }
-          );
-          console.log("MongoDB로 저장 완료!");
-        }
-      );
-    }
-  );
-  res.send("전송완료");
-  console.log(req.body);
-});
-
-//글 리스트
-app.use("/list", page);
-
-//글 삭제하기
-app.delete("/delete", function (req, res) {
-  req.body._id = parseInt(req.body._id);
-  db.collection("post").deleteOne(req.body, function (err, result) {
-    console.log("삭제 완료");
-  });
-  res.send("최종 삭제 완료");
-});
-
-//상세페이지
-app.get("detail/:id", function (req, res) {
-  db.collection("post").findOne(
-    { _id: parseInt(req.params.id) },
-    function (err, result) {
-      if (err) {
-        return res.status(200).send({ message: "성공입니다." });
-      }
-      //console.log(result);
-      res.render("page/detail.ejs", { posts: result });
-    }
-  );
-});
-
-//수정 페이지
-app.get("/edit/:id", function (req, res) {
-  db.collection("post").findOne(
-    { _id: parseInt(req.params.id) },
-    function (err, result) {
-      console.log(result);
-      res.render("page/edit.ejs", { post: result });
-    }
-  );
-});
-
-app.put("/edit", function (req, res) {
-  db.collection("post").updateOne(
-    { _id: parseInt(req.body.id) },
-    {
-      $set: {
-        title: req.body.title,
-        date: req.body.date,
-        detail: req.body.detail,
-      },
-    },
-    function (err, result) {
-      console.log("수정 완료");
-      res.redirect("/list");
-    }
-  );
-});
+app.use("/list", home);
+app.use("/write", home);
+app.use("/write_process", home);
+app.use("/delete", home);
+app.use("/detail/:id", home);
+app.use("/edit/:id", home);
+app.use("/edit", home);
 
 //로그인
 app.get("/login", function (req, res) {
