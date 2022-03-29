@@ -5,6 +5,8 @@ const router = express.Router();
 const homeCtrl = require("./home.ctrl");
 const pageCtrl = require("./page.ctrl");
 
+const multer = require("multer");
+
 //메인
 router.get("/", homeCtrl.hello);
 
@@ -31,4 +33,30 @@ router.get("/edit/:id", pageCtrl.findEditPage);
 
 router.put("/edit", pageCtrl.editPage);
 
+//이미지 저장
+router.get("/upload", pageCtrl.uploadPage);
+
+var storage = multer.diskStorage({
+  //저장하는 곳
+  destination: function (req, file, cb) {
+    cb(null, "./public/image");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); //파일명 : file.originalname
+  },
+});
+
+const upload = multer({ storage: storage });
+
+//이미지 저장
+router.post("/upload", upload.single("hotels"), (req, res) => {
+  res.json(req.file);
+  console.log(req.file);
+  res.send("업로드완료");
+});
+
+//이미지 보여주기
+router.get("../../image/:imageName", function (req, res) {
+  res.sendFile(__dirname + "/public/image/" + req.params.imageName);
+});
 module.exports = router;

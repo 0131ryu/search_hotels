@@ -180,32 +180,42 @@ app.get("/search", (req, res) => {
     });
 });
 
-app.get("/upload", function (req, res) {
-  res.render("upload.ejs");
-});
+//이미지 저장
+// let multer = require("multer");
+// var storage = multer.diskStorage({
+//   //저장하는 곳
+//   destination: function (req, file, cb) {
+//     cb(null, "./public/image");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname); //파일명 : file.originalname
+//   },
+// });
 
-//multer 사용법
-let multer = require("multer");
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/image");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); //파일명 : file.originalname
-  },
-});
+// // var fileFilter = (req, file, cb) => {
+// //   //확장자 필터링
+// //   if (
+// //     file.mimetype === "image/png" ||
+// //     file.mimetype === "image/jpg" ||
+// //     file.mimetype === "image/jpeg"
+// //   ) {
+// //     cb(null, true); //해당 mimetype만 받겠다는 의미
+// //   } else {
+// //     cb(null, false); //다른 mimetype은 저장 x
+// //   }
+// // };
 
-var upload = multer({ storage: storage });
+// var upload = multer({ storage: storage });
 
-app.post("/upload", upload.single("hotels"), function (req, res) {
-  res.send("업로드완료");
-});
+// app.post("/upload", upload.single("hotels"), function (req, res) {
+//   res.send("업로드완료");
+// });
 
 //업로드한 이미지 보여주기
 //url 파라미터 문법 = :
-app.get("/image/:imageName", function (req, res) {
-  res.sendFile(__dirname + "/public/image/" + req.params.imageName);
-});
+// app.get("/image/:imageName", function (req, res) {
+//   res.sendFile(__dirname + "/public/image/" + req.params.imageName);
+// });
 
 //채팅
 const { ObjectId } = require("mongodb");

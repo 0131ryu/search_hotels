@@ -112,6 +112,9 @@ const editPage = (req, res) => {
   );
 };
 
+const uploadPage = (req, res) => {
+  res.render("upload.ejs");
+};
 module.exports = {
   list,
   write,
@@ -120,4 +123,5 @@ module.exports = {
   detailPage,
   findEditPage,
   editPage,
+  uploadPage,
 };
