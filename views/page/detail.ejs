@@ -57,6 +57,13 @@
       </div>
     </nav>
 
+    <div class="container mt-3">
+      <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="hotels" />
+        <button type="submit">이미지저장</button>
+      </form>
+    </div>
+
     <h4>상세페이지</h4>
     <h2>제목: <%= posts.title %></h2>
     <p>날짜: <%= posts.date %></p>

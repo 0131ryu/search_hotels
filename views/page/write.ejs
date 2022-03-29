@@ -60,21 +60,30 @@
     <h4 class="container mt-4"><strong>글 작성페이지</strong></h4>
 
     <div class="container mt-3">
-      <form action="/write_process" method="POST">
-        <div class="form-group">
-          <label>호텔 이름</label>
-          <input type="text" class="form-control" name="title" />
-        </div>
-        <div class="form-group">
-          <label>날짜</label>
-          <input type="text" class="form-control" name="date" />
-        </div>
-        <div class="form-group">
-          <label>상세정보</label>
-          <input type="text" class="form-control" name="detail" />
-        </div>
-        <button type="submit" class="btn btn-outline-secondary">Submit</button>
+      <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="hotels" />
+        <button type="submit">이미지저장</button>
       </form>
+
+      <div class="container mt-3">
+        <form action="/write_process" method="POST">
+          <div class="form-group">
+            <label>호텔 이름</label>
+            <input type="text" class="form-control" name="title" />
+          </div>
+          <div class="form-group">
+            <label>날짜</label>
+            <input type="text" class="form-control" name="date" />
+          </div>
+          <div class="form-group">
+            <label>상세정보</label>
+            <input type="text" class="form-control" name="detail" />
+          </div>
+          <button type="submit" class="btn btn-outline-secondary">
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
 

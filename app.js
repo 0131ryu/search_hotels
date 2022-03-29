@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
-const db = require("./config/db");
+// const db = require("./config/db");
 
 //라우팅
 const home = require("./routes/home");
