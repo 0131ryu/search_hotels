@@ -2,7 +2,22 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
-// const db = require("./config/db");
+
+var db;
+
+const MongoClient = require("mongodb").MongoClient;
+MongoClient.connect(
+  "mongodb+srv://admin:abc1234@cluster0.ezoih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  function (err, client) {
+    if (err) return console.log(err);
+
+    db = client.db("Hotels");
+  }
+);
+
+//body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //라우팅
 const home = require("./routes/home");
@@ -15,9 +30,10 @@ app.set("views", "./views");
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 
-//static - css 적용
+//static
 const path = require("path");
 app.use("static", express.static(path.join(__dirname, "static")));
+app.use(express.static(`${__dirname}/src/public/`));
 
 //로그인에 필요함
 const passport = require("passport");
@@ -31,7 +47,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//router로 받아온 경로
+//router로 받아온 경로, 앱 세팅
 app.use("/", home);
 app.use("/login", home);
 
@@ -42,11 +58,6 @@ app.use("/delete", home);
 app.use("/detail/:id", home);
 app.use("/edit/:id", home);
 app.use("/edit", home);
-
-//로그인
-app.get("/login", function (req, res) {
-  res.render("home/login.ejs");
-});
 
 //passport: 로그인 기능 쉽게 구현 도와줌
 app.post(

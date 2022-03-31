@@ -8,10 +8,11 @@ const pageCtrl = require("./page.ctrl");
 const multer = require("multer");
 
 //메인
-router.get("/", homeCtrl.hello);
+router.get("/", homeCtrl.output.home);
 
 //로그인
-router.get("/login", homeCtrl.login);
+router.get("/login", homeCtrl.output.login);
+router.post("/login", homeCtrl.process.login);
 
 //글 목록
 router.get("/list", pageCtrl.list);
@@ -26,7 +27,7 @@ router.post("/write_process", pageCtrl.writeProcess);
 router.delete("/delete", pageCtrl.deletePage);
 
 //상세페이지
-router.get("detail/:id", pageCtrl.detailPage);
+router.get("/detail/:id", pageCtrl.detailPage);
 
 //수정 페이지
 router.get("/edit/:id", pageCtrl.findEditPage);

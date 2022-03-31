@@ -1,7 +1,5 @@
 "use strict";
 
-// const db = require("../../config/db"); -> 연결 오류
-
 var db;
 
 const MongoClient = require("mongodb").MongoClient;
@@ -80,7 +78,7 @@ const detailPage = (req, res) => {
         return res.status(200).send({ message: "성공입니다." });
       }
       //console.log(result);
-      res.render("hotels/detail.ejs", { posts: result });
+      res.render("page/detail.ejs", { posts: result });
     }
   );
 };
