@@ -24,3 +24,9 @@ a.editBtn {
 .mine {
   float: right;
 }
+.mainImg {
+  width:50%;
+  height:50%;
+  display: block;
+  margin: 0px auto;
+}
