@@ -22,57 +22,22 @@
 
     <div class="main4Img">
       <h4>Let's find a place you like together</h4>
-      <% for (var i = 0; i < 4; i++) { %>테스트 <% console.log(i); }%>
+      
       <div class="main4Img-container">
+        <% for (var i = 0; i < data.length; i++) { %>
         <div class="main4Img-item1">
           <a href="/list">
             <div class="changeBox"></div>
           </a>
           <div class="main4Img-text">
-            <img src="image/hotel.jpg" class="main4Img-img" />
+            <img src="image/mainImg<%=i+1%>.jpg" class="main4Img-img" />
             <div class="main4Img-img-text">
-              <h4>Hotel</h4>
-              <p>어떤 호텔을 찾으시나요?</p>
+              <h4><%= data[i].a %></h4>
+              <p><%= data[i].b %></p>
             </div>
           </div>
         </div>
-        <div class="main4Img-item1">
-          <a href="/list">
-            <div class="changeBox"></div>
-          </a>
-          <div class="main4Img-text">
-            <img src="image/motel.jpg" class="main4Img-img" />
-            <div class="main4Img-img-text">
-              <h4>Motel</h4>
-              <p>어떤 모텔을 찾으시나요?</p>
-            </div>
-          </div>
-        </div>
-        <div class="main4Img-item1">
-          <a href="/list">
-            <div class="changeBox"></div>
-          </a>
-          <div class="main4Img-text">
-            <img src="image/pension.jpg" class="main4Img-img" />
-            <div class="main4Img-img-text">
-              <h4>Pension</h4>
-              <p>어떤 펜션을 찾으시나요?</p>
-            </div>
-          </div>
-        </div>
-        <div class="main4Img-item1">
-          <a href="/list">
-            <div class="changeBox"></div>
-          </a>
-          <div class="main4Img-text">
-            <img src="image/resort.jpg" class="main4Img-img" />
-            <div class="main4Img-img-text">
-              <h4>resort</h4>
-              <p>어떤 리조트를 찾으시나요?</p>
-            </div>
-          </div>
-        </div>
+        <%  }%>
       </div>
-    </div>
   </body>
 </html>

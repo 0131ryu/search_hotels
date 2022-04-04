@@ -22,9 +22,16 @@ const users = {
   pw: ["1234", "1234", "1111"],
 };
 
+const content = [
+  { a: "Hotel", b: "어떤 호텔을 찾으시나요?" },
+  { a: "Motel", b: "어떤 모텔을 찾으시나요?" },
+  { a: "Pension", b: "어떤 펜션을 찾으시나요?" },
+  { a: "Resort", b: "어떤 리조트를 찾으시나요?" },
+];
+
 const output = {
   home: (req, res) => {
-    res.render("home/index.ejs");
+    res.render("home/index.ejs", { data: content });
   },
   login: (req, res) => {
     res.render("home/login.ejs");

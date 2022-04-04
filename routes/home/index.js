@@ -54,6 +54,7 @@ router.post("/upload", upload.single("hotels"), (req, res) => {
   res.json(req.file);
   console.log(req.file);
   res.send("업로드완료");
+  res.redirect("/");
 });
 
 //이미지 보여주기
