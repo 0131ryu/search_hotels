@@ -24,9 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const home = require("./routes/home");
 
 //express-ejs-layouts
-app.use(expressLayouts);
-app.set("layout", "layout");
-app.set("layout extractScripts", true);
+// app.use(expressLayouts);
+// app.set("layout", "layout");
+// app.set("layout extractScripts", true);
 
 //views
 app.set("veiw engine", "ejs");
