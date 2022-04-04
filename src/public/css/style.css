@@ -30,3 +30,54 @@ a.editBtn {
   display: block;
   margin: 0px auto;
 }
+.main4Img {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+.main4Img-item1 {
+  float: left;
+  width: 50%;
+  height: 350px;
+  background-size: cover;
+}
+.main4Img-container {
+  text-align: left;
+  max-width: 1200px;
+  margin: auto;
+}
+.main4Img-text {
+  padding: 0px;
+  width: 100%;
+}
+.main4Img-img-text {
+  color: white;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  left: 160px;
+  bottom: 105px;
+  width: 50%;
+}
+.main4Img-img {
+  width: 100%; 
+  height: 350px;
+}
+.changeBox {
+  position: absolute;
+  width: 600px;
+  height: 50%;
+  z-index: 2;
+  border: 0px solid white;
+  cursor:pointer;
+}
+.changeBox:hover {
+  border: 30px solid white
+}
+/*반응형*/
+@media screen and (max-width : 992px) {
+  .main4Img-item1 {
+    float: none;
+    width: 100%
+  }
+}

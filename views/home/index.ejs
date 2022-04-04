@@ -19,17 +19,60 @@
   </head>
   <body>
     <%- include ('../layouts/header') %>
-    <h4>Welcome to Choose Hotels!</h4>
 
-    <img src="image/winter.jpg" class="mainImg" />
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <%- include ("../layouts/footer") %>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
+    <div class="main4Img">
+      <h4>Let's find a place you like together</h4>
+      <% for (var i = 0; i < 4; i++) { %>테스트 <% console.log(i); }%>
+      <div class="main4Img-container">
+        <div class="main4Img-item1">
+          <a href="/list">
+            <div class="changeBox"></div>
+          </a>
+          <div class="main4Img-text">
+            <img src="image/hotel.jpg" class="main4Img-img" />
+            <div class="main4Img-img-text">
+              <h4>Hotel</h4>
+              <p>어떤 호텔을 찾으시나요?</p>
+            </div>
+          </div>
+        </div>
+        <div class="main4Img-item1">
+          <a href="/list">
+            <div class="changeBox"></div>
+          </a>
+          <div class="main4Img-text">
+            <img src="image/motel.jpg" class="main4Img-img" />
+            <div class="main4Img-img-text">
+              <h4>Motel</h4>
+              <p>어떤 모텔을 찾으시나요?</p>
+            </div>
+          </div>
+        </div>
+        <div class="main4Img-item1">
+          <a href="/list">
+            <div class="changeBox"></div>
+          </a>
+          <div class="main4Img-text">
+            <img src="image/pension.jpg" class="main4Img-img" />
+            <div class="main4Img-img-text">
+              <h4>Pension</h4>
+              <p>어떤 펜션을 찾으시나요?</p>
+            </div>
+          </div>
+        </div>
+        <div class="main4Img-item1">
+          <a href="/list">
+            <div class="changeBox"></div>
+          </a>
+          <div class="main4Img-text">
+            <img src="image/resort.jpg" class="main4Img-img" />
+            <div class="main4Img-img-text">
+              <h4>resort</h4>
+              <p>어떤 리조트를 찾으시나요?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
