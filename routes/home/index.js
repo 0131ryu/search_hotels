@@ -40,7 +40,8 @@ router.get("/upload", pageCtrl.uploadPage);
 var storage = multer.diskStorage({
   //저장하는 곳
   destination: function (req, file, cb) {
-    cb(null, "./src/public/image");
+    // cb(null, "./src/public/image");
+    cb(null, db.collection);
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname); //파일명 : file.originalname

@@ -3,12 +3,22 @@ const app = express();
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+require("dotenv").config();
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("connected to database successfully");
+  }
+});
 
 var db;
 
 const MongoClient = require("mongodb").MongoClient;
 MongoClient.connect(
-  "mongodb+srv://admin:abc1234@cluster0.ezoih.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "mongodb://admin:abc1234@cluster0-shard-00-00.ezoih.mongodb.net:27017,cluster0-shard-00-01.ezoih.mongodb.net:27017,cluster0-shard-00-02.ezoih.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-xs9rt3-shard-0&authSource=admin&retryWrites=true&w=majority",
   function (err, client) {
     if (err) return console.log(err);
 
