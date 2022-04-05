@@ -1,6 +1,7 @@
 "use strict";
 require("dotenv").config();
 const mongoose = require("mongoose");
+const stay = require("../../stay");
 const Stay = require("../../stay");
 
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
@@ -26,7 +27,6 @@ MongoClient.connect(
 const list = (req, res) => {
   Stay.find()
     .then((result) => {
-      res.json(result);
       res.render("page/list.ejs", { posts: result });
     })
     .catch((err) => {
@@ -97,11 +97,15 @@ const writeProcess = (req, res) => {
 };
 
 const deletePage = (req, res) => {
-  req.body._id = parseInt(req.body._id);
-  db.collection("post").deleteOne(req.body, function (err, result) {
-    console.log("삭제 완료");
-  });
-  res.send("최종 삭제 완료");
+  stay
+    .deleteOne(req.body)
+    .then((result) => res.json(result))
+    .catch((err) => res.json(err));
+  // req.body._id = parseInt(req.body._id);
+  // db.collection("post").deleteOne(req.body, function (err, result) {
+  //   console.log("삭제 완료");
+  // });
+  // res.send("최종 삭제 완료");
 };
 
 const detailPage = (req, res) => {
