@@ -1,8 +1,12 @@
 "use strict";
 require("dotenv").config();
 const mongoose = require("mongoose");
-const stay = require("../../stay");
-const Stay = require("../../stay");
+// const AutoIncrementFactory = require("mongoose-sequence");
+const sequencing = require("../../config/sequencing");
+
+const Stay = require("../../config/stay");
+// const connection = await mongoose.createConnection(process.env.MONGODB_URL);
+// const AutoIncrement = AutoIncrementFactory(connection);
 
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
   if (err) {
@@ -59,9 +63,10 @@ const writeProcess = (req, res) => {
     if (err) {
       return res.status(400).send(err);
     } else {
-      return res.status(201).send({
-        success: true,
-      });
+      return res.redirect("/list");
+      // return res.status(201).send({
+      //   success: true,
+      // });
     }
   });
   // db.collection("number").findOne(
