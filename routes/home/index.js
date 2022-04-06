@@ -31,7 +31,6 @@ router.get("/detail/:id", pageCtrl.detailPage);
 
 //수정 페이지
 router.get("/edit/:id", pageCtrl.findEditPage);
-
 router.put("/edit", pageCtrl.editPage);
 
 //이미지 저장
@@ -62,4 +61,8 @@ router.post("/upload", upload.single("hotels"), (req, res) => {
 router.get("../../image/:imageName", function (req, res) {
   res.sendFile(__dirname + "/public/image/" + req.params.imageName);
 });
+
+//검색기능
+router.get("/search", pageCtrl.searchPage);
+
 module.exports = router;

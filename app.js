@@ -183,28 +183,6 @@ app.use("/register", function (req, res) {
   );
 });
 
-app.get("/search", (req, res) => {
-  var searchReq = [
-    {
-      $search: {
-        index: "titleSearch",
-        text: {
-          query: req.query.value,
-          path: ["title", "date", "detail"], // 제목날짜 둘다 찾고 싶으면 ['제목', '날짜']
-        },
-      },
-    },
-
-    { $project: { title: 1, _id: 0, score: { $meta: "searchScore" } } }, //검색 결과에 필터넣기(score는 검색어와 관련해 얼마나 연관있는지)
-  ];
-  db.collection("post")
-    .aggregate(searchReq)
-    .toArray((err, result) => {
-      console.log(result);
-      res.render("page/search.ejs", { posts: result });
-    });
-});
-
 //채팅
 const { ObjectId } = require("mongodb");
 const { request } = require("http");

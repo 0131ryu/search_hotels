@@ -1,3 +1,8 @@
+body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
 a.editBtn {
   text-decoration: none;
 }
@@ -24,6 +29,7 @@ a.editBtn {
 .mine {
   float: right;
 }
+/*index.ejs*/
 .mainImg {
   width:50%;
   height:50%;
@@ -74,6 +80,20 @@ a.editBtn {
 }
 .changeBox:hover {
   border: 30px solid white
+}
+/*list.ejs*/
+.list-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+}
+.list-group-item {
+  width: 65%;
+  height: 65%;
+  margin: 1rem;
+  border: 1px solid black;
+  /* border-radius: 1rem; */
 }
 /*반응형*/
 @media screen and (max-width : 992px) {
