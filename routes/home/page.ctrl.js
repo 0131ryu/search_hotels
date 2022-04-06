@@ -1,8 +1,6 @@
 "use strict";
 require("dotenv").config();
 const mongoose = require("mongoose");
-// const AutoIncrementFactory = require("mongoose-sequence");
-const sequencing = require("../../config/sequencing");
 
 const Stay = require("../../config/stay");
 // const connection = await mongoose.createConnection(process.env.MONGODB_URL);
@@ -102,8 +100,7 @@ const writeProcess = (req, res) => {
 };
 
 const deletePage = (req, res) => {
-  stay
-    .deleteOne(req.body)
+  Stay.remove({ _id: parseInt(req.body._id) })
     .then((result) => res.json(result))
     .catch((err) => res.json(err));
   // req.body._id = parseInt(req.body._id);
@@ -114,30 +111,42 @@ const deletePage = (req, res) => {
 };
 
 const detailPage = (req, res) => {
-  db.collection("post").findOne(
-    { _id: parseInt(req.params.id) },
-    function (err, result) {
-      if (err) {
-        return res.status(200).send({ message: "성공입니다." });
-      }
-      //console.log(result);
-      res.render("page/detail.ejs", { posts: result });
+  Stay.find({ _id: parseInt(req.params.id) }, function (err, result) {
+    if (err) {
+      return res.status(200).send({ message: "성공입니다." });
     }
-  );
+    res.render("page/detail.ejs", { posts: result });
+  });
+
+  // db.collection("post").findOne(
+  //   { _id: parseInt(req.params.id) },
+  //   function (err, result) {
+  //     if (err) {
+  //       return res.status(200).send({ message: "성공입니다." });
+  //     }
+  //     //console.log(result);
+  //     res.render("page/detail.ejs", { posts: result });
+  //   }
+  // );
 };
 
 const findEditPage = (req, res) => {
-  db.collection("post").findOne(
-    { _id: parseInt(req.params.id) },
-    function (err, result) {
-      console.log(result);
-      res.render("page/edit.ejs", { post: result });
-    }
-  );
+  Stay.findOne({ _id: parseInt(req.params.id) }, function (err, result) {
+    console.log(result);
+    res.render("page/edit.ejs", { post: result });
+  });
+
+  // db.collection("post").findOne(
+  //   { _id: parseInt(req.params.id) },
+  //   function (err, result) {
+  //     console.log(result);
+  //     res.render("page/edit.ejs", { post: result });
+  //   }
+  // );
 };
 
 const editPage = (req, res) => {
-  db.collection("post").updateOne(
+  Stay.updateOne(
     { _id: parseInt(req.body.id) },
     {
       $set: {
@@ -151,6 +160,20 @@ const editPage = (req, res) => {
       res.redirect("/list");
     }
   );
+  // db.collection("post").updateOne(
+  //   { _id: parseInt(req.body.id) },
+  //   {
+  //     $set: {
+  //       title: req.body.title,
+  //       date: req.body.date,
+  //       detail: req.body.detail,
+  //     },
+  //   },
+  //   function (err, result) {
+  //     console.log("수정 완료");
+  //     res.redirect("/list");
+  //   }
+  // );
 };
 
 const uploadPage = (req, res) => {
