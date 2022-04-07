@@ -194,11 +194,25 @@ const searchPage = (req, res) => {
 
   //   { $project: { title: 1, _id: 0, score: { $meta: "searchScore" } } }, //검색 결과에 필터넣기(score는 검색어와 관련해 얼마나 연관있는지)
   // ];
+  const searchCondition = [
+    {
+      $search: {
+        index: "titleSearch",
+        text: {
+          query: req.query.value,
+          path: ["title", "detail"],
+        },
+      },
+    },
+  ];
 
-  Stay.findOne({ title: req.params.title }, function (err, result) {
+  Stay.aggregate(searchCondition, function (err, result) {
     console.log(result);
     res.render("page/search.ejs", { posts: result });
   });
+
+  // console.log(req.query.value);
+
   // db.collection("post")
   //   .aggregate(searchReq)
   //   .toArray((err, result) => {
