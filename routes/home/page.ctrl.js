@@ -131,7 +131,7 @@ const detailPage = (req, res) => {
 };
 
 const findEditPage = (req, res) => {
-  Stay.findOne({ title: parseInt(req.params.title) }, function (err, result) {
+  Stay.findOne({ _id: parseInt(req.params.id) }, function (err, result) {
     console.log(result);
     res.render("page/edit.ejs", { posts: result });
   });
@@ -147,7 +147,7 @@ const findEditPage = (req, res) => {
 
 const editPage = (req, res) => {
   Stay.updateOne(
-    { _id: parseInt(req.body.id) },
+    { _id: parseInt(req.params.id) },
     {
       $set: {
         title: req.body.title,
@@ -181,19 +181,6 @@ const uploadPage = (req, res) => {
 };
 
 const searchPage = (req, res) => {
-  // var searchReq = [
-  //   {
-  //     $search: {
-  //       index: "titleSearch",
-  //       text: {
-  //         query: req.query.value,
-  //         path: ["title", "date", "detail"], // 제목날짜 둘다 찾고 싶으면 ['제목', '날짜']
-  //       },
-  //     },
-  //   },
-
-  //   { $project: { title: 1, _id: 0, score: { $meta: "searchScore" } } }, //검색 결과에 필터넣기(score는 검색어와 관련해 얼마나 연관있는지)
-  // ];
   const searchCondition = [
     {
       $search: {
