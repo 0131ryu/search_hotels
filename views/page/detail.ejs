@@ -22,6 +22,7 @@
       <% for (var i = 0; i< posts.length; i++) { %>
       <li class="list-group-item">
         <h3><%= posts[i].title %></h3>
+        <p><%= posts[i].type %></p>
         <p><%= posts[i].date %></p>
         <p><%= posts[i].detail %></p>
         <button class="delete" data-id="<%= posts[i]._id %>">삭제하기</button>

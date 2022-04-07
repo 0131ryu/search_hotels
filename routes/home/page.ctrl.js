@@ -1,10 +1,7 @@
 "use strict";
 require("dotenv").config();
 const mongoose = require("mongoose");
-
 const Stay = require("../../config/stay");
-// const connection = await mongoose.createConnection(process.env.MONGODB_URL);
-// const AutoIncrement = AutoIncrementFactory(connection);
 
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
   if (err) {
@@ -14,18 +11,6 @@ mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
   }
 });
 
-var db;
-
-const MongoClient = require("mongodb").MongoClient;
-MongoClient.connect(
-  "mongodb://admin:abc1234@cluster0-shard-00-00.ezoih.mongodb.net:27017,cluster0-shard-00-01.ezoih.mongodb.net:27017,cluster0-shard-00-02.ezoih.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-xs9rt3-shard-0&authSource=admin&retryWrites=true&w=majority",
-  function (err, client) {
-    if (err) return console.log(err);
-
-    db = client.db("Hotels");
-  }
-);
-
 const list = (req, res) => {
   Stay.find()
     .then((result) => {
@@ -34,15 +19,6 @@ const list = (req, res) => {
     .catch((err) => {
       res.send(err);
     });
-  // db.collection("post")
-  //   .find()
-  //   .toArray(function (err, result) {
-  //     if (err) {
-  //       return res.status(200).send({ message: "성공입니다." });
-  //     }
-  //     //console.log(result);
-  //     res.render("page/list.ejs", { posts: result });
-  //   });
 };
 
 const write = (req, res) => {
@@ -54,6 +30,7 @@ const writeProcess = (req, res) => {
   const stay = new Stay();
 
   stay.title = req.body.title;
+  stay.type = req.body.type;
   stay.detail = req.body.detail;
   stay.date = req.body.date;
 
@@ -62,9 +39,6 @@ const writeProcess = (req, res) => {
       return res.status(400).send(err);
     } else {
       return res.redirect("/list");
-      // return res.status(201).send({
-      //   success: true,
-      // });
     }
   });
   // db.collection("number").findOne(
@@ -184,10 +158,10 @@ const searchPage = (req, res) => {
   const searchCondition = [
     {
       $search: {
-        index: "titleSearch",
+        index: "typeSearch",
         text: {
           query: req.query.value,
-          path: ["title", "detail"],
+          path: ["type", "title", "detail"],
         },
       },
     },

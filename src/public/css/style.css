@@ -95,6 +95,17 @@ a.editBtn {
   border: 1px solid black;
   /* border-radius: 1rem; */
 }
+/*header*/
+.search-bar-main {
+  width: 1000px;
+}
+/*header.ejs*/
+.search-bar {
+  width: 500px;
+  position: relative;
+  left: 11rem;
+}
+/*반응형*/
 /*반응형*/
 @media screen and (max-width : 992px) {
   .main4Img-item1 {

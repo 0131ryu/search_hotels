@@ -11,10 +11,10 @@ const users = {
 };
 
 const content = [
-  { a: "Hotel", b: "어떤 호텔을 찾으시나요?" },
-  { a: "Motel", b: "어떤 모텔을 찾으시나요?" },
-  { a: "Pension", b: "어떤 펜션을 찾으시나요?" },
-  { a: "Resort", b: "어떤 리조트를 찾으시나요?" },
+  { a: "Hotel", b: "어떤 호텔을 찾으시나요?", c: "호텔" },
+  { a: "Motel", b: "어떤 모텔을 찾으시나요?", c: "모텔" },
+  { a: "Pension", b: "어떤 펜션을 찾으시나요?", c: "펜션" },
+  { a: "Resort", b: "어떤 리조트를 찾으시나요?", c: "리조트" },
 ];
 
 const output = {

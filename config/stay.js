@@ -7,6 +7,10 @@ const staySchema = mongoose.Schema({
     type: String,
     maxlength: 50,
   },
+  type: {
+    type: String,
+    maxlength: 20,
+  },
   detail: {
     type: String,
     maxlength: 50,
