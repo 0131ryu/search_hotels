@@ -17,11 +17,14 @@
   </head>
   <body>
     <%- include ('../layouts/header') %>
-    <h2>호텔 리스트</h2>
+    <h2>숙소 리스트</h2>
 
-    <div class="container input-group mb-2">
-      <input class="form-control" id="search-input" />
-      <button class="input-group-append btn btn-danger" id="search">
+    <div class="container input-group mb-2 search-input-form">
+      <input class="form-control search-input" id="search-input" />
+      <button
+        class="input-group-append btn btn-danger search-input-btn"
+        id="search"
+      >
         검색
       </button>
     </div>

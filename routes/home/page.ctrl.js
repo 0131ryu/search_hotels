@@ -41,36 +41,6 @@ const writeProcess = (req, res) => {
       return res.redirect("/list");
     }
   });
-  // db.collection("number").findOne(
-  //   { name: "게시물번호" },
-  //   function (err, result) {
-  //     var allPostNum = result.postNum;
-
-  //     db.collection("post").insertOne(
-  //       {
-  //         _id: allPostNum + 1,
-  //         title: req.body.title,
-  //         date: req.body.date,
-  //         detail: req.body.detail,
-  //       },
-  //       function (err, result) {
-  //         //Hotels의 post로 게시물 추가 시 number에도 숫자 변해야 함
-  //         db.collection("number").updateOne(
-  //           { name: "게시물번호" },
-  //           { $inc: { postNum: 1 } },
-  //           function (err, result) {
-  //             if (err) {
-  //               return console.log(err);
-  //             }
-  //           }
-  //         );
-  //         console.log("MongoDB로 저장 완료!");
-  //       }
-  //     );
-  //   }
-  // );
-  // res.send("전송완료");
-  // console.log(req.body);
 };
 
 const deletePage = (req, res) => {

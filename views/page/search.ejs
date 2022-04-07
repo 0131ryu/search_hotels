@@ -17,10 +17,17 @@
   </head>
   <body>
     <%- include ('../layouts/header') %>
+    <h2>
+      검색 결과 : <% for (var i = 0; i< posts.length - posts.length + 1; i++) {
+      %> <%= posts[i].type%> <% } %>
+    </h2>
 
-    <div class="container input-group mb-2">
+    <div class="container input-group mb-2 search-input-form">
       <input class="form-control" id="search-input" />
-      <button class="input-group-append btn btn-danger" id="search">
+      <button
+        class="input-group-append btn btn-danger search-input-btn"
+        id="search"
+      >
         검색
       </button>
     </div>

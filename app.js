@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 require("dotenv").config();
@@ -32,11 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //라우팅
 const home = require("./routes/home");
-
-//express-ejs-layouts
-// app.use(expressLayouts);
-// app.set("layout", "layout");
-// app.set("layout extractScripts", true);
 
 //views
 app.set("veiw engine", "ejs");
@@ -144,7 +138,7 @@ passport.deserializeUser(function (아이디, done) {
 });
 
 app.get("/registForm", function (req, res) {
-  res.render("page/registForm.ejs");
+  res.render("home/registForm.ejs");
 });
 
 //회원가입하기
