@@ -4,11 +4,15 @@ const router = express.Router();
 
 const homeCtrl = require("./home.ctrl");
 const pageCtrl = require("./page.ctrl");
+const questCtrl = require("./quest.ctrl");
 
 const multer = require("multer");
 
 //메인
 router.get("/", homeCtrl.output.home);
+
+//질문지
+router.get("/quest", questCtrl.output.quest);
 
 //로그인
 router.get("/login", homeCtrl.output.login);

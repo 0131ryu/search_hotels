@@ -80,6 +80,14 @@ a.editBtn {
 .changeBox:hover {
   border: 30px solid white
 }
+.Likethings-containers {
+  margin-top: 30px;
+  padding-top: 30px;
+  text-align: center;
+}
+.Likethings-items {
+  display: inline-block;
+}
 /*list, search*/
 .list-group {
   display: flex;
