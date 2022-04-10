@@ -13,6 +13,7 @@ router.get("/", homeCtrl.output.home);
 
 //질문지
 router.get("/quest", questCtrl.output.quest);
+router.get("/questList", questCtrl.output.list);
 
 //로그인
 router.get("/login", homeCtrl.output.login);
