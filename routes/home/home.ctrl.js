@@ -1,14 +1,9 @@
 "use strict";
-
+const UserStorage = require("../../models/UserStorage");
 // //로그인에 필요함
 // const passport = require("passport");
 // const LocalStrategy = require("passport-local").Strategy;
 // const session = require("express-session");
-
-const users = {
-  id: ["test", "me", "today"],
-  pw: ["1234", "1234", "1111"],
-};
 
 const content = [
   { a: "Hotel", b: "어떤 호텔을 찾으시나요?", c: "호텔" },
@@ -31,19 +26,20 @@ const process = {
     const id = req.body.id,
       pw = req.body.pw;
 
+    const users = UserStorage.getUsers("id", "pw");
+
+    const response = {};
     if (users.id.includes(id)) {
       const idx = users.id.indexOf(id);
       if (users.pw[idx] === pw) {
-        return res.json({
-          success: true,
-        });
+        response.success = true;
+        return res.json(response);
       }
-
-      return res.json({
-        success: false,
-        msg: "로그인에 실패했습니다.",
-      });
     }
+
+    response.success = false;
+    response.msg = "로그인에 실패했습니다.";
+    return res.json(response);
   },
 };
 // const loginProcess = (req, res) => {

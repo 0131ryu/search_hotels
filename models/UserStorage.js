@@ -1,18 +1,24 @@
 "use strict";
 
-const express = require("express");
-const db = require("../config/db");
+class UserStorage {
+  static #users = {
+    id: ["test", "me", "today"],
+    pw: ["1234", "1234", "1111"],
+    name: ["테스트", "나임", "오늘"],
+  };
 
-//로그인에 필요함
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
+  static getUsers(...fields) {
+    const users = this.#users;
+    //새로운 정보를 담음
+    const newUsers = fields.reduce((newUsers, field) => {
+      if (users.hasOwnProperty(field)) {
+        newUsers[field] = users[field];
+      }
+      return newUsers;
+    }, {});
+    console.log(newUsers);
+    return newUsers; //newUsers없으면 반환한 값이 없어서 오류 발생
+  }
+}
 
-app.use(
-  session({ secret: "비밀코드", resave: true, saveUninitialized: false })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-class UserStorage {}
+module.exports = UserStorage;
