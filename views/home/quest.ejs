@@ -23,44 +23,81 @@
     <div class="container input-group mb-2 Likethings-containers">
       <div class="container Likethings-items">
         <h4>당신에게 맞는 숙소를 정해봅시다!</h4>
-        <div class="Likethings-items-list Likethings-items-people">
-          <ul class="list-group">
-            <li class="list-group-item">
-              <p>1. 같이 가는 사람은 몇 명인가요?</p>
-              <button>1명</button>
-              <button>2명</button>
-              <button>3명 이상</button>
-            </li>
-            <li class="list-group-item Likethings-items-child">
-              <p>2. 미취학아동(만6~12세)이 동반하는 일정인가요?</p>
-              <button>네</button>
-              <button>아니오</button>
-            </li>
-            <li class="list-group-item Likethings-items-senior">
-              <p>3. 어르신(만 65세이상)이 동반하는 일정인가요?</p>
-              <button>네</button>
-              <button>아니오</button>
-            </li>
-            <li class="list-group-item Likethings-items-bed">
-              <p>4. 침대는 어떤 것을 선호하나요?</p>
-              <button>싱글</button>
-              <button>트윈</button>
-              <button>더블</button>
-            </li>
-            <li class="list-group-item Likethings-items-limit">
-              <p>5. 1인당 숙소 비용의 최소 한도 금액은 얼마인가요?</p>
-              <button>5만원 미만</button>
-              <button>10만원 미만</button>
-              <button>10만원 이상</button>
-            </li>
-            <li class="list-group-item Likethings-items-priority">
-              <p>6. 숙소에 머물 때 가장 우선 순위에 두는 것은 무엇인가요?</p>
-              <button>근처 편의시설 여부</button>
-              <button>좋은 경치와 전망</button>
-              <button>다중이용시설 여부</button>
-            </li>
-          </ul>
-        </div>
+        <form
+          action="/write_process"
+          method="POST"
+          class="list-group Likethings-items-list"
+        >
+          <select
+            name="quest-people"
+            class="list-group-item Likethings-items-quests"
+          >
+            <option value="none" selected>
+              === 1. 같이 가는 사람은 몇 명인가요? ===
+            </option>
+            <option value="quest-people-one" name="people">1명</option>
+            <option value="quest-people-two">2명</option>
+            <option value="quest-people-three">3명</option>
+            <option value="quest-people-more">4명 이상</option>
+          </select>
+          <select
+            name="quest-child"
+            class="list-group-item Likethings-items-quests"
+          >
+            <option value="none" selected>
+              === 2. 미취학아동(만6~12세)이 동반하는 일정인가요? ===
+            </option>
+            <option value="quest-child-yes">네</option>
+            <option value="quest-child-no">아니오</option>
+          </select>
+          <select
+            name="quest-senior"
+            class="list-group-item Likethings-items-quests"
+          >
+            <option value="none" selected>
+              === 3. 어르신(만 65세이상)이 동반하는 일정인가요? ===
+            </option>
+            <option value="quest-senior-yes">네</option>
+            <option value="quest-senior-no">아니오</option>
+          </select>
+          <select
+            name="quest-bed"
+            class="list-group-item Likethings-items-quests"
+          >
+            <option value="none" selected>
+              === 4. 침대는 어떤 것을 선호하나요? ===
+            </option>
+            <option value="quest-bed-single">싱글</option>
+            <option value="quest-bed-twin">트윈</option>
+            <option value="quest-bed-double">더블</option>
+          </select>
+          <select
+            name="quest-costLimit"
+            class="list-group-item Likethings-items-quests"
+          >
+            <option value="none" selected>
+              === 5. 1인당 숙소 비용의 최소 한도 금액은 얼마인가요? ===
+            </option>
+            <option value="quest-costLimit-down5">5만원 미만</option>
+            <option value="quest-costLimit-down10">10만원 미만</option>
+            <option value="quest-costLimit-top10">10만원 이상</option>
+          </select>
+          <select
+            name="quest-priority"
+            class="list-group-item Likethings-items-quests"
+          >
+            <option value="none" selected>
+              === 6. 숙소에 머물 때 가장 우선 순위에 두는 것은 무엇인가요? ===
+            </option>
+            <option value="quest-priority-facility">근처 편의시설 여부</option>
+            <option value="quest-priority-goodViews">좋은 경치와 전망</option>
+            <option value="quest-priority-multiFacility">
+              다중이용시설 여부
+            </option>
+            <option value="quest-priority-breakfast">조식여부 여부</option>
+          </select>
+          <button>submit</button>
+        </form>
       </div>
     </div>
   </body>

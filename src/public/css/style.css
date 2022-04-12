@@ -74,11 +74,11 @@ a.editBtn {
   width: 600px;
   height: 350px;
   z-index: 2;
-  border: 0px solid white;
+  border: 0px solid #f8f9fa;
   cursor:pointer;
 }
 .changeBox:hover {
-  border: 30px solid white
+  border: 30px solid #f8f9fa
 }
 .Likethings-containers {
   margin-top: 30px;
@@ -87,6 +87,9 @@ a.editBtn {
 }
 .Likethings-items {
   display: inline-block;
+}
+.Likethings-items-quests {
+  text-align: center;
 }
 /*list, search*/
 .list-group {
