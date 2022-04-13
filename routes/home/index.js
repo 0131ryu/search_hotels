@@ -15,6 +15,10 @@ router.get("/", homeCtrl.output.home);
 router.get("/quest", questCtrl.output.quest);
 router.get("/questList", questCtrl.output.list);
 
+//테스트
+router.get("/test", homeCtrl.test.home);
+router.post("/test", homeCtrl.test.mode);
+
 //로그인
 router.get("/login", homeCtrl.output.login);
 router.post("/login", homeCtrl.process.login);

@@ -80,6 +80,7 @@ a.editBtn {
 .changeBox:hover {
   border: 30px solid #f8f9fa
 }
+/*quest*/
 .Likethings-containers {
   margin-top: 30px;
   padding-top: 30px;
@@ -90,6 +91,14 @@ a.editBtn {
 }
 .Likethings-items-quests {
   text-align: center;
+}
+.test-group {
+  width: 250px;
+  height: 50px;
+  margin-top: 10px;
+}
+.test-group2 {
+  margin-left:20em;
 }
 /*list, search*/
 .list-group {

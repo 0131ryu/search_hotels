@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <title>Main page</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="/js/home/test.js" defer></script>
+  </head>
+  <body>
+    <%- include ('../layouts/header') %>
+
+    <h3>fetch를 이용한 테스트</h3>
+    <div class="container mt-1">
+      <div class="form-group test-group">
+        <label>사람수</label>
+        <input type="number" class="form-control" name="stayNum" id="stayNum" />
+      </div>
+      <h3>2. 미취학아동(만6~12세)이 동반하는 일정인가요?</h3>
+      <select name="quest-child" class="form-group test-group">
+        <option value="네" name="네" id="childYes">네</option>
+        <option value="아니오" name="아니오" id="childNo">아니오</option>
+      </select>
+      <!-- <div class="form-group test-group">
+        <label>yes/no</label>
+        <input type="text" class="form-control" name="yesNo" id="yesNo" />
+      </div> -->
+      <!-- <div class="form-group test-group">
+        <label>침대</label>
+        <input type="text" class="form-control" name="bed" id="bed" />
+      </div> -->
+      <h3>6. 숙소에 머물 때 가장 우선 순위에 두는 것은 무엇인가요?</h3>
+      <select lass="form-group test-group">
+        <option
+          value="근처 편의시설 여부"
+          name="근처 편의시설 여부"
+          id="mostFac"
+        >
+          근처 편의시설 여부
+        </option>
+        <option value="좋은 경치와 전망" name="좋은 경치와 전망" id="mostView">
+          좋은 경치와 전망
+        </option>
+        <option
+          value="다중이용시설 여부"
+          name="다중이용시설 여부"
+          id="mostMulti"
+        >
+          다중이용시설 여부
+        </option>
+      </select>
+      <div class="form-group test-group2">
+        <button type="submit" class="btn btn-outline-secondary" id="testBtn">
+          Submit
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
