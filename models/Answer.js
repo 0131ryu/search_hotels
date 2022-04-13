@@ -4,7 +4,7 @@ class Answer {
   constructor(body) {
     this.body = body;
   }
-  mode() {
+  searchStay() {
     const body = this.body;
     const { stayNum, yesNo } = AnswerStorage.getAnswerInfo(body.stayNum);
 

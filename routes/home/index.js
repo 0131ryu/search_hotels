@@ -13,6 +13,7 @@ router.get("/", homeCtrl.output.home);
 
 //질문지
 router.get("/quest", questCtrl.output.quest);
+router.post("/quest", questCtrl.process.searchStay);
 router.get("/questList", questCtrl.output.list);
 
 //테스트
