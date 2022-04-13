@@ -19,6 +19,16 @@ class UserStorage {
     console.log(newUsers);
     return newUsers; //newUsers없으면 반환한 값이 없어서 오류 발생
   }
+  static getUsersInfo(id) {
+    const users = this.#users;
+    const idx = users.id.indexOf(id);
+    //Object.key(users) => [id, pw, name]
+    const userInfo = Object.keys(users).reduce((newUser, info) => {
+      newUser[info] = users[info][idx];
+      return newUser;
+    }, {});
+    return userInfo;
+  }
 }
 
 module.exports = UserStorage;

@@ -128,4 +128,15 @@ a.editBtn {
     float: none;
     width: 100%
   }
+  .changeBox {
+    position: absolute;
+    width: 760px;
+    height: 350px;
+    z-index: 2;
+    border: 0px solid #f8f9fa;
+    cursor:pointer;
+  }
+  .changeBox:hover {
+    border: 30px solid #f8f9fa
+  }
 }
