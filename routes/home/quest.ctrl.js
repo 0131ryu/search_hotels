@@ -1,23 +1,6 @@
 "use strict";
 require("dotenv").config();
 
-// const quests = {
-//   // stayNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-//   // childYes: "네",
-//   // childNo: "아니오",
-//   // seniorYes: "네",
-//   // seniorNo: "아니오",
-//   // bedSingle: "싱글",
-//   // bedDouble: "더블",
-//   // bedTwin: "트윈",
-//   // stayCost: Array(200000)
-//   //   .fill()
-//   //   .map((v, i) => i + 1),
-//   // mostFac: "근처 편의시설여부",
-//   // mostView: "좋은 경치와 전망",
-//   // mostMulti: "다중이용시설 여부",
-// };
-
 const quests = {
   stayNum: Array(10)
     .fill()
@@ -54,11 +37,6 @@ const process = {
       bedType = [req.body.bedSingle, req.body.bedDouble, req.body.bedTwin],
       stayCost = parseInt(req.body.stayCost),
       mostType = [req.body.mostFac, req.body.mostView, req.body.mostMulti];
-
-    console.log(stayNum);
-    console.log(childYesNo);
-    console.log(childYesNo[0], childYesNo[1]);
-    console.log(typeof (childYesNo, childYesNo[0], childYesNo[1]));
 
     if (stayNum >= 0 && stayCost >= 0) {
       if (

@@ -35,6 +35,12 @@
         <p>글 번호 : <%= posts[i]._id %></p>
         <h4><a href="/detail/<%=posts[i]._id %>"><%= posts[i].title %></a></h4>
         <p><%= posts[i].type %></p>
+        <p>가격 : <%=posts[i].stayCost %></p>
+        <p>
+          특징들 : <%= posts[i].stayNum %>명 / 아이동반 : <%= posts[i].stayChild
+          %> / 어르신동반 : <%= posts[i].staySeinor %> / 침대 여부 : <%=
+          posts[i].stayBed %> / 기타 특징 : <%= posts[i].stayMost %>
+        </p>
         <p><%= posts[i].date %></p>
         <p><%= posts[i].detail %></p>
         <button class="delete" data-id="<%= posts[i]._id %>">삭제하기</button>

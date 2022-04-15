@@ -11,6 +11,30 @@ const staySchema = mongoose.Schema({
     type: String,
     maxlength: 20,
   },
+  stayNum: {
+    type: Number,
+    maxlength: 20,
+  },
+  stayChild: {
+    type: String,
+    maxlength: 20,
+  },
+  staySenior: {
+    type: String,
+    maxlength: 20,
+  },
+  stayBed: {
+    type: String,
+    maxlength: 20,
+  },
+  stayCost: {
+    type: Number,
+    maxlength: 20,
+  },
+  stayMost: {
+    type: String,
+    maxlength: 20,
+  },
   detail: {
     type: String,
     maxlength: 50,

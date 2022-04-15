@@ -31,8 +31,23 @@ const writeProcess = (req, res) => {
 
   stay.title = req.body.title;
   stay.type = req.body.type;
+  stay.stayNum = req.body.stayNum;
+  stay.stayChild = req.body.stayChild;
+  stay.staySenior = req.body.staySenior;
+  stay.stayBed = req.body.stayBed;
+  stay.stayCost = req.body.stayCost;
+  stay.stayMost = req.body.stayMost;
   stay.detail = req.body.detail;
   stay.date = req.body.date;
+
+  console.log(
+    stay.stayNum,
+    stay.stayChild,
+    stay.staySenior,
+    stay.stayBed,
+    stay.stayCost,
+    stay.stayMost
+  );
 
   stay.save((err) => {
     if (err) {
@@ -128,10 +143,18 @@ const searchPage = (req, res) => {
   const searchCondition = [
     {
       $search: {
-        index: "typeSearch",
+        index: "titleSearch",
         text: {
           query: req.query.value,
-          path: ["type", "title", "detail"],
+          path: [
+            "stayNum",
+            "stayBed",
+            "stayCost",
+            "stayMost",
+            "type",
+            "title",
+            "detail",
+          ],
         },
       },
     },

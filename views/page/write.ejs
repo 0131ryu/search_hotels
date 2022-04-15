@@ -54,11 +54,108 @@
           </div>
           <div class="form-group">
             <label>숙소 종류</label>
+            <input type="text" id="stayTypeList" value="호텔" name="type" />
+            <input type="button" onclick="stayType('호텔')" value="호텔" />
+            <input type="button" onclick="stayType('모텔')" value="모텔" />
+            <input type="button" onclick="stayType('펜션')" value="펜션" />
+            <input type="button" onclick="stayType('리조트')" value="리조트" />
+          </div>
+          <div class="form-group">
+            <label>머무는 사람 수 </label>
+            <input type="text" id="searchType_num" value="1" name="stayNum" />
+            <input type="button" onclick="searchType_stayNum(1)" value="1명" />
+            <input type="button" onclick="searchType_stayNum(2)" value="2명" />
+            <input type="button" onclick="searchType_stayNum(3)" value="3명" />
+            <input type="button" onclick="searchType_stayNum(4)" value="4명" />
+            <input
+              type="button"
+              onclick="searchType_stayNum(5)"
+              value="5명 이상"
+            />
+          </div>
+          <div class="form-group">
+            <label>아이 동반 여부</label>
             <input
               type="text"
-              class="form-control"
-              name="type"
-              placeholder="호텔/모텔/펜션/리조트 중 하나"
+              id="searchType_childYN"
+              value="네"
+              name="stayChild"
+            />
+            <input type="button" onclick="searchType_child('네')" value="네" />
+            <input
+              type="button"
+              onclick="searchType_child('아니오')"
+              value="아니오"
+            />
+            <label>어르신 동반 여부</label>
+            <input
+              type="text"
+              id="searchType_seniorYN"
+              value="네"
+              name="staySeinor"
+            />
+            <input type="button" onclick="searchType_senior('네')" value="네" />
+            <input
+              type="button"
+              onclick="searchType_senior('아니오')"
+              value="아니오"
+            />
+          </div>
+          <div class="form-group">
+            <label>숙소 종류</label>
+            <input
+              type="text"
+              id="searchType_beds"
+              value="싱글"
+              name="stayBed"
+            />
+            <input
+              type="button"
+              onclick="searchType_bed('싱글')"
+              value="싱글"
+            />
+            <input
+              type="button"
+              onclick="searchType_bed('더블')"
+              value="더블"
+            />
+            <input
+              type="button"
+              onclick="searchType_bed('트윈')"
+              value="트윈"
+            />
+          </div>
+          <div class="form-group">
+            <label>숙소 가격</label>
+            <input
+              type="text"
+              id="searchType_costs"
+              value="50000"
+              name="stayCost"
+            />
+          </div>
+          <div class="form-group">
+            <label>숙소 관련 우선 순위</label>
+            <input
+              type="text"
+              id="searchType_mosts"
+              value="근처 편의시설 여부"
+              name="stayMost"
+            />
+            <input
+              type="button"
+              onclick="searchType_most('근처 편의시설 여부')"
+              value="근처 편의시설 여부"
+            />
+            <input
+              type="button"
+              onclick="searchType_most('좋은 경치와 전망')"
+              value="좋은 경치와 전망"
+            />
+            <input
+              type="button"
+              onclick="searchType_most('다중이용시설 여부')"
+              value="다중이용시설 여부"
             />
           </div>
           <div class="form-group">
@@ -75,6 +172,13 @@
         </form>
       </div>
     </div>
+    <input
+      type="submit"
+      id="valueId"
+      VALUE="제출"
+      onClick="checkRow(this.form.valueId.value)"
+      )
+    />
     <%- include ("../layouts/footer") %>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -125,6 +229,30 @@
         showMonthAfterYear: true,
         yearSuffix: "년",
       });
+
+      function stayType(x) {
+        return (document.getElementById("stayTypeList").value = x);
+      }
+
+      function searchType_stayNum(x) {
+        return (document.getElementById("searchType_num").value = x);
+      }
+
+      function searchType_child(x) {
+        return (document.getElementById("searchType_childYN").value = x);
+      }
+
+      function searchType_senior(x) {
+        return (document.getElementById("searchType_seniorYN").value = x);
+      }
+
+      function searchType_bed(x) {
+        return (document.getElementById("searchType_beds").value = x);
+      }
+
+      function searchType_most(x) {
+        return (document.getElementById("searchType_mosts").value = x);
+      }
     </script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--

@@ -17,10 +17,7 @@
   </head>
   <body>
     <%- include ('../layouts/header') %>
-    <h2>
-      검색 결과 : <% for (var i = 0; i< posts.length - posts.length + 1; i++) {
-      %> <%= posts[i].type%> <% } %>
-    </h2>
+    <h2>검색 결과</h2>
 
     <div class="container input-group mb-2 search-input-form">
       <input class="form-control" id="search-input" />
@@ -40,6 +37,11 @@
         <p><%= posts[i]._id %></p>
         <p><%= posts[i].date %></p>
         <p><%= posts[i].detail %></p>
+        <p>
+          특징들 : <%= posts[i].stayNum %>명 / 아이동반 : <%= posts[i].stayChild
+          %> / 어르신동반 : <%= posts[i].staySeinor %> / 침대 여부 : <%=
+          posts[i].stayBed %> / 기타 특징 : <%= posts[i].stayMost %>
+        </p>
         <button class="delete" data-id="<%= posts[i]._id %>">삭제하기</button>
         <button>
           <a href="/edit/<%=posts[i]._id %>" class="editBtn">수정하기</a>
