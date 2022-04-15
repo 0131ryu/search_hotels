@@ -1,21 +1,34 @@
 "use strict";
 require("dotenv").config();
 
+// const quests = {
+//   // stayNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+//   // childYes: "네",
+//   // childNo: "아니오",
+//   // seniorYes: "네",
+//   // seniorNo: "아니오",
+//   // bedSingle: "싱글",
+//   // bedDouble: "더블",
+//   // bedTwin: "트윈",
+//   // stayCost: Array(200000)
+//   //   .fill()
+//   //   .map((v, i) => i + 1),
+//   // mostFac: "근처 편의시설여부",
+//   // mostView: "좋은 경치와 전망",
+//   // mostMulti: "다중이용시설 여부",
+// };
+
 const quests = {
-  stayNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  childYes: "네",
-  childNo: "아니오",
-  seniorYes: "네",
-  seniorNo: "아니오",
-  bedSingle: "싱글",
-  bedDouble: "더블",
-  bedTwin: "트윈",
+  stayNum: Array(10)
+    .fill()
+    .map((v, i) => i + 1),
+  childYesNo: ["네", "아니오"],
+  seniorYesNo: ["네", "아니오"],
+  bedType: ["싱글", "더블", "트윈"],
   stayCost: Array(200000)
     .fill()
     .map((v, i) => i + 1),
-  mostFac: "근처 편의시설여부",
-  mostView: "좋은 경치와 전망",
-  mostMulti: "다중이용시설 여부",
+  mostType: ["근처 편의시설여부", "좋은 경치와 전망", "다중이용시설 여부"],
 };
 
 const output = {
@@ -35,62 +48,40 @@ const output = {
 
 const process = {
   searchStay: (req, res) => {
-    const stayNum = req.body.stayNum,
-      childYes = req.body.childYes,
-      childNo = req.body.childNo,
-      seniorYes = req.body.seniorYes,
-      seniorNo = req.body.seniorNo,
-      bedSingle = req.body.bedSingle,
-      bedDouble = req.body.bedDouble,
-      bedTwin = req.body.bedTwin,
-      stayCost = req.body.stayCost,
-      mostFac = req.body.mostFac,
-      mostView = req.body.mostView,
-      mostMulti = req.body.mostMulti;
+    const stayNum = parseInt(req.body.stayNum),
+      childYesNo = [req.body.childYes, req.body.childNo],
+      seniorYesNo = [req.body.seniorYes, req.body.seniorNo],
+      bedType = [req.body.bedSingle, req.body.bedDouble, req.body.bedTwin],
+      stayCost = parseInt(req.body.stayCost),
+      mostType = [req.body.mostFac, req.body.mostView, req.body.mostMulti];
 
-    // console.log(stayCost);
-    if (parseInt(stayNum) > 0 && parseInt(stayCost) >= 0) {
+    console.log(stayNum);
+    console.log(childYesNo);
+    console.log(childYesNo[0], childYesNo[1]);
+    console.log(typeof (childYesNo, childYesNo[0], childYesNo[1]));
+
+    if (stayNum >= 0 && stayCost >= 0) {
       if (
-        quests.stayNum[0] === parseInt(stayNum) ||
-        quests.stayNum[1] === parseInt(stayNum) ||
-        quests.stayNum[2] === parseInt(stayNum) ||
-        quests.stayNum[3] === parseInt(stayNum) ||
-        quests.stayNum[5] === parseInt(stayNum)
-      ) {
-        if (quests.childYes === childYes || quests.childNo === childNo) {
-          return res.json({
-            success: true,
-          });
-        }
-        if (quests.seniorYes === seniorYes || quests.seniorNo === seniorNo) {
-          return res.json({
-            success: true,
-          });
-        }
-        if (quests.stayCost >= 50000 && quests.stayCost <= 200000) {
-          return res.json({
-            success: true,
-          });
-        }
+        quests.childYesNo[0] === childYesNo[0] ||
+        quests.childYesNo[1] === childYesNo[1]
+      )
         if (
-          quests.bedSingle === bedSingle ||
-          quests.bedDouble === bedDouble ||
-          quest.bedTwin === questBtn.bedTwin
-        ) {
-          return res.json({
-            success: true,
-          });
-        }
-        if (
-          quests.mostFac[stayNumIdx] === mostFac ||
-          quests.mostView[stayNumIdx] === mostView ||
-          quests.mostMulti[stayNumIdx] === mostMulti
-        ) {
-          return res.json({
-            success: true,
-          });
-        }
-      }
+          quests.seniorYesNo[0] === seniorYesNo[0] ||
+          quests.seniorYesNo[1] === seniorYesNo[1]
+        )
+          if (
+            quests.bedType[0] === bedType[0] ||
+            quests.bedType[1] === bedType[1] ||
+            quests.bedType[2] === bedType[2]
+          )
+            if (
+              quests.mostType[0] === mostType[0] ||
+              quests.mostType[1] === mostType[1] ||
+              quests.mostType[2] === mostType[2]
+            )
+              return res.json({
+                success: true,
+              });
     }
     return res.json({
       success: false,
