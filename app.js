@@ -4,6 +4,10 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 require("dotenv").config();
 const mongoose = require("mongoose");
+//로그인에 필요함
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
 
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
   if (err) {
@@ -43,11 +47,7 @@ app.use(methodOverride("_method"));
 //경로 설정
 app.use(express.static(`${__dirname}/src/public/`));
 
-//로그인에 필요함
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
-
+//로그인 설정
 app.use(
   session({ secret: "비밀코드", resave: true, saveUninitialized: false })
 );
@@ -68,16 +68,16 @@ app.use("/edit/:id", home);
 app.use("/edit", home);
 
 //passport: 로그인 기능 쉽게 구현 도와줌
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    failureRedirect: "/fail", //인증 실패 시 /fail로 이동
-  }),
-  function (req, res) {
-    //성공 시
-    res.redirect("/");
-  }
-);
+// app.post(
+//   "/login",
+//   passport.authenticate("local", {
+//     failureRedirect: "/fail", //인증 실패 시 /fail로 이동
+//   }),
+//   function (req, res) {
+//     //성공 시
+//     res.redirect("/");
+//   }
+// );
 
 //로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
 app.get("/mypage", DidLogin, function (req, res) {
@@ -142,14 +142,14 @@ app.get("/registForm", function (req, res) {
 });
 
 //회원가입하기
-app.post("/register", function (req, res) {
-  db.collection("login").insertOne(
-    { id: req.body.id, pw: req.body.pw },
-    function (err, result) {
-      res.redirect("/login");
-    }
-  );
-});
+// app.post("/register", function (req, res) {
+//   db.collection("login").insertOne(
+//     { id: req.body.id, pw: req.body.pw },
+//     function (err, result) {
+//       res.redirect("/login");
+//     }
+//   );
+// });
 
 //mypage 사용
 function DidLogin(req, res, next) {

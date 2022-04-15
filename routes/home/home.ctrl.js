@@ -1,16 +1,7 @@
 "use strict";
 const UserStorage = require("../../models/UserStorage");
 const User = require("../../models/User");
-const Answer = require("../../models/Answer");
-
-const answers = {
-  stayNum: [1, 2, 3, 4, 5],
-  childYes: "네",
-  childNo: "아니오",
-  mostFac: "근처 편의시설여부",
-  mostView: "좋은 경치와 전망",
-  mostMulti: "다중이용시설 여부",
-};
+const passport = require("passport");
 
 const content = [
   { a: "Hotel", b: "어떤 호텔을 찾으시나요?", c: "호텔" },
@@ -26,6 +17,9 @@ const output = {
   login: (req, res) => {
     res.render("home/login.ejs");
   },
+  register: (req, res) => {
+    res.render("home/register.ejs");
+  },
 };
 
 const process = {
@@ -34,65 +28,19 @@ const process = {
     const response = user.login();
     return res.json(response);
   },
-};
 
-const test = {
-  home: (req, res) => {
-    res.render("home/test.ejs", { data: content });
-  },
-  mode: (req, res) => {
-    // const answer = new Answer(req.body);
-    // const response = answer.mode();
-    // return res.json(response);
-    const stayNum = req.body.stayNum,
-      childYes = req.body.childYes,
-      childNo = req.body.childNo,
-      mostFac = req.body.mostFac,
-      mostView = req.body.mostView,
-      mostMulti = req.body.mostMulti;
-
-    //console.log(stayNum, childYes, childNo, mostFac, mostView, mostMulti);
-
-    //(answers.stayNum.includes(stayNum)
-    // const stayNumIdx = answers.stayNum.indexOf(stayNum);
-    console.log(answers.stayNum[0]);
-    console.log(stayNum);
-
-    if (parseInt(stayNum) > 0) {
-      if (
-        answers.stayNum[0] === parseInt(stayNum) ||
-        answers.stayNum[1] === parseInt(stayNum) ||
-        answers.stayNum[2] === parseInt(stayNum) ||
-        answers.stayNum[3] === parseInt(stayNum) ||
-        answers.stayNum[5] === parseInt(stayNum)
-      ) {
-        if (
-          answers.childYes === childYes ||
-          answers.childNo[stayNumIdx] === childNo
-        ) {
-          return res.json({
-            success: true,
-          });
-        }
-        if (
-          answers.mostFac[stayNumIdx] === mostFac ||
-          answers.mostView[stayNumIdx] === mostView ||
-          answers.mostMulti[stayNumIdx] === mostMulti
-        ) {
-          return res.json({
-            success: true,
-          });
-        }
-      }
-    }
-    return res.json({
-      success: false,
-      msg: "입력해주신 값에 문제가 있습니다.",
-    });
+  passportLogin: (req, res) => {
+    passport.authenticate("local", {
+      failureRedirect: "/fail", //인증 실패 시 /fail로 이동
+    }),
+      function (req, res) {
+        //성공 시
+        res.redirect("/");
+      };
   },
 };
+
 module.exports = {
   output,
   process,
-  test,
 };

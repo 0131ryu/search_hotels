@@ -16,13 +16,11 @@ router.get("/quest", questCtrl.output.quest);
 router.post("/quest", questCtrl.process.searchStay);
 router.get("/questList", questCtrl.output.list);
 
-//테스트
-router.get("/test", homeCtrl.test.home);
-router.post("/test", homeCtrl.test.mode);
-
 //로그인
 router.get("/login", homeCtrl.output.login);
 router.post("/login", homeCtrl.process.login);
+router.get("/register", homeCtrl.output.register);
+router.post("/login", homeCtrl.process.passportLogin);
 
 //글 목록
 router.get("/list", pageCtrl.list);
