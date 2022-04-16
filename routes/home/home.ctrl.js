@@ -29,6 +29,12 @@ const process = {
     return res.json(response);
   },
 
+  register: (req, res) => {
+    const user = new User(req.body);
+    const response = user.register();
+    return res.json(response);
+  },
+
   passportLogin: (req, res) => {
     passport.authenticate("local", {
       failureRedirect: "/fail", //인증 실패 시 /fail로 이동
