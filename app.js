@@ -3,18 +3,25 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 require("dotenv").config();
-const mongoose = require("mongoose");
 //로그인에 필요함
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
+//upload 부분
+const upload = require("./routes/home/upload");
+const Grid = require("gridfs-stream");
+const mongoose = require("mongoose");
+//DB연결
+const connection = require("./src/databases/db");
 
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("connected to database successfully");
-  }
+let gfs;
+
+connection();
+
+const conn = mongoose.connection;
+conn.once("open", function () {
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("photos");
 });
 
 var db;
@@ -67,6 +74,28 @@ app.use("/detail/:id", home);
 app.use("/edit/:id", home);
 app.use("/edit", home);
 
+//upload 부분
+app.use("/file", upload);
+
+app.get("/file/:filename", async (req, res) => {
+  try {
+    const file = await gfs.files.findOne({ filename: req.params.filename });
+    const readStream = gfs.createReadStream(file.filename);
+    readStream.pipe(res);
+  } catch (error) {
+    res.send("not found");
+  }
+});
+
+app.delete("/file/:filename", async (req, res) => {
+  try {
+    await gfs.files.deleteOne({ filename: req.params.filename });
+    res.send("success");
+  } catch (error) {
+    console.log(error);
+    res.send("An error occured");
+  }
+});
 //passport: 로그인 기능 쉽게 구현 도와줌
 // app.post(
 //   "/login",
@@ -140,16 +169,6 @@ passport.deserializeUser(function (아이디, done) {
 app.get("/registForm", function (req, res) {
   res.render("home/registForm.ejs");
 });
-
-//회원가입하기
-// app.post("/register", function (req, res) {
-//   db.collection("login").insertOne(
-//     { id: req.body.id, pw: req.body.pw },
-//     function (err, result) {
-//       res.redirect("/login");
-//     }
-//   );
-// });
 
 //mypage 사용
 function DidLogin(req, res, next) {

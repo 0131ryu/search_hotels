@@ -1,15 +1,9 @@
 "use strict";
 require("dotenv").config();
-const mongoose = require("mongoose");
+const connection = require("../../src/databases/db");
 const Stay = require("../../config/stay");
 
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("connected to database successfully");
-  }
-});
+connection();
 
 const list = (req, res) => {
   Stay.find()
