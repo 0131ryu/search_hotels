@@ -9,20 +9,20 @@ const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 //upload 부분
 const upload = require("./routes/home/upload");
-const Grid = require("gridfs-stream");
+// const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
 //DB연결
 const connection = require("./src/databases/db");
 
-let gfs;
+// let gfs;
 
 connection();
 
-const conn = mongoose.connection;
-conn.once("open", function () {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("photos");
-});
+// const conn = mongoose.connection;
+// conn.once("open", function () {
+//   gfs = Grid(conn.db, mongoose.mongo);
+//   gfs.collection("photos");
+// });
 
 var db;
 
@@ -77,25 +77,26 @@ app.use("/edit", home);
 //upload 부분
 app.use("/file", upload);
 
-app.get("/file/:filename", async (req, res) => {
-  try {
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-    const readStream = gfs.createReadStream(file.filename);
-    readStream.pipe(res);
-  } catch (error) {
-    res.send("not found");
-  }
-});
+// app.get("/file/:filename", async (req, res) => {
+//   try {
+//     const file = await gfs.files.findOne({ filename: req.params.filename });
+//     const readStream = gfs.createReadStream(file.filename);
+//     readStream.pipe(res);
+//   } catch (error) {
+//     res.send("not found");
+//   }
+// });
 
-app.delete("/file/:filename", async (req, res) => {
-  try {
-    await gfs.files.deleteOne({ filename: req.params.filename });
-    res.send("success");
-  } catch (error) {
-    console.log(error);
-    res.send("An error occured");
-  }
-});
+// app.delete("/file/:filename", async (req, res) => {
+//   try {
+//     await gfs.files.deleteOne({ filename: req.params.filename });
+//     res.send("success");
+//   } catch (error) {
+//     console.log(error);
+//     res.send("An error occured");
+//   }
+// });
+
 //passport: 로그인 기능 쉽게 구현 도와줌
 // app.post(
 //   "/login",

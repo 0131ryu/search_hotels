@@ -3,7 +3,18 @@ require("dotenv").config();
 const connection = require("../../src/databases/db");
 const Stay = require("../../config/stay");
 
+const Grid = require("gridfs-stream");
+const mongoose = require("mongoose");
+
+let gfs;
+
 connection();
+
+const conn = mongoose.connection;
+conn.once("open", function () {
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("photos");
+});
 
 const list = (req, res) => {
   Stay.find()
@@ -56,11 +67,6 @@ const deletePage = (req, res) => {
   Stay.remove({ _id: parseInt(req.body._id) })
     .then((result) => res.json(result))
     .catch((err) => res.json(err));
-  // req.body._id = parseInt(req.body._id);
-  // db.collection("post").deleteOne(req.body, function (err, result) {
-  //   console.log("삭제 완료");
-  // });
-  // res.send("최종 삭제 완료");
 };
 
 const detailPage = (req, res) => {
@@ -70,17 +76,6 @@ const detailPage = (req, res) => {
     }
     res.render("page/detail.ejs", { posts: result });
   });
-
-  // db.collection("post").findOne(
-  //   { _id: parseInt(req.params.id) },
-  //   function (err, result) {
-  //     if (err) {
-  //       return res.status(200).send({ message: "성공입니다." });
-  //     }
-  //     //console.log(result);
-  //     res.render("page/detail.ejs", { posts: result });
-  //   }
-  // );
 };
 
 const findEditPage = (req, res) => {
@@ -88,14 +83,6 @@ const findEditPage = (req, res) => {
     console.log(result);
     res.render("page/edit.ejs", { posts: result });
   });
-
-  // db.collection("post").findOne(
-  //   { _id: parseInt(req.params.id) },
-  //   function (err, result) {
-  //     console.log(result);
-  //     res.render("page/edit.ejs", { post: result });
-  //   }
-  // );
 };
 
 const editPage = (req, res) => {
@@ -113,24 +100,31 @@ const editPage = (req, res) => {
       res.redirect("/list");
     }
   );
-  // db.collection("post").updateOne(
-  //   { _id: parseInt(req.body.id) },
-  //   {
-  //     $set: {
-  //       title: req.body.title,
-  //       date: req.body.date,
-  //       detail: req.body.detail,
-  //     },
-  //   },
-  //   function (err, result) {
-  //     console.log("수정 완료");
-  //     res.redirect("/list");
-  //   }
-  // );
 };
 
 const uploadPage = (req, res) => {
   res.render("upload.ejs");
+};
+
+//imageUpload
+const imgUpload = async (req, res) => {
+  try {
+    const file = await gfs.files.findOne({ filename: req.params.filename });
+    const readStream = gfs.createReadStream(file.filename);
+    readStream.pipe(res);
+  } catch (error) {
+    res.send("not found");
+  }
+};
+
+const imgDelete = async (req, res) => {
+  try {
+    await gfs.files.deleteOne({ filename: req.params.filename });
+    res.send("success");
+  } catch (error) {
+    console.log(error);
+    res.send("An error occured");
+  }
 };
 
 const searchPage = (req, res) => {
@@ -158,15 +152,6 @@ const searchPage = (req, res) => {
     console.log(result);
     res.render("page/search.ejs", { posts: result });
   });
-
-  // console.log(req.query.value);
-
-  // db.collection("post")
-  //   .aggregate(searchReq)
-  //   .toArray((err, result) => {
-  //     console.log(result);
-  //     res.render("page/search.ejs", { posts: result });
-  //   });
 };
 
 module.exports = {
@@ -178,5 +163,7 @@ module.exports = {
   findEditPage,
   editPage,
   uploadPage,
+  imgUpload,
+  imgDelete,
   searchPage,
 };

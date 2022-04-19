@@ -44,6 +44,10 @@ router.get("/edit/:id", pageCtrl.findEditPage);
 router.put("/edit", pageCtrl.editPage);
 
 //이미지 저장
+router.get("/file/:filename", pageCtrl.imgUpload);
+router.delete("/file/:filename", pageCtrl.imgDelete);
+
+//이미지 저장
 // router.get("/upload", pageCtrl.uploadPage);
 
 // var storage = multer.diskStorage({
