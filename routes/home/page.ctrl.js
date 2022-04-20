@@ -2,19 +2,19 @@
 require("dotenv").config();
 const connection = require("../../src/databases/db");
 const Stay = require("../../config/stay");
+// const photos = require("../../config/photos");
+// const Grid = require("gridfs-stream");
+// const mongoose = require("mongoose");
 
-const Grid = require("gridfs-stream");
-const mongoose = require("mongoose");
-
-let gfs;
+// let gfs;
 
 connection();
 
-const conn = mongoose.connection;
-conn.once("open", function () {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("photos");
-});
+// const conn = mongoose.connection;
+// conn.once("open", function () {
+//   gfs = Grid(conn.db, mongoose.mongo);
+//   gfs.collection("photos");
+// });
 
 const list = (req, res) => {
   Stay.find()
@@ -106,26 +106,28 @@ const uploadPage = (req, res) => {
   res.render("upload.ejs");
 };
 
-//imageUpload
-const imgUpload = async (req, res) => {
-  try {
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-    const readStream = gfs.createReadStream(file.filename);
-    readStream.pipe(res);
-  } catch (error) {
-    res.send("not found");
-  }
-};
+// //imageUpload
+// const imgUpload = async (req, res) => {
+//   try {
+//     const file = await photos.gfs.files.findOne({
+//       filename: req.params.filename,
+//     });
+//     const readStream = photos.gfs.createReadStream(file.filename);
+//     readStream.pipe(res);
+//   } catch (error) {
+//     res.send("not found");
+//   }
+// };
 
-const imgDelete = async (req, res) => {
-  try {
-    await gfs.files.deleteOne({ filename: req.params.filename });
-    res.send("success");
-  } catch (error) {
-    console.log(error);
-    res.send("An error occured");
-  }
-};
+// const imgDelete = async (req, res) => {
+//   try {
+//     await photos.gfs.files.deleteOne({ filename: req.params.filename });
+//     res.send("success");
+//   } catch (error) {
+//     console.log(error);
+//     res.send("An error occured");
+//   }
+// };
 
 const searchPage = (req, res) => {
   const searchCondition = [
@@ -163,7 +165,5 @@ module.exports = {
   findEditPage,
   editPage,
   uploadPage,
-  imgUpload,
-  imgDelete,
   searchPage,
 };

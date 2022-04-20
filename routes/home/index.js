@@ -6,8 +6,6 @@ const homeCtrl = require("./home.ctrl");
 const pageCtrl = require("./page.ctrl");
 const questCtrl = require("./quest.ctrl");
 
-const multer = require("multer");
-
 //메인
 router.get("/", homeCtrl.output.home);
 
@@ -42,10 +40,6 @@ router.get("/detail/:id", pageCtrl.detailPage);
 //수정 페이지
 router.get("/edit/:id", pageCtrl.findEditPage);
 router.put("/edit", pageCtrl.editPage);
-
-//이미지 저장
-router.get("/file/:filename", pageCtrl.imgUpload);
-router.delete("/file/:filename", pageCtrl.imgDelete);
 
 //이미지 저장
 // router.get("/upload", pageCtrl.uploadPage);

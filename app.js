@@ -7,8 +7,8 @@ require("dotenv").config();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
-//upload 부분
-const upload = require("./routes/home/upload");
+// //upload 부분
+// const upload = require("./routes/home/upload");
 // const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
 //DB연결
@@ -42,6 +42,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //라우팅
 const home = require("./routes/home");
+const fileUpload = require("./routes/fileUpload");
 
 //views
 app.set("veiw engine", "ejs");
@@ -75,7 +76,7 @@ app.use("/edit/:id", home);
 app.use("/edit", home);
 
 //upload 부분
-app.use("/file", upload);
+app.use("/file", fileUpload);
 
 // app.get("/file/:filename", async (req, res) => {
 //   try {
