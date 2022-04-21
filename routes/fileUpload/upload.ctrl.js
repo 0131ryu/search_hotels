@@ -3,7 +3,6 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const connection = require("../../src/databases/db");
 const Grid = require("gridfs-stream");
-const fs = reqiore("fs");
 
 let gfs;
 connection();
@@ -15,15 +14,41 @@ conn.once("open", () => {
 });
 
 //imageUpload
-const imgUpload = async (req, res) => {
-  try {
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-    const readStream = gfs.createReadStream(file.filename);
-    readStream.pipe(res);
-  } catch (error) {
-    res.send("not found");
-    console.log(error);
-  }
+const imgUpload = (req, res) => {
+  // try {
+  //   const file = await gfs.files.findOne({ filename: req.params.filename });
+  //   const readStream = gfs.createReadStream(file.filename);
+  //   readStream.pipe(res);
+  // } catch (error) {
+  //   res.send("not found");
+  //   console.log(error);
+  // }
+  gfs.files.findOne({ filename: req.params.filename }, (err, files) => {
+    if (!files || files.length == 0) {
+      return res.status(404).json({
+        err: "No files exist",
+      });
+    }
+    return res.json(files);
+  });
+};
+
+const imgShow = (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    if (!file || file.length == 0) {
+      return res.status(404).json({
+        err: "No files exist",
+      });
+    }
+    if (file.contentType === "image/jpeg" || file.contentType === "img/png") {
+      const readStream = gfs.createReadStream(file.filename);
+      readStream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: "Not an image",
+      });
+    }
+  });
 };
 
 const imgUploadPost = (req, res) => {
@@ -42,4 +67,4 @@ const imgDelete = async (req, res) => {
   }
 };
 
-module.exports = { imgUpload, imgUploadPost, imgDelete };
+module.exports = { imgUpload, imgShow, imgUploadPost, imgDelete };

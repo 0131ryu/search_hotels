@@ -6,7 +6,7 @@ const upload = require("../../src/public/js/home/upload");
 const uploadCtrl = require("./upload.ctrl");
 
 router.get("/file/:filename", uploadCtrl.imgUpload);
-
+router.get("/image/:filename", uploadCtrl.imgShow);
 router.post("/upload", upload.single("file"), uploadCtrl.imgUploadPost);
 
 router.delete("/file/:filename", uploadCtrl.imgDelete);

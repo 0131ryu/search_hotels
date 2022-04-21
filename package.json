@@ -22,6 +22,7 @@
     "express": "^4.17.3",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.2",
+    "gridfs-bucket": "^0.7.4",
     "gridfs-stream": "^1.1.1",
     "helmet": "^5.0.2",
     "http": "^0.0.1-security",
