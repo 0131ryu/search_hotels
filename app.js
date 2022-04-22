@@ -80,6 +80,7 @@ app.use("/file", fileUpload);
 app.get("/file/:filename", fileUpload);
 app.get("/image/:filename", fileUpload);
 app.delete("/file/:filename", fileUpload);
+app.get("/files", fileUpload);
 
 // app.get("/file/:filename", async (req, res) => {
 //   try {

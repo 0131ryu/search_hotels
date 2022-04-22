@@ -9,6 +9,9 @@ connection();
 
 const conn = mongoose.connection;
 conn.once("open", () => {
+  // gridfsBucket = new mongoose.mongo.GridFSBucket(conection.db, {
+  //   bucketName: "uploads",
+  // });
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection("photos");
 });
@@ -42,6 +45,7 @@ const imgShow = (req, res) => {
     }
     if (file.contentType === "image/jpeg" || file.contentType === "img/png") {
       const readStream = gfs.createReadStream(file.filename);
+      // const readStream = gridfsBucket.openDownloadStream(file.filename);
       readStream.pipe(res);
     } else {
       res.status(404).json({
@@ -52,9 +56,10 @@ const imgShow = (req, res) => {
 };
 
 const imgUploadPost = (req, res) => {
-  if (req.file === undefined) return res.send("you must select a file.");
-  const imgUrl = `http://localhost:3000/file/${req.file.filename}`;
-  return res.send(imgUrl);
+  // if (req.file === undefined) return res.send("you must select a file.");
+  // const imgUrl = `http://localhost:3000/file/${req.file.filename}`;
+  // return res.send(imgUrl);
+  res.json({ file: req.file });
 };
 
 const imgDelete = async (req, res) => {
@@ -67,4 +72,15 @@ const imgDelete = async (req, res) => {
   }
 };
 
-module.exports = { imgUpload, imgShow, imgUploadPost, imgDelete };
+const filesGet = (req, res) => {
+  gfs.files.find().toArray((error, files) => {
+    if (!files || files.length == 0) {
+      return res.status(404).json({
+        err: "No files exist",
+      });
+    }
+    return res.json(files);
+  });
+};
+
+module.exports = { imgUpload, imgShow, imgUploadPost, imgDelete, filesGet };
