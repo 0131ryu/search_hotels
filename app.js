@@ -7,22 +7,11 @@ require("dotenv").config();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
-// //upload 부분
-// const upload = require("./routes/home/upload");
-// const Grid = require("gridfs-stream");
-const mongoose = require("mongoose");
+
 //DB연결
 const connection = require("./src/databases/db");
 
-// let gfs;
-
 connection();
-
-// const conn = mongoose.connection;
-// conn.once("open", function () {
-//   gfs = Grid(conn.db, mongoose.mongo);
-//   gfs.collection("photos");
-// });
 
 var db;
 
@@ -41,10 +30,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //라우팅
-const home = require("./routes/home");
-const fileUpload = require("./routes/fileUpload");
+const homeRouter = require("./routes/home");
+const fileUploadRouter = require("./routes/fileUpload");
+const blogRouter = require("./routes/blogs");
 
-//views
+//set template engine
 app.set("veiw engine", "ejs");
 app.set("views", "./views");
 
@@ -64,55 +54,26 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //router로 받아온 경로, 앱 세팅
-app.use("/", home);
-app.use("/login", home);
+app.use("/", homeRouter);
+app.use("/login", homeRouter);
 
-app.use("/list", home);
-app.use("/write", home);
-app.use("/write_process", home);
-app.use("/delete", home);
-app.use("/detail/:id", home);
-app.use("/edit/:id", home);
-app.use("/edit", home);
+app.use("/list", homeRouter);
+app.use("/write", homeRouter);
+app.use("/write_process", homeRouter);
+app.use("/delete", homeRouter);
+app.use("/detail/:id", homeRouter);
+app.use("/edit/:id", homeRouter);
+app.use("/edit", homeRouter);
 
 //upload 부분
-app.use("/file", fileUpload);
-app.get("/file/:filename", fileUpload);
-app.get("/image/:filename", fileUpload);
-app.delete("/file/:filename", fileUpload);
-app.get("/files", fileUpload);
+app.use("/file", fileUploadRouter);
+app.get("/file/:filename", fileUploadRouter);
+app.get("/image/:filename", fileUploadRouter);
+app.delete("/file/:filename", fileUploadRouter);
+app.get("/files", fileUploadRouter);
 
-// app.get("/file/:filename", async (req, res) => {
-//   try {
-//     const file = await gfs.files.findOne({ filename: req.params.filename });
-//     const readStream = gfs.createReadStream(file.filename);
-//     readStream.pipe(res);
-//   } catch (error) {
-//     res.send("not found");
-//   }
-// });
-
-// app.delete("/file/:filename", async (req, res) => {
-//   try {
-//     await gfs.files.deleteOne({ filename: req.params.filename });
-//     res.send("success");
-//   } catch (error) {
-//     console.log(error);
-//     res.send("An error occured");
-//   }
-// });
-
-//passport: 로그인 기능 쉽게 구현 도와줌
-// app.post(
-//   "/login",
-//   passport.authenticate("local", {
-//     failureRedirect: "/fail", //인증 실패 시 /fail로 이동
-//   }),
-//   function (req, res) {
-//     //성공 시
-//     res.redirect("/");
-//   }
-// );
+//blog
+app.use("/", blogRouter);
 
 //로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
 app.get("/mypage", DidLogin, function (req, res) {
