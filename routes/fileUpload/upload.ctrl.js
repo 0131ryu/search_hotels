@@ -18,14 +18,6 @@ conn.once("open", () => {
 
 //imageUpload
 const imgUpload = (req, res) => {
-  // try {
-  //   const file = await gfs.files.findOne({ filename: req.params.filename });
-  //   const readStream = gfs.createReadStream(file.filename);
-  //   readStream.pipe(res);
-  // } catch (error) {
-  //   res.send("not found");
-  //   console.log(error);
-  // }
   gfs.files.findOne({ filename: req.params.filename }, (err, files) => {
     if (!files || files.length == 0) {
       return res.status(404).json({
@@ -56,9 +48,6 @@ const imgShow = (req, res) => {
 };
 
 const imgUploadPost = (req, res) => {
-  // if (req.file === undefined) return res.send("you must select a file.");
-  // const imgUrl = `http://localhost:3000/file/${req.file.filename}`;
-  // return res.send(imgUrl);
   res.json({ file: req.file });
 };
 
