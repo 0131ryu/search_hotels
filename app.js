@@ -16,14 +16,11 @@ connection();
 var db;
 
 const MongoClient = require("mongodb").MongoClient;
-MongoClient.connect(
-  "mongodb://admin:abc1234@cluster0-shard-00-00.ezoih.mongodb.net:27017,cluster0-shard-00-01.ezoih.mongodb.net:27017,cluster0-shard-00-02.ezoih.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-xs9rt3-shard-0&authSource=admin&retryWrites=true&w=majority",
-  function (err, client) {
-    if (err) return console.log(err);
+MongoClient.connect(process.env.MONGODB_URL, function (err, client) {
+  if (err) return console.log(err);
 
-    db = client.db("Hotels");
-  }
-);
+  db = client.db("Hotels");
+});
 
 //body-parser
 app.use(bodyParser.json());
