@@ -41,7 +41,7 @@ const blogsNew = (req, res) => {
 };
 
 //route that handles new post
-const NewblogPost = (req, res) => {
+const NewblogPost = async (req, res) => {
   // console.log(req.body)
   let blog = new Blog({
     title: req.body.title,
@@ -52,11 +52,16 @@ const NewblogPost = (req, res) => {
   console.log(blog);
 
   try {
-    blog = blog.save();
+    blog = await blog.save();
     console.log(blog.id);
+    res.redirect(`${blog.id}`);
   } catch (error) {
     console.log(error);
   }
+};
+
+const blogPostId = (req, res) => {
+  res.send(req.params.id);
 };
 
 // const slugFind = async (req, res) => {
@@ -103,4 +108,4 @@ const storage = multer.diskStorage({
 // };
 
 // module.exports = { blogsList, blogsNew, slugFind, uploadImage };
-module.exports = { blogsList, blogsNew, NewblogPost };
+module.exports = { blogsList, blogsNew, NewblogPost, blogPostId };

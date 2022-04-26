@@ -8,7 +8,8 @@ const blogCtrl = require("./blog.ctrl");
 router.get("/blogs", blogCtrl.blogsList);
 
 router.get("/blogs/new", blogCtrl.blogsNew);
-router.post("/blogs/write", blogCtrl.NewblogPost);
+router.post("/blogs/new/write", blogCtrl.NewblogPost);
+router.get("/blogs/new/:id", blogCtrl.blogPostId);
 // router.get("/:slug", blogCtrl.slugFind);
 // router.post("/blogs", upload.single("image"), blogCtrl.uploadImage);
 
