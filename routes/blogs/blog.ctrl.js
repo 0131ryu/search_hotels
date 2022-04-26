@@ -53,20 +53,23 @@ const NewblogPost = async (req, res) => {
 
   try {
     blog = await blog.save();
-    console.log(blog.id);
-    res.redirect(`${blog.id}`);
+    //console.log(blog.id);
+    console.log(blog.slug);
+    res.redirect(`${blog.slug}`);
   } catch (error) {
     console.log(error);
   }
 };
 
-const blogPostId = async (req, res) => {
+const findforSlug = async (req, res) => {
   //res.send(req.params.id);
-  let blog = await Blog.findById(req.params.id);
+  // let blog = await Blog.findById(req.params.id);
+  let blog = await Blog.findOne({ slug: req.params.slug });
 
   if (blog) {
     res.render("blogs/show.ejs", { blog: blog });
   } else {
+    console.log(error);
     res.redirect("blogs/blog.ejs");
   }
 };
@@ -115,4 +118,4 @@ const storage = multer.diskStorage({
 // };
 
 // module.exports = { blogsList, blogsNew, slugFind, uploadImage };
-module.exports = { blogsList, blogsNew, NewblogPost, blogPostId };
+module.exports = { blogsList, blogsNew, NewblogPost, findforSlug };
