@@ -1,17 +1,19 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
 require("dotenv").config();
 //로그인에 필요함
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 
-//DB연결
-const connection = require("./src/databases/db");
-
-connection();
+//bring in mongoose
+const mongoose = require("mongoose");
+//connect to mongoose
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 var db;
 
@@ -34,6 +36,7 @@ const blogRouter = require("./routes/blogs");
 //set template engine
 app.set("veiw engine", "ejs");
 app.set("views", "./views");
+app.use(express.urlencoded({ extended: false }));
 
 //method-override
 const methodOverride = require("method-override");
@@ -52,25 +55,14 @@ app.use(passport.session());
 
 //router로 받아온 경로, 앱 세팅
 app.use("/", homeRouter);
-app.use("/login", homeRouter);
-
-app.use("/list", homeRouter);
-app.use("/write", homeRouter);
-app.use("/write_process", homeRouter);
-app.use("/delete", homeRouter);
-app.use("/detail/:id", homeRouter);
-app.use("/edit/:id", homeRouter);
-app.use("/edit", homeRouter);
-
-//upload 부분
-app.use("/file", fileUploadRouter);
-app.get("/file/:filename", fileUploadRouter);
-app.get("/image/:filename", fileUploadRouter);
-app.delete("/file/:filename", fileUploadRouter);
-app.get("/files", fileUploadRouter);
-
-//blog
 app.use("/", blogRouter);
+
+// //upload 부분
+// app.use("/file", fileUploadRouter);
+// app.get("/file/:filename", fileUploadRouter);
+// app.get("/image/:filename", fileUploadRouter);
+// app.delete("/file/:filename", fileUploadRouter);
+// app.get("/files", fileUploadRouter);
 
 //로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
 app.get("/mypage", DidLogin, function (req, res) {

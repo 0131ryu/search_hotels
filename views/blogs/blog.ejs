@@ -52,13 +52,14 @@
                         </span>
                         <div class="d-flex align-items-end">
                             <div class="mr-2">
-                                <img src="/image/winter.jpg" class="rounded-circle" style="width: 40px; height: 40px;">
+                                <img src="/image/winter.jpg" class="rounded-circle" style="width: 40px; height: 40px; position: relative; bottom: 80px">
                             </div>
-                            <div class=" flex-grow-1">
+                            <div class="flex-grow-1">
                                 <h5 class="" style="font-size: 14px; line-height: 0.5rem;">
                                     <span><b><%= blog.author%></b></span></h5>
                                 <p style="font-size: 8px; line-height: 0.2rem;">
-                                    <%= blog.createdAt.toLocaleDateString() %></p>
+                                    <%= blog.createdAt %></p>
+                                <h6><%= blog.snippet%></h6>    
                             </div>
                             <a href="#" class=" align-self-end">
                                 <i class='material-icons ml-3 text-black'>send</i>
