@@ -60,8 +60,15 @@ const NewblogPost = async (req, res) => {
   }
 };
 
-const blogPostId = (req, res) => {
-  res.send(req.params.id);
+const blogPostId = async (req, res) => {
+  //res.send(req.params.id);
+  let blog = await Blog.findById(req.params.id);
+
+  if (blog) {
+    res.render("blogs/show.ejs", { blog: blog });
+  } else {
+    res.redirect("blogs/blog.ejs");
+  }
 };
 
 // const slugFind = async (req, res) => {

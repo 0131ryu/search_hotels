@@ -18,7 +18,7 @@ const blogSchema = new mongoose.Schema({
   },
   img: {
     type: String,
-    default: "image/winter.jpg",
+    default: "winter.jpg",
   },
 });
 
