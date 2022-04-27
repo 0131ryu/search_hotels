@@ -48,15 +48,26 @@ const findforSlug = async (req, res) => {
   }
 };
 
-// const slugFind = async (req, res) => {
-//   let blog = await Blog.findOne({ slug: req.params.slug });
+const findforId = async (req, res) => {
+  let blog = await Blog.findById(req.params.id);
+  res.render("blogs/edit.ejs", { blog: blog });
+};
 
-//   if (blog) {
-//     res.render("show", { blog: blog });
-//   } else {
-//     response.redirect("/blogs");
-//   }
-// };
+const editPut = async (req, res) => {
+  req.blog = await Blog.findById(req.params.id);
+  let blog = req.blog;
+  blog.title = req.body.title;
+  blog.author = req.body.author;
+  blog.description = req.body.description;
+
+  try {
+    blog = await blog.save();
+    res.redirect(`new/${blog.slug}`);
+  } catch (error) {
+    console.log(error);
+    res.redirect(`blogs/edit/${blog.id}`, { blog: blog });
+  }
+};
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -91,5 +102,11 @@ const storage = multer.diskStorage({
 //   console.log(req.file);
 // };
 
-// module.exports = { blogsList, blogsNew, slugFind, uploadImage };
-module.exports = { blogsList, blogsNew, NewblogPost, findforSlug };
+module.exports = {
+  blogsList,
+  blogsNew,
+  NewblogPost,
+  findforSlug,
+  findforId,
+  editPut,
+};

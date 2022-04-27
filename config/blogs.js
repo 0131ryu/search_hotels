@@ -37,7 +37,7 @@ const blogSchema = new mongoose.Schema({
 blogSchema.pre("validate", function (next) {
   //check if there is a desciption
   if (this.description) {
-    this.description = htmlPurify.sanitize(this.description.substring);
+    this.description = htmlPurify.sanitize(this.description);
     // this.snippet = stripHtml(this.description.substring(0, 200)).result;
   }
 
