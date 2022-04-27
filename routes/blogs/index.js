@@ -13,5 +13,5 @@ router.get("/blogs/new/:slug", blogCtrl.findforSlug);
 
 router.get("/blogs/edit/:id", blogCtrl.findforId);
 router.put("/blogs/:id", blogCtrl.editPut);
-
+router.post("/blogs/:id", blogCtrl.deleteBlog);
 module.exports = router;

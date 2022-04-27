@@ -69,6 +69,11 @@ const editPut = async (req, res) => {
   }
 };
 
+const deleteBlog = async (req, res) => {
+  await Blog.findByIdAndDelete(req.params.id);
+  res.redirect("/blogs");
+};
+
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, "image/blogs");
@@ -109,4 +114,5 @@ module.exports = {
   findforSlug,
   findforId,
   editPut,
+  deleteBlog,
 };
