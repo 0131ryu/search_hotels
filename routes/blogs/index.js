@@ -8,7 +8,12 @@ const blogCtrl = require("./blog.ctrl");
 router.get("/blogs", blogCtrl.blogsList);
 
 router.get("/blogs/new", blogCtrl.blogsNew);
-router.post("/blogs/new/write", blogCtrl.NewblogPost);
+//이미지 추가
+router.post(
+  "/blogs/new/write",
+  blogCtrl.upload.single("image"),
+  blogCtrl.NewblogPost
+);
 router.get("/blogs/new/:slug", blogCtrl.findforSlug);
 
 router.get("/blogs/edit/:id", blogCtrl.findforId);

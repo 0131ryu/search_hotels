@@ -30,7 +30,11 @@
     <div class="container">
       <h1 class="mb-4 text-white">New blog posts</h1>
 
-      <form method="POST" action="/blogs/new/write">
+      <form
+        method="POST"
+        action="/blogs/new/write"
+        enctype="multipart/form-data"
+      >
         <div class="form-group">
           <label for="title" class="text-white">Title</label>
           <input
@@ -60,7 +64,7 @@
             name="description"
             id="description"
           ></textarea>
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label for="image" class="text-white">Upload Image</label>
             <input
               type="file"
@@ -68,7 +72,7 @@
               id="image"
               class="form-control-file"
             />
-          </div> -->
+          </div>
         </div>
         <div class="form-group">
           <a href="/blogs" class="btn btn-warning">Cancel</a>

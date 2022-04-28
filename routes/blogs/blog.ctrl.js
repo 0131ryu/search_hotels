@@ -1,8 +1,28 @@
 "use strict";
 
-const multer = require("multer");
 const { response } = require("../../app");
 const Blog = require("../../config/blogs");
+const multer = require("multer");
+
+//define storage for the images
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "src/public/uploads/blogs/image");
+  },
+
+  //add back the extenstion
+  filename: function (req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  },
+});
+
+//upload parameters for multer
+const upload = multer({
+  storage: storage,
+  limits: {
+    fieldSize: 1024 * 1024 * 3,
+  },
+});
 
 const blogsList = async (req, res) => {
   let blogs = await Blog.find().sort({ timeCreated: "desc" });
@@ -16,11 +36,13 @@ const blogsNew = (req, res) => {
 
 //route that handles new post
 const NewblogPost = async (req, res) => {
-  // console.log(req.body)
+  console.log(req.file);
+
   let blog = new Blog({
     title: req.body.title,
     author: req.body.author,
     description: req.body.description,
+    img: req.file.filename,
   });
 
   console.log(blog);
@@ -74,17 +96,6 @@ const deleteBlog = async (req, res) => {
   res.redirect("/blogs");
 };
 
-const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, "image/blogs");
-  },
-
-  //add back the extenstion
-  filename: function (req, file, callback) {
-    callback(null, Date.now() + file.originalname);
-  },
-});
-
 // const uploadImage = async (req, res) => {
 //   multer({
 //     storage: storage,
@@ -108,6 +119,7 @@ const storage = multer.diskStorage({
 // };
 
 module.exports = {
+  upload,
   blogsList,
   blogsNew,
   NewblogPost,
