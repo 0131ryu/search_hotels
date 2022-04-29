@@ -7,3 +7,18 @@ body {
     background-size: cover;
     background-position-x: center;
   }
+  #imagePreview {
+    width: 200px;
+    height: 100px;
+  }
+  .buttons {
+    margin: 0px;
+    padding: 20px;
+    position: absolute;
+  }
+  .buttons-group {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    left: 720%;
+  }

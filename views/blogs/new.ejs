@@ -10,7 +10,7 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-
+    <link rel="stylesheet" href="/css/blogStyle.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -29,7 +29,7 @@
   <body>
     <%- include ('../layouts/header') %>
     <div class="container">
-      <h1 class="mb-4 text-white">New blog posts</h1>
+      <h1 class="mb-4">New blog posts</h1>
 
       <form
         method="POST"
@@ -72,14 +72,18 @@
               name="image"
               id="image"
               class="form-control-file"
+              accept="image/*"
+              onchange="setThumbnail(event)"
               multiple
             />
-            <div class="imagePreview"></div>
+            <div id="imagePreview" style="width: 100px; height: 50px"></div>
           </div>
         </div>
-        <div class="form-group">
-          <a href="/blogs" class="btn btn-warning">Cancel</a>
-          <button type="submit" class="btn btn-primary">submit</button>
+        <div class="form-group buttons">
+          <div class="buttons-group">
+            <a href="/blogs" class="btn btn-warning">Cancel</a>
+            <button type="submit" class="btn btn-primary">submit</button>
+          </div>
         </div>
       </form>
     </div>

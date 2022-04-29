@@ -10,7 +10,7 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-
+    <link rel="stylesheet" href="/css/blogStyle.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -23,12 +23,13 @@
     <script>
       tinymce.init({ selector: "textarea" });
     </script>
+    <script src="/js/blogs/blog.js" defer></script>
     <title>A Edit blog</title>
   </head>
   <body>
     <%- include ('../layouts/header') %>
     <div class="container">
-      <h1 class="mb-4 text-white">editing <%= blog.title %></h1>
+      <h1 class="mb-4">editing <%= blog.title %></h1>
 
       <form method="POST" action="/blogs/<%= blog.id %>?_method=PUT">
         <div class="form-group">
@@ -63,19 +64,26 @@
           >
 <%= blog.description %></textarea
           >
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label for="image" class="text-white">Upload Image</label>
             <input
               type="file"
               name="image"
               id="image"
               class="form-control-file"
+              accept="image/*"
+              onchange="setThumbnail(event)"
+              multiple
             />
-          </div> -->
+            <%= blog.img1 %> <%= blog.img2 %> <%= blog.img3 %>
+            <div id="imagePreview" style="width: 100px; height: 50px"></div>
+          </div>
         </div>
-        <div class="form-group">
-          <a href="/blogs" class="btn btn-warning">Cancel</a>
-          <button type="submit" class="btn btn-primary">submit</button>
+        <div class="form-group buttons">
+          <div class="buttons-group">
+            <a href="/blogs" class="btn btn-warning">Cancel</a>
+            <button type="submit" class="btn btn-primary">submit</button>
+          </div>
         </div>
       </form>
     </div>
