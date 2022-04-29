@@ -11,7 +11,7 @@ router.get("/blogs/new", blogCtrl.blogsNew);
 //이미지 추가
 router.post(
   "/blogs/new/write",
-  blogCtrl.upload.single("image"),
+  blogCtrl.upload.array("image", 4),
   blogCtrl.NewblogPost
 );
 router.get("/blogs/new/:slug", blogCtrl.findforSlug);

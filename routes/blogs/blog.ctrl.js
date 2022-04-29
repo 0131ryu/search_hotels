@@ -36,13 +36,19 @@ const blogsNew = (req, res) => {
 
 //route that handles new post
 const NewblogPost = async (req, res) => {
-  console.log(req.file);
+  console.log(req.files);
+  console.log(req.files.filename);
+  console.log(req.files[0].filename);
+  console.log(req.files[1].filename);
 
   let blog = new Blog({
     title: req.body.title,
     author: req.body.author,
     description: req.body.description,
-    img: req.file.filename,
+    userImg: req.files[0].filename,
+    img1: req.files[1].filename,
+    img2: req.files[2].filename,
+    img3: req.files[3].filename,
   });
 
   console.log(blog);
@@ -95,28 +101,6 @@ const deleteBlog = async (req, res) => {
   await Blog.findByIdAndDelete(req.params.id);
   res.redirect("/blogs");
 };
-
-// const uploadImage = async (req, res) => {
-//   multer({
-//     storage: storage,
-//     limits: {
-//       fieldSize: 1024 * 1024 * 3,
-//     },
-//   });
-//   let blog = new Blog({
-//     title: req.body.title,
-//     author: req.body.author,
-//     description: req.body.description,
-//     img: req.file.filename,
-//   });
-//   try {
-//     blog = await blog.save();
-//     res.redirect(`blogs/${blog.slug}`);
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   console.log(req.file);
-// };
 
 module.exports = {
   upload,

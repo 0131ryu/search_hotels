@@ -27,7 +27,19 @@ const blogSchema = new mongoose.Schema({
   snippet: {
     type: String,
   },
-  img: {
+  userImg: {
+    type: String,
+    default: "winter.jpg",
+  },
+  img1: {
+    type: String,
+    default: "winter.jpg",
+  },
+  img2: {
+    type: String,
+    default: "winter.jpg",
+  },
+  img3: {
     type: String,
     default: "winter.jpg",
   },
