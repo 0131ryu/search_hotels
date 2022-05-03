@@ -49,6 +49,10 @@ body {
     display: flex;
     height: 400px;
   }
+  .card-mainImg {
+    width: 268.5px;
+    height: 180px;
+  }
   .card-img {
     width: 640px;
     height: 400px;
