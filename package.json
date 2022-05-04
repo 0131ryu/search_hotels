@@ -6,13 +6,14 @@
     "search_hotels": "bin/www.js"
   },
   "scripts": {
-    "start": "node ./bin/www.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "compression": "^1.7.4",
     "cookie": "^0.4.2",
@@ -30,6 +31,7 @@
     "http": "^0.0.1-security",
     "http-errors": "^2.0.0",
     "jsdom": "^19.0.0",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.10",

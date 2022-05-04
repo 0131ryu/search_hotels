@@ -3,6 +3,8 @@
 const createError = require("http-errors");
 const AuthUser = require("../../models/authUser");
 const { authSchema } = require("../../config/validataion_schema");
+const { signAccessToken } = require("../../src/databases/jwt");
+const User = require("../../models/User");
 
 const register = async (req, res, next) => {
   try {
@@ -20,8 +22,8 @@ const register = async (req, res, next) => {
 
     const authUser = new AuthUser(result);
     const saveAuthUser = await authUser.save();
-
-    res.send(saveAuthUser);
+    const accessToken = await signAccessToken(saveAuthUser.id);
+    res.send({ accessToken });
   } catch (error) {
     if (error.isJoi === true) error.status = 422;
     next(error);
@@ -30,7 +32,23 @@ const register = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  res.send("login route");
+  try {
+    const result = await authSchema.validateAsync(req.body);
+    const authUser = await AuthUser.findOne({ email: result.email });
+
+    if (!authUser) throw createError.NotFound("User not registered");
+
+    const isMatch = await authUser.isValidPassword(result.password);
+    if (!isMatch) throw createError.Unauthorized("Username/password not valid");
+
+    const accessToken = await signAccessToken(authUser.id);
+
+    res.send({ accessToken });
+  } catch (error) {
+    if (error.isJoi === true)
+      return next(createError.BadRequest("Invalid Username/Password"));
+    next(error);
+  }
 };
 
 const refreshToken = async (req, res, next) => {

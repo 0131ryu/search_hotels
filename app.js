@@ -2,6 +2,13 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 require("dotenv").config();
+
+const PORT = process.env.PORT;
+
+app.listen(PORT, () => {
+  console.log("서버 가동");
+});
+
 //로그인에 필요함
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
