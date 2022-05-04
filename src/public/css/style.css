@@ -146,7 +146,7 @@ a.editBtn {
   }
   .changeBox {
     position: absolute;
-    width: 835px;
+    width: 751px;
     height: 350px;
     z-index: 2;
     border: 0px solid #f8f9fa;
@@ -154,5 +154,12 @@ a.editBtn {
   }
   .changeBox:hover {
     border: 30px solid #f8f9fa
+  }
+  .list-img  {
+    position: absolute;
+    left: 50%;
+    bottom: 63%;
+    width: 200px; 
+    height: 120px;
   }
 }
