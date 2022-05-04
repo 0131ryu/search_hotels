@@ -114,6 +114,13 @@ a.editBtn {
   box-shadow: 3px 3px 5px;
   /* border-radius: 1rem; */
 }
+.list-img {
+  position: absolute;
+  left: 60%;
+  bottom: 35px;
+  width: 350px; 
+  height: 300px;
+}
 .search-input-form {
   width: 1100px;
   height: 45px;

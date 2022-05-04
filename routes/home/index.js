@@ -29,7 +29,11 @@ router.get("/list", pageCtrl.list);
 router.get("/write", pageCtrl.write);
 
 //글 작성 과정
-router.post("/write_process", pageCtrl.writeProcess);
+router.post(
+  "/write_process",
+  pageCtrl.upload.array("image", 3),
+  pageCtrl.writeProcess
+);
 
 //글 삭제하기
 router.delete("/delete", pageCtrl.deletePage);

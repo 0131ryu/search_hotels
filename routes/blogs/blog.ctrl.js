@@ -1,6 +1,4 @@
 "use strict";
-
-const { response } = require("../../app");
 const Blog = require("../../config/blogs");
 const multer = require("multer");
 

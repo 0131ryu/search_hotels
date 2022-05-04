@@ -2,65 +2,75 @@
 require("dotenv").config();
 const connection = require("../../src/databases/db");
 const Stay = require("../../config/stay");
-// const photos = require("../../config/photos");
-// const Grid = require("gridfs-stream");
-// const mongoose = require("mongoose");
+const multer = require("multer");
 
 // let gfs;
 
 connection();
 
-// const conn = mongoose.connection;
-// conn.once("open", function () {
-//   gfs = Grid(conn.db, mongoose.mongo);
-//   gfs.collection("photos");
-// });
+//list.ejs 이미지 저장
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "src/public/uploads/list/image");
+  },
 
-const list = (req, res) => {
-  Stay.find()
-    .then((result) => {
-      res.render("page/list.ejs", { posts: result });
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  //add back the extenstion
+  filename: function (req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fieldSize: 1024 * 1024 * 3,
+  },
+});
+
+const list = async (req, res) => {
+  let stay = await Stay.find().sort({ timeCreated: "desc" });
+  res.render("page/list.ejs", { posts: stay });
 };
 
 const write = (req, res) => {
   res.render("page/write.ejs");
 };
 
-const writeProcess = (req, res) => {
-  //인스턴스 생성
-  const stay = new Stay();
-
-  stay.title = req.body.title;
-  stay.type = req.body.type;
-  stay.stayNum = req.body.stayNum;
-  stay.stayChild = req.body.stayChild;
-  stay.staySenior = req.body.staySenior;
-  stay.stayBed = req.body.stayBed;
-  stay.stayCost = req.body.stayCost;
-  stay.stayMost = req.body.stayMost;
-  stay.detail = req.body.detail;
-  stay.date = req.body.date;
-
-  console.log(
-    stay.stayNum,
-    stay.stayChild,
-    stay.staySenior,
-    stay.stayBed,
-    stay.stayCost,
-    stay.stayMost
-  );
-
-  stay.save((err) => {
-    if (err) {
-      return res.status(400).send(err);
-    } else {
-      return res.redirect("/list");
-    }
+const writeProcess = async (req, res) => {
+  let stay = new Stay({
+    title: req.body.title,
+    type: req.body.type,
+    stayNum: req.body.stayNum,
+    stayChild: req.body.stayChild,
+    staySenior: req.body.staySenior,
+    stayBed: req.body.stayBed,
+    stayCost: req.body.stayCost,
+    stayMost: req.body.stayMost,
+    detail: req.body.detail,
+    date: req.body.date,
+    img1: req.files[0].filename,
+    img2: req.files[1].filename,
+    img3: req.files[2].filename,
   });
+
+  console.log(req.files);
+  console.log(req.files[0].filename);
+  console.log(stay.staySenior);
+
+  try {
+    stay = await stay.save();
+    res.redirect("/list");
+  } catch (error) {
+    return res.redirect("/write");
+  }
+
+  // stay.save((err) => {
+  //   if (err) {
+  //     return res.status(400).send(err);
+  //   } else {
+  //     return res.redirect("/list");
+  //   }
+  // });
 };
 
 const deletePage = (req, res) => {
@@ -166,4 +176,5 @@ module.exports = {
   editPage,
   uploadPage,
   searchPage,
+  upload,
 };
