@@ -11,7 +11,7 @@ const content = [
 ];
 
 const output = {
-  home: (req, res) => {
+  home: async (req, res, next) => {
     res.render("home/index.ejs", { data: content });
   },
   login: (req, res) => {

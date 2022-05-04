@@ -7,22 +7,25 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 
-//bring in mongoose
-const mongoose = require("mongoose");
+//jwt로 로그인
+const morgan = require("morgan");
+const createError = require("http-errors");
+require("dotenv").config();
+
 //connect to mongoose
-mongoose.connect(process.env.MONGODB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const mongoose = require("mongoose");
+const connection = require("./src/databases/db");
 
-var db;
+connection();
 
-const MongoClient = require("mongodb").MongoClient;
-MongoClient.connect(process.env.MONGODB_URL, function (err, client) {
-  if (err) return console.log(err);
+// var db;
 
-  db = client.db("Hotels");
-});
+// const MongoClient = require("mongodb").MongoClient;
+// MongoClient.connect(process.env.MONGODB_URL, function (err, client) {
+//   if (err) return console.log(err);
+
+//   db = client.db("Hotels");
+// });
 
 //body-parser
 app.use(bodyParser.json());
@@ -32,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const homeRouter = require("./routes/home");
 const fileUploadRouter = require("./routes/fileUpload");
 const blogRouter = require("./routes/blogs");
+const AuthRouter = require("./routes/auth");
 
 //set template engine
 app.set("veiw engine", "ejs");
@@ -56,143 +60,160 @@ app.use(passport.session());
 //router로 받아온 경로, 앱 세팅
 app.use("/", homeRouter);
 app.use("/", blogRouter);
+app.use("/auth", AuthRouter);
 
-// //upload 부분
-// app.use("/file", fileUploadRouter);
-// app.get("/file/:filename", fileUploadRouter);
-// app.get("/image/:filename", fileUploadRouter);
-// app.delete("/file/:filename", fileUploadRouter);
-// app.get("/files", fileUploadRouter);
+//morgan 사용
+app.use(morgan("dev"));
 
-//로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
-app.get("/mypage", DidLogin, function (req, res) {
-  console.log(req.user);
-  res.render("home/mypage.ejs", { 사용자: req.user });
+//에러부분
+app.use(async (req, res, next) => {
+  // const error = new Error("Not found");
+  // error.status = 404;
+  // next(error);
+  next(createError.NotFound("This route does not exist"));
 });
 
-function DidLogin(req, res, next) {
-  if (req.user) {
-    //로그인후 세션이 있으면 요청.user가 항상 있음
-    next(); //다음으로 통과
-  } else {
-    res.send("로그인이 필요합니다.");
-  }
-}
-
-//local strategy 방법
-passport.use(
-  new LocalStrategy(
-    {
-      //유저가 입력한 아이디/비번 항목이 뭔지 정의(name속성)
-      usernameField: "id",
-      passwordField: "pw",
-      session: true,
-      passReqToCallback: false,
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.send({
+    error: {
+      status: err.status || 500,
+      message: err.message,
     },
-    function (입력한아이디, 입력한비번, done) {
-      //console.log(입력한아이디, 입력한비번);
-      db.collection("login").findOne(
-        { id: 입력한아이디 },
-        function (에러, 결과) {
-          if (에러) return done(에러);
-
-          if (!결과)
-            return done(null, false, { message: "존재하지않는 아이디요" });
-          if (입력한비번 == 결과.pw) {
-            return done(null, 결과);
-          } else {
-            return done(null, false, { message: "비번틀렸어요" });
-          }
-        }
-      );
-    }
-  )
-);
-
-//세션 데이터를 만들고 세션 아이디를 만들어 보내줌
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-//로그인한 유저의 개인정보를 DB에서 찾는 역할
-passport.deserializeUser(function (아이디, done) {
-  //DB에서 위에 있는 user.id로 유저를 찾고 유저 정보를 null 뒤의 {}에 넣음
-  db.collection("login").findOne({ id: 아이디 }, function (err, result) {
-    done(null, result);
   });
 });
 
-app.get("/registForm", function (req, res) {
-  res.render("home/registForm.ejs");
-});
+// //로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
+// app.get("/mypage", DidLogin, function (req, res) {
+//   console.log(req.user);
+//   res.render("home/mypage.ejs", { 사용자: req.user });
+// });
 
-//mypage 사용
-function DidLogin(req, res, next) {
-  if (req.user) {
-    //로그인후 세션이 있으면 요청.user가 항상 있음
-    next(); //다음으로 통과
-  } else {
-    res.send("로그인이 필요합니다.");
-  }
-}
+// function DidLogin(req, res, next) {
+//   if (req.user) {
+//     //로그인후 세션이 있으면 요청.user가 항상 있음
+//     next(); //다음으로 통과
+//   } else {
+//     res.send("로그인이 필요합니다.");
+//   }
+// }
 
-//mypage : 로그인 시 mypage 나옴
-app.get("/mypage", DidLogin, function (req, res) {
-  console.log(req.user);
-  res.render("home/mypage.ejs", { 사용자: req.user });
-});
+// //local strategy 방법
+// passport.use(
+//   new LocalStrategy(
+//     {
+//       //유저가 입력한 아이디/비번 항목이 뭔지 정의(name속성)
+//       usernameField: "id",
+//       passwordField: "pw",
+//       session: true,
+//       passReqToCallback: false,
+//     },
+//     function (입력한아이디, 입력한비번, done) {
+//       //console.log(입력한아이디, 입력한비번);
+//       db.collection("login").findOne(
+//         { id: 입력한아이디 },
+//         function (에러, 결과) {
+//           if (에러) return done(에러);
 
-//회원가입
-app.use("/register", function (req, res) {
-  db.collection("login").insertOne(
-    { id: req.body.id, pw: req.body.pw },
-    function (err, result) {
-      res.redirect("/");
-    }
-  );
-});
+//           if (!결과)
+//             return done(null, false, { message: "존재하지않는 아이디요" });
+//           if (입력한비번 == 결과.pw) {
+//             return done(null, 결과);
+//           } else {
+//             return done(null, false, { message: "비번틀렸어요" });
+//           }
+//         }
+//       );
+//     }
+//   )
+// );
 
-//채팅
-const { ObjectId } = require("mongodb");
-const { request } = require("http");
+// //세션 데이터를 만들고 세션 아이디를 만들어 보내줌
+// passport.serializeUser(function (user, done) {
+//   done(null, user.id);
+// });
 
-app.get("/chat", DidLogin, function (req, res) {
-  db.collection("chatroom")
-    .find({ member: req.user._id })
-    .toArray()
-    .then((result) => {
-      res.render("chat.ejs", { data: result });
-    });
-});
+// //로그인한 유저의 개인정보를 DB에서 찾는 역할
+// passport.deserializeUser(function (아이디, done) {
+//   //DB에서 위에 있는 user.id로 유저를 찾고 유저 정보를 null 뒤의 {}에 넣음
+//   db.collection("login").findOne({ id: 아이디 }, function (err, result) {
+//     done(null, result);
+//   });
+// });
 
-app.post("/chatroom", DidLogin, function (req, res) {
-  var saveChat = {
-    title: "userChat",
-    member: [ObjectId(req.body.lastUserid), req.user._id],
-    date: new Date(),
-  };
-  db.collection("chatroom")
-    .insertOne(saveChat)
-    .then((result) => {
-      //콜백대신 then
-      res.send("채팅방 만들기 성공");
-    });
-});
+// app.get("/registForm", function (req, res) {
+//   res.render("home/registForm.ejs");
+// });
 
-app.post("/message", DidLogin, function (req, res) {
-  var saveChat = {
-    parent: req.body.parent,
-    userid: req.user._id,
-    content: req.body.content,
-    date: new Date(),
-  };
-  db.collection("message")
-    .insertOne(saveChat)
-    .then((result) => {
-      res.send(result);
-    });
-});
+// //mypage 사용
+// function DidLogin(req, res, next) {
+//   if (req.user) {
+//     //로그인후 세션이 있으면 요청.user가 항상 있음
+//     next(); //다음으로 통과
+//   } else {
+//     res.send("로그인이 필요합니다.");
+//   }
+// }
 
-//작동 코드 : nodemon app.js
+// //mypage : 로그인 시 mypage 나옴
+// app.get("/mypage", DidLogin, function (req, res) {
+//   console.log(req.user);
+//   res.render("home/mypage.ejs", { 사용자: req.user });
+// });
+
+// //회원가입
+// app.use("/register", function (req, res) {
+//   db.collection("login").insertOne(
+//     { id: req.body.id, pw: req.body.pw },
+//     function (err, result) {
+//       res.redirect("/");
+//     }
+//   );
+// });
+
+// //채팅
+// const { ObjectId } = require("mongodb");
+// const { request } = require("http");
+// const { create } = require("./config/stay");
+// const { connection } = require("mongoose");
+
+// app.get("/chat", DidLogin, function (req, res) {
+//   db.collection("chatroom")
+//     .find({ member: req.user._id })
+//     .toArray()
+//     .then((result) => {
+//       res.render("chat.ejs", { data: result });
+//     });
+// });
+
+// app.post("/chatroom", DidLogin, function (req, res) {
+//   var saveChat = {
+//     title: "userChat",
+//     member: [ObjectId(req.body.lastUserid), req.user._id],
+//     date: new Date(),
+//   };
+//   db.collection("chatroom")
+//     .insertOne(saveChat)
+//     .then((result) => {
+//       //콜백대신 then
+//       res.send("채팅방 만들기 성공");
+//     });
+// });
+
+// app.post("/message", DidLogin, function (req, res) {
+//   var saveChat = {
+//     parent: req.body.parent,
+//     userid: req.user._id,
+//     content: req.body.content,
+//     date: new Date(),
+//   };
+//   db.collection("message")
+//     .insertOne(saveChat)
+//     .then((result) => {
+//       res.send(result);
+//     });
+// });
+
+// //작동 코드 : nodemon app.js
 
 module.exports = app;
