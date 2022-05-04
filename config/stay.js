@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const sequencing = require("./sequencing");
+const slug = require("mongoose-slug-generator");
+const domPurifier = require("dompurify");
+const { JSDOM } = require("jsdom");
+const htmlPurify = domPurifier(new JSDOM().window);
 
+//initailize slug
+mongoose.plugin(slug);
 const staySchema = mongoose.Schema({
   _id: Number,
   title: {
@@ -41,6 +47,22 @@ const staySchema = mongoose.Schema({
   },
   date: {
     type: Date,
+    default: () => Date.now(),
+  },
+  snippet: {
+    type: String,
+  },
+  img1: {
+    type: String,
+    default: "winter.jpg",
+  },
+  img2: {
+    type: String,
+    default: "winter.jpg",
+  },
+  img3: {
+    type: String,
+    default: "winter.jpg",
   },
 });
 
@@ -66,6 +88,16 @@ staySchema.pre("save", function (next) {
       }
     })
     .catch((error) => next(error));
+});
+
+staySchema.pre("validate", function (next) {
+  //check if there is a desciption
+  if (this.detail) {
+    this.detail = htmlPurify.sanitize(this.detail);
+    // this.snippet = stripHtml(this.description.substring(0, 200)).result;
+  }
+
+  next();
 });
 
 module.exports = mongoose.model("Stay", staySchema);
