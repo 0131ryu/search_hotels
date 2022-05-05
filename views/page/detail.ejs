@@ -12,8 +12,9 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-
+    <link rel="stylesheet" href="/css/style.css" />
     <title>Hello, world!</title>
+    <script src="/js/home/detail.js" defer></script>
   </head>
   <body>
     <%- include ('../layouts/header') %>
@@ -21,10 +22,36 @@
     <ul class="list-group">
       <% for (var i = 0; i< posts.length; i++) { %>
       <li class="list-group-item">
-        <h3><%= posts[i].title %></h3>
+        <div style="overflow: hidden">
+          <div class="list-img-container">
+            <div class="list-img-detail">
+              <img src="/uploads/list/image/<%= posts[i].img1 %>" />
+            </div>
+            <div class="list-img-detail">
+              <img src="/uploads/list/image/<%= posts[i].img2 %>" />
+            </div>
+            <div class="list-img-detail">
+              <img src="/uploads/list/image/<%= posts[i].img3 %>" />
+            </div>
+          </div>
+        </div>
+        <button class="imgBtn" onclick="changeColor()">1</button>
+        <button class="imgBtn">2</button>
+        <button class="imgBtn">3</button>
+        <p>글 번호 : <%= posts[i]._id %></p>
+        <h4><a href="/detail/<%=posts[i]._id %>"><%= posts[i].title %></a></h4>
         <p><%= posts[i].type %></p>
+        <p>가격 : <%=posts[i].stayCost %></p>
+        <p>
+          특징들 : 숙박인원 : <%= posts[i].stayNum %>명 / 아이동반 : <%=
+          posts[i].stayChild %>
+        </p>
+        <p>
+          / 어르신동반 : <%= posts[i].staySenior %> / 침대 여부 : <%=
+          posts[i].stayBed %> / 기타 특징 : <%= posts[i].stayMost %>
+        </p>
         <p><%= posts[i].date %></p>
-        <p><%= posts[i].detail %></p>
+        <p><%- posts[i].detail %></p>
         <button class="delete" data-id="<%= posts[i]._id %>">삭제하기</button>
         <button>
           <a href="/edit/<%=posts[i]._id %>" class="editBtn">수정하기</a>

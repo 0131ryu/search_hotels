@@ -132,6 +132,105 @@ a.editBtn {
   margin: 0;
   padding: 0;
 }
+/*write*/
+.imagePreview {
+  width: 100px; 
+  height: 50px;
+}
+.stayItems {
+  text-align: center;
+}
+#stayName {
+  width: 1080px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+#stayTypeList {
+  width: 845px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+#searchType_num {
+  width: 805px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+.searchType_childYN {
+  width: 970px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+.searchType_seniorYN {
+  width: 955px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+#searchType_beds {
+  width: 915px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+#searchType_costs {
+  width: 1085px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+#searchType_mosts {
+  width: 580px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+#stayDate {
+  width: 1085px;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin: 5px;
+}
+#staySubmit {
+ width: 1280px;
+ height: 50px;
+ margin: 10px;
+}
+/*search*/
+.list-img-search {
+  /* position: absolute;
+  left: 60%;
+  bottom: 20px; */
+  width: 450px; 
+  height: 200px;
+}
+/*detail*/
+.list-img-container {
+  width: 180vw;
+  transition: all 1s;
+  transform: translateX(0vw);
+  /* transform: translateX(-60vw);
+  transform: translateX(-120vw); */
+}
+.list-img-detail {
+  width: 60VW;
+  float: left;
+}
+.list-img-detail img {
+  width: 100%;
+}
 /*header*/
 .item-login:hover {
   background-color: #AFDCEC;
