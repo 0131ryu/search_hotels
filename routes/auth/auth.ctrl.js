@@ -59,4 +59,8 @@ const logout = async (req, res, next) => {
   res.send("logout route");
 };
 
-module.exports = { register, login, refreshToken, logout };
+const authorization = async (req, res, next) => {
+  res.send("hello from express");
+};
+
+module.exports = { register, login, refreshToken, logout, authorization };
