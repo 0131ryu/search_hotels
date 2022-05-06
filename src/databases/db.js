@@ -4,8 +4,8 @@ module.exports = async function connection() {
   try {
     const connectionParams = {
       useNewUrlParser: true,
-      //   userCreateIndex: true, //더이상 지원 안 함
       useUnifiedTopology: true,
+      // useFindAndModify: false, userCreateIndex: true, //더이상 지원 안 함
     };
     await mongoose.connect(process.env.MONGODB_URL, connectionParams);
     console.log("Connected to db");
