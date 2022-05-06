@@ -14,11 +14,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 
-//jwt로 로그인
-const morgan = require("morgan");
-const createError = require("http-errors");
-require("dotenv").config();
-
 //connect to mongoose
 const mongoose = require("mongoose");
 const connection = require("./src/databases/db");
@@ -40,9 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //라우팅
 const homeRouter = require("./routes/home");
-const fileUploadRouter = require("./routes/fileUpload");
 const blogRouter = require("./routes/blogs");
-const AuthRouter = require("./routes/auth");
 
 //set template engine
 app.set("veiw engine", "ejs");
@@ -67,28 +60,6 @@ app.use(passport.session());
 //router로 받아온 경로, 앱 세팅
 app.use("/", homeRouter);
 app.use("/", blogRouter);
-app.use("/auth", AuthRouter);
-
-//morgan 사용
-app.use(morgan("dev"));
-
-//에러부분
-app.use(async (req, res, next) => {
-  // const error = new Error("Not found");
-  // error.status = 404;
-  // next(error);
-  next(createError.NotFound("This route does not exist"));
-});
-
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.send({
-    error: {
-      status: err.status || 500,
-      message: err.message,
-    },
-  });
-});
 
 // //로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
 // app.get("/mypage", DidLogin, function (req, res) {
