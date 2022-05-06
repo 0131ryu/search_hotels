@@ -2,9 +2,6 @@
   "name": "search_hotels",
   "version": "1.0.0",
   "main": "app.js",
-  "bin": {
-    "search_hotels": "bin/www.js"
-  },
   "scripts": {
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"

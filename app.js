@@ -9,6 +9,8 @@ app.listen(PORT, () => {
   console.log("서버 가동");
 });
 
+const config_conn = require("./config/conn/key");
+
 //로그인에 필요함
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -16,9 +18,13 @@ const session = require("express-session");
 
 //connect to mongoose
 const mongoose = require("mongoose");
-const connection = require("./src/databases/db");
-
-connection();
+mongoose
+  .connect(config_conn.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 
 // var db;
 
@@ -30,12 +36,15 @@ connection();
 // });
 
 //body-parser
-app.use(bodyParser.json());
+//application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+//application/json
+app.use(bodyParser.json());
 
 //라우팅
 const homeRouter = require("./routes/home");
 const blogRouter = require("./routes/blogs");
+const authRouter = require("./routes/auth");
 
 //set template engine
 app.set("veiw engine", "ejs");
@@ -60,6 +69,7 @@ app.use(passport.session());
 //router로 받아온 경로, 앱 세팅
 app.use("/", homeRouter);
 app.use("/", blogRouter);
+app.use("/", authRouter);
 
 // //로그인 한 사람만 mypage가 나와야 함 -> mypage 요청 시 DidLogin 함수 출력
 // app.get("/mypage", DidLogin, function (req, res) {

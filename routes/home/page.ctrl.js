@@ -1,12 +1,9 @@
 "use strict";
 require("dotenv").config();
-const connection = require("../../src/databases/db");
 const Stay = require("../../config/stay");
 const multer = require("multer");
 
 // let gfs;
-
-connection();
 
 //list.ejs 이미지 저장
 const storage = multer.diskStorage({
