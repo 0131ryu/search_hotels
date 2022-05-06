@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 const PORT = process.env.PORT;
 
@@ -40,6 +41,7 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: true }));
 //application/json
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 //라우팅
 const homeRouter = require("./routes/home");
