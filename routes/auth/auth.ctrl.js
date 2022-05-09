@@ -44,7 +44,7 @@ const process = {
     });
   },
   auth: (req, res) => {
-    res.json(200).json({
+    res.status(200).json({
       _id: req.user._id,
       isAdmin: req.user.role === 0 ? false : true,
       isAuth: true,
@@ -53,6 +53,14 @@ const process = {
       lastname: req.user.lastname,
       role: req.user.role,
       image: req.user.image,
+    });
+  },
+  logout: (req, res) => {
+    User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({
+        success: true,
+      });
     });
   },
 };
