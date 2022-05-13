@@ -1,6 +1,6 @@
 "use strict";
 require("dotenv").config();
-const Stay = require("../../config/stay");
+const Stay = require("../../models/home/stay");
 const multer = require("multer");
 
 // let gfs;

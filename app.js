@@ -10,7 +10,7 @@ app.listen(PORT, () => {
   console.log("서버 가동");
 });
 
-const config_conn = require("./config/conn/key");
+const config_conn = require("./config/key");
 
 //로그인에 필요함
 const passport = require("passport");

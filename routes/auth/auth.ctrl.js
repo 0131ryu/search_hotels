@@ -1,5 +1,5 @@
 "use strict";
-const User = require("../../config/user");
+const User = require("../../models/home/user");
 
 const process = {
   register: (req, res) => {

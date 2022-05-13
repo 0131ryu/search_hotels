@@ -1,5 +1,5 @@
 "use strict";
-const Blog = require("../../config/blogs");
+const Blog = require("../../models/home/blogs");
 const multer = require("multer");
 
 //define storage for the images
