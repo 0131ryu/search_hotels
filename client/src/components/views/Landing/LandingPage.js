@@ -1,12 +1,9 @@
-//rfce
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from 'react'
 
 function LandingPage() {
-  useEffect(() => {
-    axios.get("/");
-  }, []);
-  return <div>LandingPage</div>;
+  return (
+    <div>LandingPage</div>
+  )
 }
 
-export default LandingPage;
+export default LandingPage

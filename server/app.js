@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const config_conn = require("./config/key");
+const mongoose = require("mongoose");
 
 const PORT = process.env.PORT;
 
@@ -11,8 +12,6 @@ app.listen(PORT, () => {
   console.log("서버 가동");
 });
 
-//connect to mongoose
-const mongoose = require("mongoose");
 mongoose
   .connect(config_conn.mongoURI, {
     useNewUrlParser: true,
@@ -30,10 +29,6 @@ app.use(cookieParser());
 
 //라우팅
 const authRouter = require("./routes/auth");
-
-//method-override
-const methodOverride = require("method-override");
-app.use(methodOverride("_method"));
 
 app.use("/", authRouter);
 
