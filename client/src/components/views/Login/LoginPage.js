@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+// import Axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function LoginPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,22 +19,20 @@ function LoginPage() {
     setPassword(event.currentTarget.value);
   };
 
-  const onSUbmitHandler = (event) => {
+  const onSubmitHandler = (event) => {
     event.preventDefault();
-    // console.log("Email", Email);
-    // console.log("Password", Password);
+    console.log("Email", Email);
+    console.log("Password", Password);
 
-    //보낼 정보
     let body = {
       email: Email,
       password: Password,
     };
 
+    //로그인이 성공하는 경우 첫 페이지로 이동
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.loginSuccess) {
-        if (response.payload.loginSuccess) {
-          navigate("/");
-        }
+        navigate("/");
       }
     });
   };
@@ -50,7 +49,7 @@ function LoginPage() {
     >
       <form
         style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={onSUbmitHandler}
+        onSubmit={onSubmitHandler}
       >
         <label>Email</label>
         <input type="email" value={Email} onChange={onEmailHandler} />
