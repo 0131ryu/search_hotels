@@ -14,7 +14,8 @@ function App() {
         <Route path="/" element={Auth(LandingPage, null)} />
         <Route path="/login" element={Auth(LoginPage, false)} />
         <Route path="/register" element={Auth(RegisterPage, false)} />
-        <Route path="/product/upload" element={Auth(UploadProductPage, true)} />
+        <Route path="/product/upload" element={Auth(UploadProductPage, null)} />
+        <Route path="/test" element={Auth(UploadProductPage, null)} />
       </Routes>
     </BrowserRouter>
   );
