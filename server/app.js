@@ -32,6 +32,7 @@ const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 
 app.use("/api/user", authRouter);
-app.use("/api/product", authRouter);
+app.use("/api/product", productRouter);
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 module.exports = app;
