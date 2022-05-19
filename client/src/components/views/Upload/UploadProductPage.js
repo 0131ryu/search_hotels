@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
+import FileUpload from "../../../components/utils/FilUpload";
 
 const { TextArea } = Input;
 
@@ -13,24 +14,12 @@ const Continents = [
   { key: 7, value: "Australia" },
 ];
 
-const Metropolitans = [
-  { key: 1, value: "서울특별시" },
-  { key: 2, value: "부산광역시" },
-  { key: 3, value: "전주광역시" },
-  { key: 4, value: "대구광역시" },
-  { key: 5, value: "인천광역시" },
-  { key: 6, value: "광주광역시" },
-  { key: 7, value: "대전광역시" },
-  { key: 8, value: "울산광역시" },
-];
-
 function UploadProductPage() {
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState(0);
   const [Continent, setContinent] = useState(1);
-  // const [Images, setImages] = useState([]);
-  const [Metropolitan, setMetropolitans] = useState(1);
+  const [Images, setImages] = useState([]);
 
   const titleChangeHandler = (event) => {
     setTitle(event.currentTarget.value);
@@ -42,10 +31,6 @@ function UploadProductPage() {
 
   const priceChangeHandler = (event) => {
     setPrice(event.currentTarget.value);
-  };
-
-  const metropolitanChangeHandler = (event) => {
-    setMetropolitans(event.currentTarget.value);
   };
 
   const continentChangeHandler = (event) => {
@@ -63,10 +48,13 @@ function UploadProductPage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+        <br />
+        <br />
         <h2>여행 상품 업로드</h2>
 
         <Form>
           {/* DropZone */}
+          <FileUpload />
           <label>이름</label>
           <Input onChange={titleChangeHandler} value={Title} />
           <br />
@@ -81,16 +69,6 @@ function UploadProductPage() {
           <br />
           <select onChange={continentChangeHandler} value={Continent}>
             {Continents.map((item) => (
-              <option key={item.key} value={item.key}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-          <br />
-          <br />
-          <br />
-          <select onChange={metropolitanChangeHandler} value={Metropolitan}>
-            {Metropolitans.map((item) => (
               <option key={item.key} value={item.key}>
                 {item.value}
               </option>

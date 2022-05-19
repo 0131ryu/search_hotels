@@ -66,6 +66,9 @@ const process = {
       });
     });
   },
+  upload: (req, res) => {
+    
+  }
 };
 
 module.exports = {

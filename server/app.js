@@ -29,7 +29,9 @@ app.use(cookieParser());
 
 //라우팅
 const authRouter = require("./routes/auth");
+const productRouter = require("./routes/product");
 
-app.use("/", authRouter);
+app.use("/api/user", authRouter);
+app.use("/api/product", authRouter);
 
 module.exports = app;
