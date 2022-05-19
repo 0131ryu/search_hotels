@@ -7,6 +7,5 @@ router.post("/register", authCtrl.process.register);
 router.post("/login", authCtrl.process.login);
 router.get("/auth", auth, authCtrl.process.auth);
 router.get("/logout", auth, authCtrl.process.logout);
-router.get("/home", authCtrl.process.home);
 
 module.exports = router;

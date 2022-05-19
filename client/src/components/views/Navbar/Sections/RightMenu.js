@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom";
 const items = [
   { label: <a href="/login">Signin</a>, key: "mail" },
   { label: <a href="/register">Signup</a>, key: "app" },
-  { label: <a href="/product/upload">upload</a>, key: "upload" },
 ];
 
 const logInItems = [
+  { label: <a href="/product/upload">upload</a>, key: "upload" },
   {
     label: <a href="/">logout</a>,
     key: "logout",
