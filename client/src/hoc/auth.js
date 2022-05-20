@@ -35,14 +35,15 @@ export default function (SpecificComponent, option, adminRoute = null) {
             //option이 false일 때
             //false상태
             if (option === false) {
-              props.history.push("/");
+              navigate("/");
             }
           }
         }
       });
     }, []);
 
-    return <SpecificComponent />;
+    //props를 이용해 모든 정보를 넣음
+    return <SpecificComponent {...props} user={user} />;
   }
 
   return <AuthentificationCheck />;
