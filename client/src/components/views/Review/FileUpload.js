@@ -16,12 +16,13 @@ function FileUpload(props) {
     formData.append("file", files[0]);
 
     axios
-      .post("/api/product/image", formData, config)
+      .post("/api/data/image", formData, config)
 
       .then((response) => {
         if (response.data.success) {
           //console.log(response.data);
           setImages([...Images, response.data.filePath]);
+          //추가
           props.refreshFunction([...Images, response.data.filePath]);
         } else {
           alert("파일을 저장하는데 실패했습니다.");
@@ -31,10 +32,11 @@ function FileUpload(props) {
 
   const deleteHandler = (image) => {
     const currentIndex = Images.indexOf(image);
-    //console.log(currentIndex);
+
     let newImages = [...Images];
     newImages.splice(currentIndex, 1); //현재인덱스부터 다음 인덱스까지
     setImages(newImages);
+    //추가
     props.refreshFunction(newImages);
   };
 

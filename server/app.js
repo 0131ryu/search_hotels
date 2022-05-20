@@ -38,4 +38,7 @@ app.use("/api/user", authRouter);
 app.use("/api/product", require("./routes/product"));
 app.use("/uploads", express.static("uploads"));
 
+app.use("/api/data", require("./routes/data"));
+app.use("/uploadReview", express.static("uploadReview"));
+
 module.exports = app;

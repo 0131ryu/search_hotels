@@ -6,6 +6,8 @@ import UploadProductPage from "./components/views/Upload/UploadProductPage";
 import Auth from "./hoc/auth";
 import NavBar from "./components/views/Navbar/Navbar";
 
+import DataUpload from "./components/views/Review/DataUpload";
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +17,8 @@ function App() {
         <Route path="/login" element={Auth(LoginPage, false)} />
         <Route path="/register" element={Auth(RegisterPage, false)} />
         <Route path="/product/upload" element={Auth(UploadProductPage, true)} />
+        {/* 복습 */}
+        <Route path="/review/data" element={Auth(DataUpload, true)} />
       </Routes>
     </BrowserRouter>
   );
