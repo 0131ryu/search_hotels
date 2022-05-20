@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 
@@ -15,12 +14,13 @@ export default function (SpecificComponent, option, adminRoute = null) {
   function AuthentificationCheck(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    let user = useSelector((state) => state.user);
 
     useEffect(() => {
-      dispatch(auth()).then((response) => {
+      dispatch(auth()).then(async (response) => {
         console.log(response);
         //로그인 하지 않은 상태
-        if (!response.payload.isAuth) {
+        if (await !response.payload.isAuth) {
           if (option === true) {
             //로그인으로 이동 시
             navigate("/login"); //로그인페이지로 가게 함
@@ -34,7 +34,9 @@ export default function (SpecificComponent, option, adminRoute = null) {
           } else {
             //option이 false일 때
             //false상태
-            navigate("/");
+            if (option === false) {
+              props.history.push("/");
+            }
           }
         }
       });
