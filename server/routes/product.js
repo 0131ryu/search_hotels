@@ -4,12 +4,6 @@ const router = express.Router();
 
 const multer = require("multer");
 
-//=================================
-
-// Product
-
-//=================================
-
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");

@@ -19,7 +19,7 @@ function UploadProductPage() {
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState(0);
   const [Continent, setContinent] = useState(1);
-  // const [Images, setImages] = useState([]);
+  const [Images, setImages] = useState([]);
 
   const titleChangeHandler = (event) => {
     setTitle(event.currentTarget.value);
@@ -35,6 +35,11 @@ function UploadProductPage() {
 
   const continentChangeHandler = (event) => {
     setContinent(event.currentTarget.value);
+  };
+
+  //Fileupload에 있는 것을 새로운 이미지를 받아오도록 함
+  const updateImages = (newImages) => {
+    setImages(newImages);
   };
 
   return (
@@ -54,7 +59,7 @@ function UploadProductPage() {
 
         <Form>
           {/* DropZone */}
-          <FileUpload />
+          <FileUpload refreshFunction={updateImages} />
           <label>이름</label>
           <Input onChange={titleChangeHandler} value={Title} />
           <br />
