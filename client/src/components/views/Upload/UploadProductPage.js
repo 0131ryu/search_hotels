@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
-import FileUpload from "../../../components/utils/FilUpload";
+import FileUpload from "../../utils/FilUpload";
 
 const { TextArea } = Input;
 
@@ -19,7 +19,7 @@ function UploadProductPage() {
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState(0);
   const [Continent, setContinent] = useState(1);
-  const [Images, setImages] = useState([]);
+  // const [Images, setImages] = useState([]);
 
   const titleChangeHandler = (event) => {
     setTitle(event.currentTarget.value);
@@ -59,7 +59,7 @@ function UploadProductPage() {
           <Input onChange={titleChangeHandler} value={Title} />
           <br />
           <br />
-          <label>설명</label>
+          <label style={{ textAlignLast: "left" }}>설명</label>
           <TextArea onChange={descriptionChangeHandler} value={Description} />
           <br />
           <br />

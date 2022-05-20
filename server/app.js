@@ -29,14 +29,13 @@ app.use(cookieParser());
 
 //라우팅
 const authRouter = require("./routes/auth");
-const productRouter = require("./routes/product");
 
 app.get("/api/home", (req, res) => {
   res.send("안녕하세요 홈입니다.");
 });
 
 app.use("/api/user", authRouter);
-app.use("/api/product", productRouter);
-app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use("/api/product", require("./routes/product"));
+app.use("/uploads", express.static("uploads"));
 
 module.exports = app;
