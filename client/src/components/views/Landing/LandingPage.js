@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Row, Col } from "antd";
+import ImageSlider from "../../utils/ImageSlider";
+
 const { Meta } = Card;
 
 function LandingPage() {
@@ -29,12 +31,7 @@ function LandingPage() {
               width: "250px",
               height: "15%",
             }}
-            cover={
-              <img
-                src={`http://localhost:5000/${product.images[0]}`}
-                style={{ width: "250px", height: "120px" }}
-              />
-            }
+            cover={<ImageSlider images={product.images} />}
           >
             <Meta
               title={product.title}
