@@ -41,4 +41,14 @@ router.post("/", (req, res) => {
   });
 });
 
+//DB에 저장한 정보 가져오기
+router.post("/list", (req, res) => {
+  Data.find()
+    .populate("title")
+    .exec((err, dataInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true, dataInfo });
+    });
+});
+
 module.exports = router;

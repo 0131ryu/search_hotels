@@ -7,6 +7,7 @@ import Auth from "./hoc/auth";
 import NavBar from "./components/views/Navbar/Navbar";
 
 import DataUpload from "./components/views/Review/DataUpload";
+import ShowAllData from "./components/views/Review/ShowAllData";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/product/upload" element={Auth(UploadProductPage, true)} />
         {/* 복습 */}
         <Route path="/review/data" element={Auth(DataUpload, true)} />
+        <Route path="/review" element={Auth(ShowAllData, null)} />
       </Routes>
     </BrowserRouter>
   );
