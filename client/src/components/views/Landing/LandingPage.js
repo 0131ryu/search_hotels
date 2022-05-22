@@ -3,18 +3,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Row, Col } from "antd";
 import ImageSlider from "../../utils/ImageSlider";
+import DataCheckbox from "./Sections/DataCheckbox";
+import { continents } from "./Sections/Datas";
 
 const { Meta } = Card;
 
 function LandingPage() {
   const [Products, setProducts] = useState([]);
-
   //skip, limit ->최대 8개까지
   const [Skip, setSkip] = useState(0);
   const [Limit, setLimit] = useState(8);
-
   //보여줄 자료가 없으면 더보기 버튼 안 보이게 해야 함
   const [PostSize, setPostSize] = useState(0);
+  const [Filters, setFilters] = useState({ continents: [], price: [] });
 
   useEffect(() => {
     let body = {
@@ -55,6 +56,26 @@ function LandingPage() {
     setSkip(skip);
   };
 
+  const handleFilters = (filters, category) => {
+    const newFilters = { ...Filters };
+
+    newFilters[category] = filters;
+
+    showFilteredResults(newFilters);
+    setFilters(newFilters);
+  };
+
+  const showFilteredResults = (filters) => {
+    let body = {
+      skip: 0,
+      limit: Limit,
+      filters: filters,
+    };
+
+    getProducts(body);
+    setSkip(0);
+  };
+
   const renderCard = Products.map((product, index) => {
     // console.log("product", product);
 
@@ -87,7 +108,15 @@ function LandingPage() {
       <h2 style={{ textAlign: "center" }}>Let's Travel Anywhere</h2>
       {/* filter */}
 
-      {/* section */}
+      {/* checkBox */}
+      <DataCheckbox
+        list={continents}
+        handleFilters={(filters) => handleFilters(filters, "continents")}
+      />
+
+      {/* RadioBox */}
+
+      {/* Search */}
 
       {/* card */}
       <div style={{ width: "85%", margin: "1rem auto" }}>
