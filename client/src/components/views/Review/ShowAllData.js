@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Card, Row, Col } from "antd";
 import ImageSlider from "./Sections/ImageSlider";
 
+import { seasons } from "./Sections/Datas";
+import DataCheckbox from "./Sections/DataCheckbox";
+
 const { Meta } = Card;
 
 function ShowAllData() {
@@ -13,6 +16,9 @@ function ShowAllData() {
 
   //더보기 버튼 안 보이게 하기
   const [LimitImage, setLimitImage] = useState(0);
+
+  //필터 역할
+  const [Filters, setFilters] = useState({ seasons: [] });
 
   useEffect(() => {
     let body = {
@@ -80,6 +86,27 @@ function ShowAllData() {
     );
   });
 
+  const boxFilters = (filters, category) => {
+    const newFilters = { ...Filters };
+
+    newFilters[category] = filters;
+    // console.log("filters : ", filters);
+    showFilters(newFilters);
+    setFilters(newFilters);
+  };
+
+  //더보기 버튼과 방식 똑같음
+  const showFilters = (filters) => {
+    let body = {
+      start: 0,
+      end: End,
+      filters: filters,
+    };
+
+    commonAxios(body);
+    setStart(0);
+  };
+
   return (
     <div style={{ width: "100%", margin: "0" }}>
       <br />
@@ -87,6 +114,14 @@ function ShowAllData() {
       <br />
       <br />
       <h2 style={{ textAlign: "center" }}>DB에 저장한 거 확인하기</h2>
+
+      {/* checkBox */}
+      <Col lg={10} xs={20} style={{ position: "relative", left: "8.5%" }}>
+        <DataCheckbox
+          list={seasons}
+          boxFilters={(filters) => boxFilters(filters, "seasons")}
+        />
+      </Col>
 
       {/* card */}
       <div style={{ width: "85%", margin: "1rem auto" }}>

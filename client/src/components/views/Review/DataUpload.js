@@ -55,7 +55,7 @@ function DataUpload() {
       title: Title,
       description: Description,
       images: Images,
-      season: Season,
+      seasons: Season,
     };
 
     console.log(Title, Description, Images);

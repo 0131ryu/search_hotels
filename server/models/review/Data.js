@@ -13,7 +13,7 @@ const dataSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
-    season: {
+    seasons: {
       type: Number,
       default: 1,
     },

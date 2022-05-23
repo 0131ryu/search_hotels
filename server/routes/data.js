@@ -47,7 +47,16 @@ router.post("/list", (req, res) => {
   let end = req.body.end ? parseInt(req.body.end) : 100;
   let start = req.body.start ? parseInt(req.body.start) : 0;
 
-  Data.find()
+  let findData = {};
+
+  for (let key in req.body.filters) {
+    //key는 seasons의 값
+    findData[key] = req.body.filters[key];
+  }
+
+  // console.log(findData);
+
+  Data.find(findData)
     .populate("title")
     .skip(start)
     .limit(end)
