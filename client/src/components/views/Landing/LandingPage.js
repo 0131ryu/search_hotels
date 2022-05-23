@@ -4,7 +4,8 @@ import axios from "axios";
 import { Card, Row, Col } from "antd";
 import ImageSlider from "../../utils/ImageSlider";
 import DataCheckbox from "./Sections/DataCheckbox";
-import { continents } from "./Sections/Datas";
+import { continents, price } from "./Sections/Datas";
+import DataRadioBox from "./Sections/DataRadioBox";
 
 const { Meta } = Card;
 
@@ -56,13 +57,35 @@ function LandingPage() {
     setSkip(skip);
   };
 
+  const handlePrice = (value) => {
+    const data = price; //Datas 정보
+    let array = [];
+
+    for (let key in data) {
+      if (data[key]._id) {
+        //value는 가격범위 누르는 radiobox(숫자)
+        if (data[key]._id === parseInt(value, 10)) {
+          array = data[key].array;
+        }
+      }
+    }
+    return array;
+  };
+
   const handleFilters = (filters, category) => {
     const newFilters = { ...Filters };
 
     newFilters[category] = filters;
 
-    showFilteredResults(newFilters);
-    setFilters(newFilters);
+    // console.log("filters : ", filters);
+
+    if (category === "price") {
+      let priceValues = handlePrice(filters);
+      newFilters[category] = priceValues;
+    }
+
+    showFilteredResults(newFilters); //radiobox
+    setFilters(newFilters); //checkbox
   };
 
   const showFilteredResults = (filters) => {
@@ -109,12 +132,21 @@ function LandingPage() {
       {/* filter */}
 
       {/* checkBox */}
-      <DataCheckbox
-        list={continents}
-        handleFilters={(filters) => handleFilters(filters, "continents")}
-      />
-
-      {/* RadioBox */}
+      <Row>
+        <Col lg={10} xs={20} style={{ position: "relative", left: "8.5%" }}>
+          <DataCheckbox
+            list={continents}
+            handleFilters={(filters) => handleFilters(filters, "continents")}
+          />
+        </Col>
+        <Col lg={10} xs={20} style={{ position: "relative", left: "2%" }}>
+          {/* RadioBox */}
+          <DataRadioBox
+            list={price}
+            handleFilters={(filters) => handleFilters(filters, "price")}
+          />
+        </Col>
+      </Row>
 
       {/* Search */}
 
