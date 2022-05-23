@@ -6,10 +6,19 @@ import FileUpload from "./FileUpload";
 
 const { TextArea } = Input;
 
+const Seasons = [
+  { key: 1, value: "봄" },
+  { key: 2, value: "여름" },
+  { key: 3, value: "가을" },
+  { key: 4, value: "겨울" },
+];
+
 function DataUpload() {
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
   const [Images, setImages] = useState([]);
+  //기본값 1로 둠
+  const [Season, setSeason] = useState(1);
 
   const navigate = useNavigate();
 
@@ -19,6 +28,10 @@ function DataUpload() {
 
   const descriptionChangeHandler = (event) => {
     setDescription(event.currentTarget.value);
+  };
+
+  const seasonHandler = (event) => {
+    setSeason(event.currentTarget.value);
   };
 
   //추가1 : FileUpload의 값 받아오도록 함
@@ -32,7 +45,7 @@ function DataUpload() {
     event.preventDefault();
 
     //값이 하나라도 비면 오류
-    if (!Title || !Description || !Images) {
+    if (!Title || !Description || !Images || !Seasons) {
       return alert("모든 값을 작성해야 합니다.");
     }
 
@@ -42,6 +55,7 @@ function DataUpload() {
       title: Title,
       description: Description,
       images: Images,
+      season: Season,
     };
 
     console.log(Title, Description, Images);
@@ -49,7 +63,7 @@ function DataUpload() {
     axios.post("/api/data", body).then((response) => {
       if (response.data.success) {
         alert("상품 업로드에 성공했습니다.");
-        navigate("/");
+        navigate("/review");
       } else {
         alert("상품 업로드에 실패했습니다.");
       }
@@ -82,7 +96,19 @@ function DataUpload() {
           <TextArea onChange={descriptionChangeHandler} value={Description} />
           <br />
           <br />
-          <Button onClick={submitHandler}>확인</Button>
+          <select onChange={seasonHandler}>
+            {Seasons.map((city) => (
+              <option key={city.key} value={city.key}>
+                {city.value}
+              </option>
+            ))}
+          </select>
+
+          <br />
+          <br />
+          <div>
+            <Button onClick={submitHandler}>확인</Button>
+          </div>
         </Form>
       </div>
     </div>

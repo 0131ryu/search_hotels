@@ -13,6 +13,11 @@ const dataSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    season: {
+      type: Number,
+      default: 1,
+    },
+
     //시간 자동 업데이트
   },
   { timestamps: true }
