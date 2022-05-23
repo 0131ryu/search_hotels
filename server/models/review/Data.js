@@ -17,6 +17,10 @@ const dataSchema = mongoose.Schema(
       type: Number,
       default: 1,
     },
+    price: {
+      type: Number,
+      default: 0,
+    },
 
     //시간 자동 업데이트
   },

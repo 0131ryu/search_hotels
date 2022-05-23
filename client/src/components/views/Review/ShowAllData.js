@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Card, Row, Col } from "antd";
 import ImageSlider from "./Sections/ImageSlider";
 
-import { seasons } from "./Sections/Datas";
+import { seasons, price } from "./Sections/Datas";
 import DataCheckbox from "./Sections/DataCheckbox";
+import DataRadioBox from "./Sections/DataRadioBox";
 
 const { Meta } = Card;
 
@@ -18,7 +19,7 @@ function ShowAllData() {
   const [LimitImage, setLimitImage] = useState(0);
 
   //필터 역할
-  const [Filters, setFilters] = useState({ seasons: [] });
+  const [Filters, setFilters] = useState({ seasons: [], price: [] });
 
   useEffect(() => {
     let body = {
@@ -76,10 +77,7 @@ function ShowAllData() {
             //ImageSlider에 images로 정보 전달
             cover={<ImageSlider images={data.images} />}
           >
-            <Meta
-              title={data.title}
-              description={`$${data.description}`}
-            ></Meta>
+            <Meta title={data.title} description={`$${data.price}`}></Meta>
           </Card>
         </Col>
       </div>
@@ -90,7 +88,12 @@ function ShowAllData() {
     const newFilters = { ...Filters };
 
     newFilters[category] = filters;
-    // console.log("filters : ", filters);
+
+    if (category === "price") {
+      let priceValues = handlePrice(filters);
+      newFilters[category] = priceValues;
+    }
+
     showFilters(newFilters);
     setFilters(newFilters);
   };
@@ -107,6 +110,20 @@ function ShowAllData() {
     setStart(0);
   };
 
+  const handlePrice = (value) => {
+    const data = price;
+    let array = [];
+
+    for (let key in data) {
+      if (data[key]._id) {
+        if (data[key]._id === parseInt(value, 10)) {
+          array = data[key].array;
+        }
+      }
+    }
+    return array;
+  };
+
   return (
     <div style={{ width: "100%", margin: "0" }}>
       <br />
@@ -115,14 +132,23 @@ function ShowAllData() {
       <br />
       <h2 style={{ textAlign: "center" }}>DB에 저장한 거 확인하기</h2>
 
-      {/* checkBox */}
-      <Col lg={10} xs={20} style={{ position: "relative", left: "8.5%" }}>
-        <DataCheckbox
-          list={seasons}
-          boxFilters={(filters) => boxFilters(filters, "seasons")}
-        />
-      </Col>
-
+      <Row>
+        {/* checkBox */}
+        <Col lg={10} xs={20} style={{ position: "relative", left: "8.5%" }}>
+          <DataCheckbox
+            list={seasons}
+            boxFilters={(filters) => boxFilters(filters, "seasons")}
+          />
+        </Col>
+        {/* radioBox */}
+        <Col lg={10} xs={20} style={{ position: "relative", left: "2%" }}>
+          {/* RadioBox */}
+          <DataRadioBox
+            list={price}
+            boxFilters={(filters) => boxFilters(filters, "price")}
+          />
+        </Col>
+      </Row>
       {/* card */}
       <div style={{ width: "85%", margin: "1rem auto" }}>
         <Row gutter={[20, 20]}>{renderCard}</Row>

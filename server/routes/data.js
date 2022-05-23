@@ -50,11 +50,22 @@ router.post("/list", (req, res) => {
   let findData = {};
 
   for (let key in req.body.filters) {
-    //key는 seasons의 값
-    findData[key] = req.body.filters[key];
+    if (req.body.filters[key].length > 0) {
+      // console.log("key", key);
+
+      if (key === "price") {
+        findData[key] = {
+          //Datas의 price Array기준
+          $gte: req.body.filters[key][0], //>= 크거나 같음
+          $lte: req.body.filters[key][1], //<= 작거나 같음
+        };
+      } else {
+        findData[key] = req.body.filters[key];
+      }
+    }
   }
 
-  // console.log(findData);
+  console.log(findData);
 
   Data.find(findData)
     .populate("title")

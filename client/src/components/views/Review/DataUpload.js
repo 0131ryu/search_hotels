@@ -19,6 +19,7 @@ function DataUpload() {
   const [Images, setImages] = useState([]);
   //기본값 1로 둠
   const [Season, setSeason] = useState(1);
+  const [Price, setPrice] = useState(0);
 
   const navigate = useNavigate();
 
@@ -34,6 +35,10 @@ function DataUpload() {
     setSeason(event.currentTarget.value);
   };
 
+  const priceChangeHandler = (event) => {
+    setPrice(event.currentTarget.value);
+  };
+
   //추가1 : FileUpload의 값 받아오도록 함
   const updateImages = (newImages) => {
     setImages(newImages);
@@ -45,7 +50,7 @@ function DataUpload() {
     event.preventDefault();
 
     //값이 하나라도 비면 오류
-    if (!Title || !Description || !Images || !Seasons) {
+    if (!Title || !Description || !Images || !Seasons || !Price) {
       return alert("모든 값을 작성해야 합니다.");
     }
 
@@ -56,6 +61,7 @@ function DataUpload() {
       description: Description,
       images: Images,
       seasons: Season,
+      price: Price,
     };
 
     console.log(Title, Description, Images);
@@ -90,6 +96,10 @@ function DataUpload() {
           <FileUpload refreshFunction={updateImages} />
           <label>이름</label>
           <Input onChange={titleChangeHandler} value={Title} />
+          <br />
+          <br />
+          <label>가격($)</label>
+          <Input onChange={priceChangeHandler} value={Price} />
           <br />
           <br />
           <label>설명</label>
