@@ -128,7 +128,11 @@ function LandingPage() {
               height: "15%",
             }}
             className="ImageBox"
-            cover={<ImageSlider images={product.images} />}
+            cover={
+              <a href={`/product/${product._id}`}>
+                <ImageSlider images={product.images} />
+              </a>
+            }
           >
             <Meta
               title={product.title}
