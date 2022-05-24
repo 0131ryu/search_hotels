@@ -41,6 +41,20 @@ const productSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+//검색기능, title을 더 중점적으로
+productSchema.index(
+  {
+    title: "text",
+    description: "text",
+  },
+  {
+    weight: {
+      title: 5,
+      description: 1,
+    },
+  }
+);
+
 const Product = mongoose.model("Product", productSchema);
 
 module.exports = { Product };

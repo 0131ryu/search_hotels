@@ -6,6 +6,7 @@ import ImageSlider from "../../utils/ImageSlider";
 import DataCheckbox from "./Sections/DataCheckbox";
 import { continents, price } from "./Sections/Datas";
 import DataRadioBox from "./Sections/DataRadioBox";
+import SearchFeature from "./Sections/SearchFeature";
 
 const { Meta } = Card;
 
@@ -17,6 +18,8 @@ function LandingPage() {
   //보여줄 자료가 없으면 더보기 버튼 안 보이게 해야 함
   const [PostSize, setPostSize] = useState(0);
   const [Filters, setFilters] = useState({ continents: [], price: [] });
+
+  const [SearchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     let body = {
@@ -99,9 +102,21 @@ function LandingPage() {
     setSkip(0);
   };
 
+  const updateSearchTerm = (newSearchTerm) => {
+    let body = {
+      skip: 0,
+      limit: Limit,
+      filters: Filters,
+      searchTerm: newSearchTerm,
+    };
+
+    setSkip(0);
+    setSearchTerm(newSearchTerm);
+    getProducts(body);
+  };
+
   const renderCard = Products.map((product, index) => {
     // console.log("product", product);
-
     return (
       <div style={{ display: "Grid", placeItems: "center" }}>
         <Col lg={6} md={8} xs={24} key={index}>
@@ -149,6 +164,16 @@ function LandingPage() {
       </Row>
 
       {/* Search */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          margin: "1rem auto",
+          width: "65%",
+        }}
+      >
+        <SearchFeature refreshFunction={updateSearchTerm} />
+      </div>
 
       {/* card */}
       <div style={{ width: "85%", margin: "1rem auto" }}>
