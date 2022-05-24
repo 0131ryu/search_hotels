@@ -46,6 +46,7 @@ router.post("/list", (req, res) => {
   //Start, End 제어
   let end = req.body.end ? parseInt(req.body.end) : 100;
   let start = req.body.start ? parseInt(req.body.start) : 0;
+  let item = req.body.searchItem;
 
   let findData = {};
 
@@ -67,16 +68,30 @@ router.post("/list", (req, res) => {
 
   console.log(findData);
 
-  Data.find(findData)
-    .populate("title")
-    .skip(start)
-    .limit(end)
-    .exec((err, dataInfo) => {
-      if (err) return res.status(400).json({ success: false, err });
-      return res
-        .status(200)
-        .json({ success: true, dataInfo, limitImage: dataInfo.length });
-    });
+  if (item) {
+    Data.find(findData)
+      .find({ $text: { $search: item } })
+      .populate("title")
+      .skip(start)
+      .limit(end)
+      .exec((err, dataInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res
+          .status(200)
+          .json({ success: true, dataInfo, limitImage: dataInfo.length });
+      });
+  } else {
+    Data.find(findData)
+      .populate("title")
+      .skip(start)
+      .limit(end)
+      .exec((err, dataInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res
+          .status(200)
+          .json({ success: true, dataInfo, limitImage: dataInfo.length });
+      });
+  }
 });
 
 module.exports = router;

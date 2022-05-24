@@ -27,6 +27,19 @@ const dataSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+dataSchema.index(
+  {
+    title: "text",
+    description: "text",
+  },
+  {
+    weight: {
+      title: 5,
+      description: 1,
+    },
+  }
+);
+
 const Data = mongoose.model("Data", dataSchema);
 
 module.exports = { Data };

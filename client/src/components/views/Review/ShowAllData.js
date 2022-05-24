@@ -6,6 +6,7 @@ import ImageSlider from "./Sections/ImageSlider";
 import { seasons, price } from "./Sections/Datas";
 import DataCheckbox from "./Sections/DataCheckbox";
 import DataRadioBox from "./Sections/DataRadioBox";
+import DataSearch from "./Sections/DataSearch";
 
 const { Meta } = Card;
 
@@ -20,6 +21,9 @@ function ShowAllData() {
 
   //필터 역할
   const [Filters, setFilters] = useState({ seasons: [], price: [] });
+
+  //검색기능
+  const [SearchItem, setSearchItem] = useState("");
 
   useEffect(() => {
     let body = {
@@ -124,6 +128,19 @@ function ShowAllData() {
     return array;
   };
 
+  const updateSearchItem = (newSearchItem) => {
+    let body = {
+      start: 0,
+      end: End,
+      filters: Filters,
+      searchItem: newSearchItem,
+    };
+
+    setStart(0);
+    setSearchItem(newSearchItem);
+    commonAxios(body);
+  };
+
   return (
     <div style={{ width: "100%", margin: "0" }}>
       <br />
@@ -149,6 +166,19 @@ function ShowAllData() {
           />
         </Col>
       </Row>
+
+      {/* search */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          margin: "1rem auto",
+          width: "65%",
+        }}
+      >
+        <DataSearch refreshFunction={updateSearchItem} />
+      </div>
+
       {/* card */}
       <div style={{ width: "85%", margin: "1rem auto" }}>
         <Row gutter={[20, 20]}>{renderCard}</Row>
