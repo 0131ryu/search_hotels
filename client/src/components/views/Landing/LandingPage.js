@@ -8,6 +8,8 @@ import { continents, price } from "./Sections/Datas";
 import DataRadioBox from "./Sections/DataRadioBox";
 import SearchFeature from "./Sections/SearchFeature";
 
+import "./LandingPage.css";
+
 const { Meta } = Card;
 
 function LandingPage() {
@@ -118,13 +120,14 @@ function LandingPage() {
   const renderCard = Products.map((product, index) => {
     // console.log("product", product);
     return (
-      <div style={{ display: "Grid", placeItems: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Col lg={6} md={8} xs={24} key={index}>
           <Card
             style={{
               width: "250px",
               height: "15%",
             }}
+            className="ImageBox"
             cover={<ImageSlider images={product.images} />}
           >
             <Meta
@@ -147,14 +150,14 @@ function LandingPage() {
       {/* filter */}
 
       {/* checkBox */}
-      <Row>
-        <Col lg={10} xs={20} style={{ position: "relative", left: "8.5%" }}>
+      <Row className="BoxRow">
+        <Col lg={10} xs={20} className="dataCheckbox">
           <DataCheckbox
             list={continents}
             handleFilters={(filters) => handleFilters(filters, "continents")}
           />
         </Col>
-        <Col lg={10} xs={20} style={{ position: "relative", left: "2%" }}>
+        <Col lg={10} xs={20} className="dataRadiobox">
           {/* RadioBox */}
           <DataRadioBox
             list={price}
@@ -164,16 +167,17 @@ function LandingPage() {
       </Row>
 
       {/* Search */}
-      <div
+      <Row
         style={{
           display: "flex",
           justifyContent: "flex-end",
           margin: "1rem auto",
-          width: "65%",
+          width: "68%",
         }}
+        className="searchBar"
       >
         <SearchFeature refreshFunction={updateSearchTerm} />
-      </div>
+      </Row>
 
       {/* card */}
       <div style={{ width: "85%", margin: "1rem auto" }}>
