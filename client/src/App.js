@@ -9,6 +9,7 @@ import DetailProductPage from "./components/views/DetailProductPage/DetailProduc
 
 import DataUpload from "./components/views/Review/DataUpload";
 import ShowAllData from "./components/views/Review/ShowAllData";
+import ShowDatailData from "./components/views/Review/ShowDatailData";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
         {/* 복습 */}
         <Route path="/review/data" element={Auth(DataUpload, true)} />
         <Route path="/review" element={Auth(ShowAllData, null)} />
+        <Route
+          path="/reveiw/data/:dataId"
+          element={Auth(ShowDatailData, null)}
+        />
       </Routes>
     </BrowserRouter>
   );

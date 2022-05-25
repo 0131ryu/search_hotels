@@ -79,7 +79,11 @@ function ShowAllData() {
               right: "50%",
             }}
             //ImageSlider에 images로 정보 전달
-            cover={<ImageSlider images={data.images} />}
+            cover={
+              <a href={`/reveiw/data/${data._id}`}>
+                <ImageSlider images={data.images} />
+              </a>
+            }
           >
             <Meta title={data.title} description={`$${data.price}`}></Meta>
           </Card>
