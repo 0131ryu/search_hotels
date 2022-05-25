@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Row, Col } from "antd";
 
 import DataImages from "./Sections/DataImages";
-import { Row, Col } from "antd";
+import DataInfo from "./Sections/DataInfo";
 
 function ShowDetailData() {
   const { dataId } = useParams();
@@ -38,6 +39,7 @@ function ShowDetailData() {
 
           <Col lg={12} sm={24}>
             {/* DataInfo */}
+            <DataInfo datailData={Data} />
           </Col>
         </Row>
       </div>
