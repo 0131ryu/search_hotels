@@ -1,28 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import LeftMenu from "./Sections/LeftMenu";
 import RightMenu from "./Sections/RightMenu";
-// import { Drawer, Button } from "antd";
+import { Row, Col } from "antd";
 // import Icon from "@ant-design/icons";
 import "./Nabvar.css";
 
 function NavBar() {
   return (
-    <nav
-      className="menu"
-      style={{ position: "fixed", zIndex: 5, width: "100%" }}
-    >
-      <div className="menu__logo">
+    <Row>
+      <Col span={3} className="menu__logo">
         <a href="/">Logo</a>
-      </div>
-      <div className="menu__container">
-        <div className="menu_left">
-          <LeftMenu mode="horizontal" />
-        </div>
-        <div className="menu_right">
-          <RightMenu mode="horizontal" />
-        </div>
-      </div>
-    </nav>
+      </Col>
+      <Col span={12} className="menu_left">
+        <LeftMenu className="menu_left-a" />
+      </Col>
+      <Col span={6}></Col>
+      <Col span={3} className="menu_right">
+        <RightMenu />
+      </Col>
+    </Row>
   );
 }
 
