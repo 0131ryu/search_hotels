@@ -1,5 +1,10 @@
 @import '~antd/dist/antd.css';
 
+.menu__Row {
+  height: 1.5rem;
+  /* margin-top: 0.5rem; */
+}
+
 .menu__logo {
   float: left;
 }
@@ -7,17 +12,20 @@
 .menu__logo a {
   font-size: 20px;
   position: fixed;
-  top: 6px;
+  top: 15px;
   left: 20px;
 }
 
 .menu_left {
   float: left;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .menu_right {
   float: right;
-  text-align: right;
+  /* margin-top:  0.5rem;
+  margin-bottom: 0.5rem; */
 }
 
 .menu__container .ant-menu-horizontal {
