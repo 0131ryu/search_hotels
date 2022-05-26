@@ -1,4 +1,10 @@
-import { LOGIN_USER, REGISTER_USER, AUTH_USER } from "../_actions/types";
+import {
+  LOGIN_USER,
+  REGISTER_USER,
+  AUTH_USER,
+  LOGOUT_USER,
+  ADD_TO_CART,
+} from "../_actions/types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = {}, action) {
@@ -9,7 +15,17 @@ export default function (state = {}, action) {
       return { ...state, register: action.payload };
     case AUTH_USER:
       return { ...state, userData: action.payload };
-      break;
+    case LOGOUT_USER:
+      return { ...state };
+    case ADD_TO_CART:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          cart: action.payload,
+        },
+      };
+
     default:
       return state;
   }

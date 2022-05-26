@@ -45,7 +45,7 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.get("/auth", (req, res) => {
+router.get("/auth", auth, (req, res) => {
   res.status(200).json({
     _id: req.user._id,
     isAdmin: req.user.role === 0 ? false : true,
@@ -55,6 +55,8 @@ router.get("/auth", (req, res) => {
     lastname: req.user.lastname,
     role: req.user.role,
     image: req.user.image,
+    cart: req.user.cart,
+    history: req.user.history,
   });
 });
 
@@ -64,6 +66,52 @@ router.get("/logout", auth, (req, res) => {
     return res.status(200).send({
       success: true,
     });
+  });
+});
+
+//${USER_SERVER}/addToCart
+router.post("/addToCart", auth, (req, res) => {
+  //User 정보 가져오기
+  User.findOne({ _id: req.user._id }, (err, userInfo) => {
+    //가져온 정보에서 카트에 넣으려는 상품이 이미 있는지 확인
+    let duplicate = false;
+
+    userInfo.cart.forEach((item) => {
+      if (item.id === req.body.productId) {
+        duplicate = true;
+      }
+    });
+    //상품이 이미 있는지
+    if (duplicate) {
+      User.findOneAndUpdate(
+        { _id: req.user._id, "cart._id": req.body.productId },
+        { $inc: { "cart.$.quantity": 1 } },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.status(200).json({ success: false, err });
+          res.status(200).send(userInfo.cart);
+        }
+      );
+      //상품이 있지 않다면
+    } else {
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          $push: {
+            cart: {
+              id: req.body.productId,
+              qauntity: 1,
+              date: Date.now(),
+            },
+          },
+        },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          res.status(200).send(userInfo.cart);
+        }
+      );
+    }
   });
 });
 

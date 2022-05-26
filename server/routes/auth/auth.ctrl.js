@@ -13,6 +13,7 @@ const process = {
   },
 
   login: (req, res) => {
+    console.log("auth 파일에 있는 로그인하기");
     //요청된 이메일이 데이터베이스에 있는지 찾는다
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {

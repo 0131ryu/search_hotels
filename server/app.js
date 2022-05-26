@@ -27,14 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-//라우팅
-const authRouter = require("./routes/auth");
-
 app.get("/api/home", (req, res) => {
   res.send("안녕하세요 홈입니다.");
 });
 
-app.use("/api/user", authRouter);
+app.use("/api/user", require("./routes/user"));
 app.use("/api/product", require("./routes/product"));
 app.use("/uploads", express.static("uploads"));
 
