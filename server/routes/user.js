@@ -71,28 +71,25 @@ router.get("/logout", auth, (req, res) => {
 
 //${USER_SERVER}/addToCart
 router.post("/addToCart", auth, (req, res) => {
-  //User 정보 가져오기
   User.findOne({ _id: req.user._id }, (err, userInfo) => {
-    //가져온 정보에서 카트에 넣으려는 상품이 이미 있는지 확인
     let duplicate = false;
 
     userInfo.cart.forEach((item) => {
-      if (item.id === req.body.productId) {
+      if (item.id == req.body.productId) {
         duplicate = true;
       }
     });
-    //상품이 이미 있는지
+
     if (duplicate) {
       User.findOneAndUpdate(
-        { _id: req.user._id, "cart._id": req.body.productId },
+        { _id: req.user._id, "cart.id": req.body.productId },
         { $inc: { "cart.$.quantity": 1 } },
         { new: true },
         (err, userInfo) => {
-          if (err) return res.status(200).json({ success: false, err });
-          res.status(200).send(userInfo.cart);
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(userInfo.cart);
         }
       );
-      //상품이 있지 않다면
     } else {
       User.findOneAndUpdate(
         { _id: req.user._id },
@@ -100,15 +97,62 @@ router.post("/addToCart", auth, (req, res) => {
           $push: {
             cart: {
               id: req.body.productId,
-              qauntity: 1,
+              quantity: 1,
               date: Date.now(),
             },
           },
         },
         { new: true },
         (err, userInfo) => {
-          if (err) return res.status(400).json({ success: false, err });
-          res.status(200).send(userInfo.cart);
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(userInfo.cart);
+        }
+      );
+    }
+  });
+});
+
+//${USER_SERVER}/addToHeart
+router.post("/addToHeart", auth, (req, res) => {
+  //유저 정보 찾기
+  User.findOne({ _id: req.user._id }, (err, userInfo) => {
+    let overlap = false;
+
+    //유저 정보 중 좋아요 값을 넣을 곳 있는지
+    userInfo.heart.forEach((item) => {
+      if (item.id == req.body.dataId) {
+        overlap = true;
+      }
+    });
+
+    //좋아요가 이미 눌러져 있다면
+    if (overlap) {
+      User.findOneAndUpdate(
+        { _id: req.user._id, "heart.id": req.body.dataId },
+        { $inc: { "heart.$.quantity": 0 } },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(userInfo.heart);
+        }
+      );
+    } else {
+      //좋아요가 아직 눌러져있지 않다면
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          $push: {
+            heart: {
+              id: req.body.dataId,
+              quantity: 1,
+              date: Date.now(),
+            },
+          },
+        },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(userInfo.heart);
         }
       );
     }

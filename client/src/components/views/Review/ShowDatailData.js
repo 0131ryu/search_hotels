@@ -26,11 +26,9 @@ function ShowDetailData() {
   return (
     <div>
       <div style={{ width: "100%", padding: "3rem 4rem" }}>
-        <br />
         <div stye={{ display: "flex", justifyContent: "center" }}>
           <h1>{Data.title}</h1>
         </div>
-        <br />
         <Row gutter={[16, 16]}>
           <Col lg={12} sm={24}>
             {/* DataImages */}
@@ -39,7 +37,7 @@ function ShowDetailData() {
 
           <Col lg={12} sm={24}>
             {/* DataInfo */}
-            <DataInfo datailData={Data} />
+            <DataInfo detailData={Data} />
           </Col>
         </Row>
       </div>

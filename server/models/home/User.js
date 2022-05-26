@@ -40,6 +40,14 @@ const userSchema = new mongoose.Schema({
   tokenExp: {
     type: Number,
   },
+  heart: {
+    type: Array,
+    default: [],
+  },
+  heartHistory: {
+    type: Array,
+    default: [],
+  },
 });
 
 //user.save 전에 작동
