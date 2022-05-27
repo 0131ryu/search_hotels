@@ -97,9 +97,17 @@ router.get("/products_by_id", (req, res) => {
 
   //post => body로, get => query
   let type = req.query.type;
-  let productId = req.query.id;
+  let productIds = req.query.id;
 
-  Product.find({ _id: productId })
+  //type: array(productIds = [1, 2, 3,] 이런 식으로 만들 것)
+  if (type === "array") {
+    let ids = req.query.id.split(",");
+    productIds = ids.map((item) => {
+      return item;
+    });
+  }
+
+  Product.find({ _id: { $in: productIds } })
     .populate("writer")
     .exec((err, product) => {
       if (err) return res.status(400).send(err);

@@ -6,6 +6,7 @@ import {
   AUTH_USER,
   ADD_TO_CART,
   ADD_TO_HEART,
+  GET_CART_ITEMS,
 } from "./types";
 
 export function loginUser(dataToSubmit) {
@@ -72,6 +73,32 @@ export function addToHeart(_id) {
 
   return {
     type: ADD_TO_HEART,
+    payload: request,
+  };
+}
+
+//getCartItems
+
+export function getCartItems(cartItems, userCart) {
+  const request = axios
+    .get(`/api/product/products_by_id?id=${cartItems}&type=array`)
+    .then((response) => {
+      //Make CartDetail inside Redux Store
+      // We need to add quantity data to Product Information that come from Product Collection.
+
+      userCart.forEach((cartItem) => {
+        response.data.forEach((productDetail, index) => {
+          if (cartItem.id === productDetail._id) {
+            response.data[index].quantity = cartItem.quantity;
+          }
+        });
+      });
+
+      return response.data;
+    });
+
+  return {
+    type: GET_CART_ITEMS,
     payload: request,
   };
 }

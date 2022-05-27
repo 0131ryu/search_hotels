@@ -5,6 +5,7 @@ import {
   LOGOUT_USER,
   ADD_TO_CART,
   ADD_TO_HEART,
+  GET_CART_ITEMS,
 } from "../_actions/types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -34,7 +35,11 @@ export default function (state = {}, action) {
           heart: action.payload,
         },
       };
-
+    case GET_CART_ITEMS:
+      return {
+        ...state,
+        cartDetail: action.payload,
+      };
     default:
       return state;
   }

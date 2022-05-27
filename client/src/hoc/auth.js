@@ -4,17 +4,15 @@ import { auth } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 
 export default function (SpecificComponent, option, adminRoute = null) {
-  //backned의 그 사람의 현재 상태 확인
-  //api/user/auth로 정보 보내기
-
   //null : 아무나 출입 가능
   //option이 true : 로그인 한 사람만 출입 가능
   //option이 false : 로그인한 유저는 출입 불가능
 
   function AuthentificationCheck(props) {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+
     let user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     useEffect(() => {
       dispatch(auth()).then(async (response) => {
@@ -40,7 +38,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
           }
         }
       });
-    }, []);
+    }, [dispatch, props.history]);
 
     //props를 이용해 모든 정보를 넣음
     return <SpecificComponent {...props} user={user} />;
