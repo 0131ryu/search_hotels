@@ -78,18 +78,18 @@ export function addToHeart(_id) {
 }
 
 //getCartItems
-
 export function getCartItems(cartItems, userCart) {
   const request = axios
     .get(`/api/product/products_by_id?id=${cartItems}&type=array`)
     .then((response) => {
-      //Make CartDetail inside Redux Store
-      // We need to add quantity data to Product Information that come from Product Collection.
+      //CartItem들에 해당하는 정보들을
+      //Product Collection에서 가져온 후
+      //Quantity 정보를 넣어준다
 
       userCart.forEach((cartItem) => {
-        response.data.forEach((productDetail, index) => {
+        response.data.product.forEach((productDetail, index) => {
           if (cartItem.id === productDetail._id) {
-            response.data[index].quantity = cartItem.quantity;
+            response.data[index].product.quantity = cartItem.quantity;
           }
         });
       });
