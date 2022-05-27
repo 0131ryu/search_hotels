@@ -7,6 +7,7 @@ import {
   ADD_TO_CART,
   ADD_TO_HEART,
   GET_CART_ITEMS,
+  REMOVE_CART_ITEM,
 } from "./types";
 
 export function loginUser(dataToSubmit) {
@@ -99,6 +100,29 @@ export function getCartItems(cartItems, userCart) {
 
   return {
     type: GET_CART_ITEMS,
+    payload: request,
+  };
+}
+
+//removeCartItem
+export function removeCartItem(productId) {
+  const request = axios
+    .get(`${USER_SERVER}/removeFromCart?id=${productId}`)
+    .then((response) => {
+      //productInfo, cart정보를 조합해서 CartDetail을 만든다
+      response.data.cart.forEach((item) => {
+        response.data.productInfo.forEach((product, index) => {
+          if (item.id === product._id) {
+            response.data.productInfo[index].quantity = item.quantity;
+          }
+        });
+      });
+
+      return response.data;
+    });
+
+  return {
+    type: REMOVE_CART_ITEM,
     payload: request,
   };
 }

@@ -6,6 +6,7 @@ import {
   ADD_TO_CART,
   ADD_TO_HEART,
   GET_CART_ITEMS,
+  REMOVE_CART_ITEM,
 } from "../_actions/types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -39,6 +40,15 @@ export default function (state = {}, action) {
       return {
         ...state,
         cartDetail: action.payload,
+      };
+    case REMOVE_CART_ITEM:
+      return {
+        ...state,
+        cartDetail: action.payload.productInfo,
+        userData: {
+          ...state.userData,
+          cart: action.payload.cart,
+        },
       };
     default:
       return state;
