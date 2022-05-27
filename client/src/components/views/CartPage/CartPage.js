@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getCartItems } from "../../../_actions/user_action";
 import UserCardBlocks from "./Sections/UserCardBlocks";
 
 function CartPage(props) {
   const dispatch = useDispatch();
+
+  const [Total, setTotal] = useState(0);
 
   useEffect(() => {
     let cartItems = [];
@@ -15,17 +17,36 @@ function CartPage(props) {
           cartItems.push(item.id);
         });
 
-      dispatch(getCartItems(cartItems, props.user.userData.cart));
+      dispatch(getCartItems(cartItems, props.user.userData.cart)).then(
+        (response) => {
+          // console.log(response);
+          {
+            calculateTotal(response.payload);
+          }
+        }
+      );
     }
   }, [props.user.userData]);
+
+  const calculateTotal = (cartDetail) => {
+    let totalCost = 0;
+
+    cartDetail.map((item) => {
+      totalCost += parseInt(item.price, 10) * item.quantity;
+    });
+    setTotal(totalCost);
+  };
+
   return (
     <div style={{ width: "85%", margin: "3rem auto" }}>
       <h1>My Cart</h1>
 
       <div>
-        <UserCardBlocks
-          products={props.user.cartDetail && props.user.cartDetail.product}
-        />
+        <UserCardBlocks products={props.user.cartDetail} />
+      </div>
+
+      <div style={{ marginTop: "3rem" }}>
+        <h2>Total Amount: ${Total}</h2>
       </div>
     </div>
   );
