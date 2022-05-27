@@ -11,7 +11,7 @@ function UserCardBlcoks(props) {
 
   const renderItems = () =>
     props.products &&
-    props.products.amp((product) => (
+    props.products.map((product) => (
       <tr>
         <td>
           <img
