@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getCartItems, removeCartItem } from "../../../_actions/user_action";
 import UserCardBlocks from "./Sections/UserCardBlocks";
+import { Empty } from "antd";
 
 function CartPage(props) {
   const dispatch = useDispatch();
 
   const [Total, setTotal] = useState(0);
+  const [ShowTotal, setShowTotal] = useState(false);
 
   useEffect(() => {
     let cartItems = [];
@@ -20,7 +22,7 @@ function CartPage(props) {
       dispatch(getCartItems(cartItems, props.user.userData.cart)).then(
         (response) => {
           // console.log(response);
-          {
+          if (response.payload.length > 0) {
             calculateTotal(response.payload);
           }
         }
@@ -29,18 +31,23 @@ function CartPage(props) {
   }, [props.user.userData]);
 
   const calculateTotal = (cartDetail) => {
-    let totalCost = 0;
+    let total = 0;
 
     cartDetail.map((item) => {
-      totalCost += parseInt(item.price, 10) * item.quantity;
+      total += parseInt(item.price, 10) * item.quantity;
     });
-    setTotal(totalCost);
+
+    setTotal(total);
+    setShowTotal(true);
   };
 
   let removeFormCart = (productId) => {
     dispatch(removeCartItem(productId)).then((response) => {
       console.log(response);
-      if ((response.payload.productId.length = 0)) {
+      if (response.payload.productId.length <= 0) {
+        setShowTotal(false);
+      } else {
+        calculateTotal(response.payload.cartDetail);
       }
     });
   };
@@ -56,9 +63,13 @@ function CartPage(props) {
         />
       </div>
 
-      <div style={{ marginTop: "3rem" }}>
-        <h2>Total Amount: ${Total}</h2>
-      </div>
+      {ShowTotal ? (
+        <div style={{ marginTop: "3rem" }}>
+          <h2>Total Amount: ${Total}</h2>
+        </div>
+      ) : (
+        <Empty discription={false} />
+      )}
     </div>
   );
 }
