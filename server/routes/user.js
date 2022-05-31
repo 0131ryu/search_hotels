@@ -187,4 +187,24 @@ router.get("/removeFromCart", auth, (req, res) => {
   //product collection에 현재 남아있는 상품들의 정보를 가져오기
 });
 
+//successBuy
+router.post("/successBuy", auth, (req, res) => {
+  //1. User -> history 필드 안에 간단한 결제 정보 넣기
+  let history = [];
+  let transcationData = {};
+
+  req.body.cartDetail.forEach((item) => {
+    history.push({
+      dateOfPurChase: Date.now(),
+      name: item.title,
+      id: item._id,
+      price: item.price,
+      quantity: item.quantity,
+      paymentId: req.body.paymentData.paymentID,
+    });
+  });
+  //2. Paymnet 안에 있는 자세한 결제 정보 넣기
+  //3. Product안에 있는 solde 필드-정보 업데이트 하기
+});
+
 module.exports = router;
