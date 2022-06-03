@@ -93,13 +93,11 @@ router.post("/products", (req, res) => {
 });
 
 router.get("/products_by_id", (req, res) => {
-  //productId를 이용해서 DB에서 productId와 같은 상품의 정보를 가져온다
-
-  //post => body로, get => query
   let type = req.query.type;
   let productIds = req.query.id;
 
-  //type: array(productIds = [1, 2, 3,] 이런 식으로 만들 것)
+  // console.log("req.query.id", req.query.id);
+
   if (type === "array") {
     let ids = req.query.id.split(",");
     productIds = [];
@@ -108,6 +106,9 @@ router.get("/products_by_id", (req, res) => {
     });
   }
 
+  // console.log("productIds", productIds);
+
+  //we need to find the product information that belong to product Id
   Product.find({ _id: { $in: productIds } })
     .populate("writer")
     .exec((err, product) => {

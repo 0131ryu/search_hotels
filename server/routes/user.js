@@ -72,15 +72,18 @@ router.get("/logout", auth, (req, res) => {
 
 //${USER_SERVER}/addToCart
 router.post("/addToCart", auth, (req, res) => {
+  //User 정보 가져오기
   User.findOne({ _id: req.user._id }, (err, userInfo) => {
     let duplicate = false;
 
+    //상품이 있는지, 없는지 확인
     userInfo.cart.forEach((item) => {
       if (item.id == req.body.productId) {
         duplicate = true;
       }
     });
 
+    //상품이 이미 있으면 quantity += 1
     if (duplicate) {
       User.findOneAndUpdate(
         { _id: req.user._id, "cart.id": req.body.productId },
@@ -92,6 +95,7 @@ router.post("/addToCart", auth, (req, res) => {
         }
       );
     } else {
+      //상품이 없으면 cart에 정보 추가
       User.findOneAndUpdate(
         { _id: req.user._id },
         {

@@ -14,35 +14,36 @@ const IconFont = createFromIconfontCN({
   ],
 });
 
-const items = [
-  { label: <a href="/login">Signin</a>, key: "mail" },
-  { label: <a href="/register">Signup</a>, key: "app" },
-];
-
-const logInItems = [
-  { label: <a href="/product/upload">upload</a>, key: "upload" },
-  {
-    label: (
-      <a href="/user/cart">
-        <Badge count={5} style={{ marginTop: "1rem" }}>
-          <IconFont
-            type="icon-shoppingcart"
-            style={{ fontSize: 25, marginTop: "1rem" }}
-          />
-        </Badge>
-      </a>
-    ),
-    key: "cart",
-  },
-  {
-    label: <a href="/">logout</a>,
-    key: "logout",
-  },
-];
-
 function RightMenu(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+
+  const items = [
+    { label: <a href="/login">Signin</a>, key: "mail" },
+    { label: <a href="/register">Signup</a>, key: "app" },
+  ];
+
+  const logInItems = [
+    { label: <a href="/product/upload">upload</a>, key: "upload" },
+    {
+      label: (
+        <a href="/user/cart">
+          {/* user.userData && user.userData.cart.length */}
+          <Badge count={5} style={{ marginTop: "1rem" }}>
+            <IconFont
+              type="icon-shoppingcart"
+              style={{ fontSize: 25, marginTop: "1rem" }}
+            />
+          </Badge>
+        </a>
+      ),
+      key: "cart",
+    },
+    {
+      label: <a href="/">logout</a>,
+      key: "logout",
+    },
+  ];
 
   const logoutHandler = () => {
     axios.get(`${USER_SERVER}/logout`).then((response) => {

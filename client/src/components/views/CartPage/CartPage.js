@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  getCartItems,
-  removeCartItem,
-  onSuccessBuy,
-} from "../../../_actions/user_action";
+import { getCartItems } from "../../../_actions/user_action";
 import UserCardBlocks from "./Sections/UserCardBlocks";
-import { Empty, Result } from "antd";
-import Paypal from "../../utils/PayPal";
 
 function CartPage(props) {
   const dispatch = useDispatch();
-  const [Total, setTotal] = useState(0);
-  const [ShowTotal, setShowTotal] = useState(false);
-  const [ShowSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
+    //리덕스 User 안의 cart안에 상품이 들었는지 확인
     let cartItems = [];
+
     if (props.user.userData && props.user.userData.cart) {
       if (props.user.userData.cart.length > 0) {
         props.user.userData.cart.forEach((item) => {
@@ -24,99 +17,19 @@ function CartPage(props) {
         });
         dispatch(getCartItems(cartItems, props.user.userData.cart)).then(
           (response) => {
-            if (response.payload.length > 0) {
-              calculateTotal(response.payload);
-            }
+            console.log(response);
           }
         );
       }
     }
   }, [props.user.userData]);
 
-  const calculateTotal = (cartDetail) => {
-    let total = 0;
-
-    cartDetail.map((item) => {
-      total += parseInt(item.price, 10) * item.quantity;
-    });
-
-    setTotal(total);
-    setShowTotal(true);
-  };
-
-  const removeFromCart = (productId) => {
-    dispatch(removeCartItem(productId)).then((response) => {
-      if (response.payload.productId.length <= 0) {
-        setShowTotal(false);
-      } else {
-        calculateTotal(response.payload.cartDetail);
-      }
-    });
-  };
-
-  const transactionSuccess = (data) => {
-    dispatch(
-      onSuccessBuy({
-        cartDetail: props.user.cartDetail,
-        paymentData: data,
-      })
-    ).then((response) => {
-      if (response.payload.success) {
-        setShowSuccess(true);
-        setShowTotal(false);
-      }
-    });
-  };
-
-  const transactionError = () => {
-    console.log("Paypal error");
-  };
-
-  const transactionCanceled = () => {
-    console.log("Transaction canceled");
-  };
-
   return (
     <div style={{ width: "85%", margin: "3rem auto" }}>
       <h1>My Cart</h1>
       <div>
-        <UserCardBlocks
-          products={props.user.cart}
-          removeItem={removeFromCart}
-        />
-
-        {ShowTotal ? (
-          <div style={{ marginTop: "3rem" }}>
-            <h2>Total amount: ${Total} </h2>
-          </div>
-        ) : ShowSuccess ? (
-          <Result status="success" title="Successfully Purchased Items" />
-        ) : (
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <br />
-            <Empty description={false} />
-            <p>No Items In the Cart</p>
-          </div>
-        )}
+        <UserCardBlocks products={props.user.cartDetail} />
       </div>
-
-      {/* Paypal Button */}
-
-      {ShowTotal && (
-        <Paypal
-          toPay={Total}
-          onSuccess={transactionSuccess}
-          transactionError={transactionError}
-          transactionCanceled={transactionCanceled}
-        />
-      )}
     </div>
   );
 }
