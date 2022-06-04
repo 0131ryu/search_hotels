@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { getCartItems, removeCartItem } from "../../../_actions/user_action";
 import UserCardBlocks from "./Sections/UserCardBlocks";
 import { Empty } from "antd";
+import PayPal from "../../utils/PayPal";
 
 function CartPage(props) {
   const dispatch = useDispatch();
@@ -62,6 +63,8 @@ function CartPage(props) {
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
+
+      {ShowTotal && <PayPal total={Total} />}
     </div>
   );
 }

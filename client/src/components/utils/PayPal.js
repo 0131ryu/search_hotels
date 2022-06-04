@@ -1,13 +1,11 @@
 import React from "react";
 import PaypalBtn from "react-paypal-express-checkout";
 
-export default class PayPal extends React.Component {
+export default class MyApp extends React.Component {
   render() {
     const onSuccess = (payment) => {
       // Congratulation, it came here means everything's fine!
       console.log("The payment was succeeded!", payment);
-
-      this.props.onSuccess(payment);
     };
 
     const onCancel = (data) => {
@@ -26,11 +24,8 @@ export default class PayPal extends React.Component {
     let locale = "en_US";
     // For Customize Style: https://developer.paypal.com/docs/checkout/how-to/customize-button/
     let style = {
-      //   label: "pay",
-      //   tagline: false,
-      //   size: "medium",
-      //   shape: "pill",
-      //   color: "gold",
+      // label: "pay",
+      // tagline: false,
       size: "large",
       color: "blue",
       shape: "rect",
