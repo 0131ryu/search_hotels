@@ -176,7 +176,7 @@ router.get("/removeFromCart", auth, (req, res) => {
       let array = cart.map((item) => {
         return item.id;
       });
-
+      //product collection에 현재 남아있는 상품들의 정보를 가져오기
       Product.find({ _id: { $in: array } })
         .populate("writer")
         .exec((err, productInfo) => {
@@ -187,8 +187,6 @@ router.get("/removeFromCart", auth, (req, res) => {
         });
     }
   );
-
-  //product collection에 현재 남아있는 상품들의 정보를 가져오기
 });
 
 //successBuy
