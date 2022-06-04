@@ -4,6 +4,7 @@ const { auth } = require("../middleware/auth/auth");
 const { User } = require("../models/home/user");
 const { Product } = require("../models/home/Product");
 const { Payment } = require("../models/pay/Payment");
+const async = require("async");
 
 router.post("/register", (req, res) => {
   const user = new User(req.body);
@@ -194,13 +195,13 @@ router.get("/removeFromCart", auth, (req, res) => {
 
 //successBuy
 router.post("/successBuy", auth, (req, res) => {
-  //1. User -> history 필드 안에 간단한 결제 정보 넣기
+  //1. User 안에 history 필드 안에 결제 정보 넣기
   let history = [];
-  let transactionData = {};
+  let transcationData = {};
 
   req.body.cartDetail.forEach((item) => {
     history.push({
-      dateOfPurChase: Date.now(),
+      dateOfPurcahse: Date.now(),
       name: item.title,
       id: item._id,
       price: item.price,
@@ -208,18 +209,18 @@ router.post("/successBuy", auth, (req, res) => {
       paymentId: req.body.paymentData.paymentID,
     });
   });
-  //2. Paymnet 안에 있는 자세한 결제 정보 넣기
-  //3. Product안에 있는 solde 필드-정보 업데이트 하기
-  transactionData.user = {
+
+  //2. Payment안에 자세한 정보 넣기
+  transcationData.user = {
     id: req.user._id,
     name: req.user.name,
-    lastname: req.user.lastname,
     email: req.user.email,
   };
 
-  transactionData.data = req.body.paymentData;
-  transactionData.product = history;
+  transcationData.data = req.body.paymentData;
+  transcationData.product = history;
 
+  //history 정보 저장
   User.findOneAndUpdate(
     { _id: req.user._id },
     { $push: { history: history }, $set: { cart: [] } },
@@ -227,22 +228,18 @@ router.post("/successBuy", auth, (req, res) => {
     (err, user) => {
       if (err) return res.json({ success: false, err });
 
-      const payment = new Payment(transactionData);
+      //Payment안에다가 transaction저장
+      const payment = new Payment(transcationData);
       payment.save((err, doc) => {
         if (err) return res.json({ success: false, err });
 
-        //3. Increase the amount of number for the sold information
+        //3. Product안에 있는 sold 필드 업데이트 하기
 
-        //first We need to know how many product were sold in this transaction for
-        // each of products
-
+        //상품 당 몇 개의 quantity를 샀는지
         let products = [];
         doc.product.forEach((item) => {
           products.push({ id: item.id, quantity: item.quantity });
         });
-
-        // first Item    quantity 2
-        // second Item  quantity 3
 
         async.eachSeries(
           products,
@@ -260,11 +257,9 @@ router.post("/successBuy", auth, (req, res) => {
           },
           (err) => {
             if (err) return res.json({ success: false, err });
-            res.status(200).json({
-              success: true,
-              cart: user.cart,
-              cartDetail: [],
-            });
+            res
+              .status(200)
+              .json({ success: true, cart: user.cart, cartDetail: [] });
           }
         );
       });

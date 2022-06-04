@@ -24,7 +24,9 @@ function RightMenu(props) {
   ];
 
   const logInItems = [
+    { label: <a href="/history">history</a>, key: "history" },
     { label: <a href="/product/upload">upload</a>, key: "upload" },
+
     {
       label: (
         <a href="/user/cart">

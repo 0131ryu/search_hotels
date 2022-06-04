@@ -7,6 +7,7 @@ import Auth from "./hoc/auth";
 import NavBar from "./components/views/Navbar/Navbar";
 import DetailProductPage from "./components/views/DetailProductPage/DetailProductPage";
 import CartPage from "./components/views/CartPage/CartPage";
+import HistoryPage from "./components/views/HistoryPage/HistoryPage";
 
 import DataUpload from "./components/views/Review/DataUpload";
 import ShowAllData from "./components/views/Review/ShowAllData";
@@ -27,6 +28,7 @@ function App() {
           element={Auth(DetailProductPage, null)}
         />
         <Route path="/user/cart" element={Auth(CartPage, true)} />
+        <Route path="/history" element={Auth(HistoryPage, true)} />
         {/* 복습 */}
         <Route path="/review/data" element={Auth(DataUpload, true)} />
         <Route path="/review" element={Auth(ShowAllData, null)} />
