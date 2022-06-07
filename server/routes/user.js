@@ -39,6 +39,8 @@ router.post("/login", (req, res) => {
         if (err) return res.status(400).send(err);
 
         //토큰을 저장한다 어디에? 1. 쿠키, 2. 로컬스토리지
+        res.cookie("x_authExp", user.tokenExp);
+
         res
           .cookie("x_auth", user.token)
           .status(200)
@@ -64,12 +66,16 @@ router.get("/auth", auth, (req, res) => {
 });
 
 router.get("/logout", auth, (req, res) => {
-  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).send({
-      success: true,
-    });
-  });
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { token: "", tokenExp: "" },
+    (err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({
+        success: true,
+      });
+    }
+  );
 });
 
 //${USER_SERVER}/addToCart

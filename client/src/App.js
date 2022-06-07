@@ -22,7 +22,10 @@ function App() {
         {/* admin : <Route path="/login" element={Auth(LoginPage, false, true)} /> */}
         <Route path="/login" element={Auth(LoginPage, false)} />
         <Route path="/register" element={Auth(RegisterPage, false)} />
-        <Route path="/product/upload" element={Auth(UploadProductPage, true)} />
+        <Route
+          path="/product/upload"
+          element={Auth(UploadProductPage, true, true)}
+        />
         <Route
           path="/product/:productId"
           element={Auth(DetailProductPage, null)}

@@ -33,6 +33,8 @@ function LoginPage(props) {
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.loginSuccess) {
         navigate("/");
+      } else if (!response.payload.loginSuccess) {
+        alert("이메일 또는 비밀번호를 확인해주세요.");
       }
     });
   };
