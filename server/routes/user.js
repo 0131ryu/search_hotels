@@ -207,7 +207,7 @@ router.post("/successBuy", auth, (req, res) => {
 
   req.body.cartDetail.forEach((item) => {
     history.push({
-      dateOfPurcahse: Date.now(),
+      dateOfPurchase: Date.now(),
       name: item.title,
       id: item._id,
       price: item.price,
@@ -263,9 +263,11 @@ router.post("/successBuy", auth, (req, res) => {
           },
           (err) => {
             if (err) return res.json({ success: false, err });
-            res
-              .status(200)
-              .json({ success: true, cart: user.cart, cartDetail: [] });
+            res.status(200).json({
+              success: true,
+              cart: user.cart,
+              cartDetail: [],
+            });
           }
         );
       });

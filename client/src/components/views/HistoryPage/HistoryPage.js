@@ -11,7 +11,7 @@ function HistoryPage(props) {
       <table>
         <thead>
           <tr>
-            <th>Payment Id</th>
+            <th>Purchase name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Date of Purchase</th>
@@ -21,12 +21,14 @@ function HistoryPage(props) {
         <tbody>
           {props.user.userData &&
             props.user.userData.history &&
-            props.user.userData.history.map((item, index) => (
-              <tr key={index}>
+            props.user.userData.history.map((item, i) => (
+              <tr key={i}>
                 <td>{item[0].name}</td>
                 <td>{item[0].price}</td>
                 <td>{item[0].quantity}</td>
                 <td>{item[0].dateOfPurchase}</td>
+                {console.log("item ", item)}
+                {console.log("index ", i)}
               </tr>
             ))}
         </tbody>
