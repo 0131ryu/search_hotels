@@ -22,11 +22,11 @@ function LeftMenu(props) {
       label: (
         <a href="/user/cart">
           {/* user.userData && user.userData.cart.length */}
-          <Badge count={5} style={{ marginTop: "1rem" }}>
-            <IconFont
-              type="icon-shoppingcart"
-              style={{ fontSize: 25, marginTop: "1rem" }}
-            />
+          <Badge
+            count={5}
+            style={{ position: "relative", top: "-10px", left: "-5px" }}
+          >
+            <IconFont type="icon-shoppingcart" style={{ fontSize: 20 }} />
           </Badge>
         </a>
       ),

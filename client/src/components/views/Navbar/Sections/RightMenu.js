@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 // import { Menu, Badge } from "antd";
-import { Button, Menu } from "antd";
+import { Menu } from "antd";
 import axios from "axios";
 import { USER_SERVER } from "../../../../Config";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 function RightMenu(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  // const userName = useSelector((state) => state.user.userData.name);
 
   const items = [
     { label: <a href="/login">Signin</a>, key: "mail" },
@@ -17,14 +18,7 @@ function RightMenu(props) {
   ];
 
   const logInItems = [
-    {
-      label: (
-        <a href="/">
-          <Button type="text">oo님</Button>{" "}
-        </a>
-      ),
-      key: "upload",
-    },
+    // { label: <a href="/">{userName}님</a>, key: "user" },
     {
       label: <a href="/">logout</a>,
       key: "logout",
