@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 // import { Menu, Badge } from "antd";
-import { Menu } from "antd";
+import { Button, Menu } from "antd";
 import axios from "axios";
 import { USER_SERVER } from "../../../../Config";
 import { useSelector } from "react-redux";
@@ -17,7 +17,14 @@ function RightMenu(props) {
   ];
 
   const logInItems = [
-    { label: <a href="/product/upload">upload</a>, key: "upload" },
+    {
+      label: (
+        <a href="/">
+          <Button type="text">oo님</Button>{" "}
+        </a>
+      ),
+      key: "upload",
+    },
     {
       label: <a href="/">logout</a>,
       key: "logout",

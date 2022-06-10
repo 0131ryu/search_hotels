@@ -1,7 +1,7 @@
 @import '~antd/dist/antd.css';
 
 .menu__Row {
-  height: 2rem;
+  height: 1.5rem;
   /* margin-top: 0.5rem; */
 }
 
@@ -24,8 +24,8 @@
 
 .menu_right {
   float: right;
-  margin-top:  0.5rem;
-  margin-bottom: 0.5rem;
+  /* margin-top:  0.5rem;
+  margin-bottom: 0.5rem; */
 }
 
 .menu__container .ant-menu-horizontal {

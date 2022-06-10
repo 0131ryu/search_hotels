@@ -12,27 +12,27 @@ const IconFont = createFromIconfontCN({
 
 const items = [{ label: <a href="/">Home</a>, key: "home" }];
 
-const loginItems = [
-  { label: <a href="/">Home</a>, key: "home" },
-  { label: <a href="/history">history</a>, key: "history" },
-  {
-    label: (
-      <a href="/user/cart">
-        {/* user.userData && user.userData.cart.length */}
-        <Badge count={5} style={{ marginTop: "1rem" }}>
-          <IconFont
-            type="icon-shoppingcart"
-            style={{ fontSize: 25, marginTop: "1rem" }}
-          />
-        </Badge>
-      </a>
-    ),
-    key: "cart",
-  },
-];
-
 function LeftMenu(props) {
   const user = useSelector((state) => state.user);
+
+  const loginItems = [
+    { label: <a href="/">Home</a>, key: "home" },
+    { label: <a href="/history">history</a>, key: "history" },
+    {
+      label: (
+        <a href="/user/cart">
+          {/* user.userData && user.userData.cart.length */}
+          <Badge count={5} style={{ marginTop: "1rem" }}>
+            <IconFont
+              type="icon-shoppingcart"
+              style={{ fontSize: 25, marginTop: "1rem" }}
+            />
+          </Badge>
+        </a>
+      ),
+      key: "cart",
+    },
+  ];
 
   // return <Menu mode="horizontal" items={items} />;
   if (user.userData && !user.userData.isAuth) {

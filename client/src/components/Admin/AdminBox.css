@@ -1,0 +1,8 @@
+.adminBox-main {
+    float: right;
+    border: 1px solid #d9d9d9;
+    position: relative;
+    top: 100px;
+    right: 50px;
+    padding: 5px;
+}

@@ -7,12 +7,13 @@ import DataCheckbox from "./Sections/DataCheckbox";
 import { continents, price } from "./Sections/Datas";
 import DataRadioBox from "./Sections/DataRadioBox";
 import SearchFeature from "./Sections/SearchFeature";
-
+import AdminBox from "../../Admin/AdminBox";
+import { useSelector } from "react-redux";
 import "./LandingPage.css";
 
 const { Meta } = Card;
 
-function LandingPage() {
+function LandingPage(props) {
   const [Products, setProducts] = useState([]);
   //skip, limit ->최대 8개까지
   const [Skip, setSkip] = useState(0);
@@ -148,6 +149,8 @@ function LandingPage() {
     <div style={{ width: "100%", margin: "0" }}>
       <br />
       <h2 style={{ textAlign: "center" }}>Let's Travel Anywhere</h2>
+      {/* adminBox */}
+      <AdminBox />
       {/* filter */}
 
       {/* checkBox */}
@@ -166,7 +169,6 @@ function LandingPage() {
           />
         </Col>
       </Row>
-
       {/* Search */}
       <Row
         style={{
@@ -179,16 +181,17 @@ function LandingPage() {
       >
         <SearchFeature refreshFunction={updateSearchTerm} />
       </Row>
-
       {/* card */}
-      <div style={{ width: "85%", margin: "1rem auto" }}>
+      <div style={{ width: "90%", margin: "1rem auto" }}>
         <Row gutter={[20, 20]}>{renderCard}</Row>
       </div>
-
       <br />
       {PostSize >= Limit && ( //자료보다 limit가 작으면 더보기 없어짐
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <button style={{}} onClick={showMoreHanlder}>
+          <button
+            style={{ position: "relative", right: "45px" }}
+            onClick={showMoreHanlder}
+          >
             더보기
           </button>
         </div>
